@@ -1,11 +1,18 @@
 const express = require("express");
 const app = express();
 const fs = require("fs")
-const info = {};
+const bodyParser = require("body-parser")
+
+// body-parser middleware 사용
+app.use(bodyParser.urlencoded({ extended: true}));
 
 // 라우팅 설정
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
+})
+
+app.get("/admin", (req, res) => {
+  res.sendFile(__dirname + "/admin.html")
 })
 
 app.post("/login", (req, res) => {
