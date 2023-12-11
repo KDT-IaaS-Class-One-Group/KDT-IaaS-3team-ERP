@@ -2,6 +2,7 @@
 
 const express = require('express');
 const path = require('path');
+const route = require('./routes/route'); // route.js 파일 불러오기
 
 const app = express();
 const port = 3000;
@@ -9,10 +10,8 @@ const port = 3000;
 // 정적 파일 서빙: public 폴더
 app.use(express.static(path.join(__dirname, 'public')));
 
-// index.html을 서빙하기 위한 라우팅
-app.get('/', (req, res) => {
-  res.send(path.join(__dirname, 'index.html'));
-});
+// 라우팅 처리
+app.use('/', route);
 
 // 서버 시작
 app.listen(port, () => {

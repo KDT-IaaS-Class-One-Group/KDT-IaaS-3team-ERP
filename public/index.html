@@ -1,16 +1,45 @@
-<!-- index.html -->
+<!-- public/index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>홈페이지</title>
 </head>
 <body>
   <div id="root">
     <div id="header"></div>
-    <div id="container"></div>
+    <div id="container">
+      <button id="adminBtn">관리자 페이지</button>
+      <button id="userBtn">사용자 페이지</button>
+      <button id="loginBtn">로그인 페이지</button>
+      <button id="productBtn">상품 페이지</button>
+    </div>
     <div id="footer"></div>
   </div>
+  <script>
+    // 버튼에 대한 이벤트 리스너 추가
+    document.getElementById('adminBtn').addEventListener('click', function() {
+      // 관리자 페이지로 이동
+      window.location.href = '/admin';
+    });
+
+    document.getElementById('userBtn').addEventListener('click', function() {
+      // 사용자 페이지로 이동
+      window.location.href = '/user';
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', function() {
+      // 로그인 페이지로 이동
+      window.location.href = '/login';
+    });
+
+    document.getElementById('productBtn').addEventListener('click', function() {
+      // 상품 페이지로 이동
+      window.location.href = '/product';
+    });
+  </script>
+
 </body>
 </html>
