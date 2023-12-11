@@ -12,7 +12,12 @@ app.get("/", (req, res) => {
 })
 
 app.get("/admin", (req, res) => {
-  res.sendFile(__dirname + "/admin.html")
+    // info.json 파일 읽기
+    const rawData = fs.readFileSync(__dirname + "/info.json");
+    const info = JSON.parse(rawData);
+  
+    // admin.html 파일 전송
+    res.render(__dirname + "/admin.html", { id: info.id, password: info.password });
 })
 
 app.post("/login", (req, res) => {
