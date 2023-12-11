@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const fs = require("fs")
 
 // 라우팅 설정
 app.get("/", (req, res) => {
@@ -11,4 +12,7 @@ app.post("/login", (req, res) => {
   const id = req.body.id;
   const password = req.body.password;
 
+  // 데이터베이스에 저장
+  const info = { id, password };
+  fs.writeFileSync(__dirname + "/info.json", JSON.stringify(info));
 })
