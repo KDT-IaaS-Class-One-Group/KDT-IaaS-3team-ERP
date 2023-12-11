@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const fs = require("fs")
+const info = {};
 
 // 라우팅 설정
 app.get("/", (req, res) => {
@@ -19,3 +20,8 @@ app.post("/login", (req, res) => {
   // 관리자 페이지로 리다이렉트
   res.redirect("/admin");
 });
+
+// 서버 실행
+app.listen(9997, () => {
+  console.log("http://localhost:9997/")
+})
