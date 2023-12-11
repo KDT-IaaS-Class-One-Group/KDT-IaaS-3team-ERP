@@ -15,4 +15,7 @@ app.post("/login", (req, res) => {
   // 데이터베이스에 저장
   const info = { id, password };
   fs.writeFileSync(__dirname + "/info.json", JSON.stringify(info));
-})
+
+  // 관리자 페이지로 리다이렉트
+  res.redirect("/admin");
+});
