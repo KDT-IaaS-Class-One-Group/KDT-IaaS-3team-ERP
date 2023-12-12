@@ -2,29 +2,30 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const fs = require('fs');
-
-app.use(express.static('../public'));
-app.use(express.json()); // JSON 파싱을 위한 미들웨어 추가
-const path= require('path')
-
+const path = require('path');
 
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.json()); // JSON 파싱을 위한 미들웨어 추가
 
 // JSON 파일에서 데이터를 읽어옴
 function readProducts() {
-    const rawData = fs.readFileSync('products.json');
+    const rawData = fs.readFileSync(path.join(__dirname, 'products.json'));
     return JSON.parse(rawData);
 }
 
 // JSON 파일에 데이터를 저장
 function saveProducts(data) {
     const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFileSync('products.json', jsonData);
+    fs.writeFileSync(path.join(__dirname, 'products.json'), jsonData);
 }
 
 app.get('/getProducts', (req, res) => {
-    const products = readProducts();
-    res.json(products);
+    try {
+        const products = readProducts();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 app.post('/addProduct', (req, res) => {
