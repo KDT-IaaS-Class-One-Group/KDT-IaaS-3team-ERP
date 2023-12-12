@@ -9,7 +9,7 @@ app.use(express.json()); // JSON 파싱을 위한 미들웨어 추가
 
 // JSON 파일에서 데이터를 읽어옴
 function readProducts() {
-    const rawData = fs.readFileSync(path.join(__dirname, 'products.json'));
+    const rawData = fs.readFileSync(path.join(__dirname, './producrs.json'));
     return JSON.parse(rawData);
 }
 
@@ -29,18 +29,23 @@ app.get('/getProducts', (req, res) => {
 });
 
 app.post('/addProduct', (req, res) => {
-    const newProduct = req.body;
+    try {
+        const newProduct = req.body;
 
-    // 서버에서 데이터 읽어오기
-    const products = readProducts();
+        // 서버에서 데이터 읽어오기
+        const products = readProducts();
 
-    // 새 상품 추가
-    products.push(newProduct);
+        // 새 상품 추가
+        products.push(newProduct);
 
-    // 데이터 저장
-    saveProducts(products);
+        // 데이터 저장
+        saveProducts(products);
 
-    res.send('Product added successfully!');
+        res.send('Product added successfully!');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.listen(port, () => {
