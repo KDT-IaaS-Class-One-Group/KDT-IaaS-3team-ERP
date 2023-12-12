@@ -12,7 +12,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function displayUserPage(id) {
     document.getElementById('content').innerHTML = `<h2>Welcome ${id}!</h2>`;
-    // 사용자 페이지에 필요한 내용을 추가할 수 있습니다.
+
+    // 추가된 부분: 서버에서 상품 정보 가져와서 표시
+    fetch('/getProducts')
+        .then(response => response.json())
+        .then(products => {
+            displayProducts(products);
+        })
+        .catch(error => {
+            console.error(error);
+            // 에러 메시지 표시 등 추가적인 처리
+        });
 }
 
 // 추가된 부분: 상품 표시 함수
@@ -30,10 +40,3 @@ function displayProducts(products) {
         productsContainer.appendChild(productDiv);
     });
 }
-
-// 서버에서 상품 정보 가져와서 표시
-fetch('/getProducts')
-    .then(response => response.json())
-    .then(products => {
-        displayProducts(products);
-    });
