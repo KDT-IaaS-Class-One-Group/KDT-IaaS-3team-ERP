@@ -2,9 +2,11 @@ async function postData(event) {
 
   event.preventDefault();
   const key = document.getElementById('key').value;
+  const value = document.getElementById('value').value;
 
   const data = {
-      key: key
+      key: key,
+      value: value
   };
 
   const response = await fetch('http://localhost:8080/postdata', {

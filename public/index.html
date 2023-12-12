@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div id="root">
-    <form action="/postdata" method="post">
-      <label for="key">Key:</label>
-      <input type="text" placeholder="테스트" name="key">
-      <input type="submit" value="Submit">
-    </form>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      <form id="myForm" action="/postdata" method="post">
+        <label for="key">Key:</label>
+        <input type="text" id="key" placeholder="테스트" name="key" />
+
+        <label for="value">Value:</label>
+        <input type="text" name="value" id="value" />
+
+      </form>
+      <input type="submit" value="Submit" id="change"/>
+    </div>
+    <script src="./index.html"></script>
+  </body>
 </html>

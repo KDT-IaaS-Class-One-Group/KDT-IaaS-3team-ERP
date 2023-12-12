@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Result Page</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Result Page</h1>
     <div id="result"></div>
 
     <script>
-        async function getData() {
-            const response = await fetch('http://localhost:8080/postdata');
-            const data = await response.json();
+      function fetchUserData() {
+        fetch('/result')
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Data from server:', data);
 
-            // 받아온 데이터를 결과 페이지에 출력
-            document.getElementById('result').innerHTML = `
-                <p>Key: ${data.key}</p>
-            `;
-        }
+            // 받아온 데이터를 표시
+            const userDataDiv = document.getElementById('result');
+            userDataDiv.innerHTML = formatUserData(data);
+          })
+          .catch((error) => console.error('Error:', error));
+      }
 
-        // 페이지 로드 시 데이터 가져오기
-        getData();
+      function formatUserData(data) {
+        // 받아온 데이터를 이쁘게 포맷하여 반환
+        return `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+      }
     </script>
-</body>
+  </body>
 </html>

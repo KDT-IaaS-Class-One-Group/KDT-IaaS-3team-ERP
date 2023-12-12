@@ -10,7 +10,7 @@ const port = 8080;
 app.use(express.static(path.join(__dirname, 'public')));
 
 // POST 요청 바디 파싱
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
@@ -30,11 +30,24 @@ app.post('/postdata', (req, res) => {
   fs.writeFileSync('./public/a.json', JSON.stringify(data, null, 2));
 
   // 성공 응답
-  res.json({ message: 'Data received and saved successfully!' });
+  // res.send('Data received and saved successfully!');
   
   console.log('POST 데이터:', postData);
-  res.send('데이터를 서버에서 받았습니다.');
+  // res.send('데이터를 서버에서 받았습니다.');
 });
+
+app.get('/result', (req, res) => {
+  fs.readFile('./public/a.json', 'utf8', (err, data) => {
+    if(err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+
+    res.send(data);
+  })
+});
+
 
 app.listen(port, () => {
   console.log(`서버가 http://localhost:${port} 포트에서 실행 중입니다.`)
