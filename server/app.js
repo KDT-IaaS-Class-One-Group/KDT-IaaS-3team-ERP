@@ -3,12 +3,12 @@ const app = express();
 const port = 3000;
 const fs = require('fs');
 
-app.use(express.static('public'));
+app.use(express.static('../public'));
 app.use(express.json()); // JSON 파싱을 위한 미들웨어 추가
+const path= require('path')
 
-app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: './public' });
-});
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 // // JSON 파일에서 데이터를 읽어옴
 // function readProducts() {
