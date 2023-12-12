@@ -24,6 +24,7 @@ app.get('/getProducts', (req, res) => {
         const products = readProducts();
         res.json(products);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -41,12 +42,14 @@ app.post('/addProduct', (req, res) => {
         // 데이터 저장
         saveProducts(products);
 
-        res.send('Product added successfully!');
+        // 등록된 상품 정보를 클라이언트에 응답
+        res.json(products);
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
