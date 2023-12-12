@@ -11,9 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function displayAdminPage(id) {
-    document.getElementById('content').innerHTML = `
+    document.getElementById('productsContainer').innerHTML = `
         <h2>Welcome ${id}!</h2>
-        <button onclick="addProduct()">Add Product</button>
     `;
 }
 
