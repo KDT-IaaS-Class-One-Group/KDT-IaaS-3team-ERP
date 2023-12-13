@@ -17,6 +17,7 @@
       <button id="userBtn">사용자 페이지</button>
       <button id="loginBtn">로그인 페이지</button>
       <button id="productBtn">상품 페이지</button>
+      <button id="signupBtn">회원가입 페이지</button>
     </div>
     <div id="footer"></div>
   </div>
@@ -45,6 +46,10 @@
     document.getElementById('productBtn').addEventListener('click', function() {
       // 상품 페이지로 이동
       window.location.href = '/product';
+    });
+    document.getElementById('signupBtn').addEventListener('click', function() {
+      // 상품 페이지로 이동
+      window.location.href = '/signup';
     });
 
     // 로그인 상태를 확인하고 상태 창 업데이트하는 함수

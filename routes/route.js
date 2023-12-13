@@ -70,4 +70,10 @@ router.get('/product', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/product.html'));
 });
 
+// 회원가입 페이지
+router.get('/signup', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/signup.html'));
+});
+
+
 module.exports = router;
