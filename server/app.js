@@ -7,19 +7,16 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.json()); // JSON 파싱을 위한 미들웨어 추가
 
-// JSON 파일 경로 설정
-const productsFilePath = path.join(__dirname, './products.json');
-
 // JSON 파일에서 데이터를 읽어옴
 function readProducts() {
-    const rawData = fs.readFileSync(productsFilePath, 'utf8');
+    const rawData = fs.readFileSync('products.json', 'utf8');
     return JSON.parse(rawData);
 }
 
 // JSON 파일에 데이터를 저장
 function saveProducts(data) {
     const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFileSync(productsFilePath, jsonData, 'utf8');
+    fs.writeFileSync('products.json', jsonData, 'utf8');
 }
 
 app.get('/getProducts', (req, res) => {
@@ -28,11 +25,12 @@ app.get('/getProducts', (req, res) => {
 });
 
 app.post('/addProduct', (req, res) => {
-    const newProduct = req.body;
-
-    if (!newProduct.img || !newProduct.name || !newProduct.description) {
-        return res.status(400).send('Invalid product data');
-    }
+    // 클라이언트에서 FormData로 전송한 데이터는 req.body가 아니라 req.body.image로 접근합니다.
+    const newProduct = {
+        image: req.body.image,  // 이미지 주소
+        name: req.body.name,    // 상품 이름
+        description: req.body.description  // 상품 설명
+    };
 
     // 서버에서 데이터 읽어오기
     const products = readProducts();
@@ -43,7 +41,9 @@ app.post('/addProduct', (req, res) => {
     // 데이터 저장
     saveProducts(products);
 
-    res.send('Product added successfully!');
+    // JSON 형식으로 응답
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ message: 'Product added successfully!' });
 });
 
 app.listen(port, () => {
