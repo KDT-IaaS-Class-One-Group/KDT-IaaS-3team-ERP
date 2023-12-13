@@ -60,6 +60,10 @@ router.get('/user', (req, res) => {
 router.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/login.html'));
 });
+// post 처리를 통해 초기 페이지 서빙
+router.post('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'))
+} )
 
 // 상품 페이지
 router.get('/product', (req, res) => {
