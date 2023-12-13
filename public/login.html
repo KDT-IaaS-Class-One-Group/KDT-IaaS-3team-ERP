@@ -11,7 +11,16 @@
   <form id="loginForm" action="/" method="post">
     <input type="text" name="ID" placeholder="ID를 입력하세요.">
     <input type="password" name="PW" placeholder="PW를 입력하세요.">
-    <button type="submit">로그인</button>
+    <button type="submit" onclick="login()">로그인</button>
   </form>
+  <script>
+    function login() {
+      // 로그인 성공 시 상태를 저장
+      sessionStorage.setItem('loggedIn', 'true');
+      
+      // 초기화면으로 이동
+      window.location.href = '/';
+    }
+  </script>
 </body>
 </html>

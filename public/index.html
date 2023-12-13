@@ -9,7 +9,9 @@
 </head>
 <body>
   <div id="root">
-    <div id="header"></div>
+    <div id="header">
+      <div id="loginStatus"></div>
+    </div>
     <div id="container">
       <button id="adminBtn">관리자 페이지</button>
       <button id="userBtn">사용자 페이지</button>
@@ -19,6 +21,11 @@
     <div id="footer"></div>
   </div>
   <script>
+    // 초기화면 로딩 시 실행되는 함수
+    window.onload = function() {
+    // 로그인 상태를 확인하고 상태 창 업데이트
+		updateLoginStatus();
+    };
     // 버튼에 대한 이벤트 리스너 추가
     document.getElementById('adminBtn').addEventListener('click', function() {
       // 관리자 페이지로 이동
@@ -39,6 +46,16 @@
       // 상품 페이지로 이동
       window.location.href = '/product';
     });
+
+    // 로그인 상태를 확인하고 상태 창 업데이트하는 함수
+    function updateLoginStatus() {
+      var loginStatusElement = document.getElementById('loginStatus');
+      var isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
+
+      // 로그인 상태에 따라 표시할 메시지 설정
+      var statusMessage = isLoggedIn ? '로그인 중' : '로그아웃 상태';
+      loginStatusElement.textContent = '상태: ' + statusMessage;
+    }
   </script>
 
 </body>
