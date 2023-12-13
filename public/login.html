@@ -1,25 +1,45 @@
 <!-- public/login.html -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인 페이지</title>
 </head>
 <body>
-  <form id="loginForm" action="/" method="post">
+  <form id="loginForm" action="/" method="post" onsubmit="return login()">
     <input type="text" name="ID" placeholder="ID를 입력하세요.">
     <input type="password" name="PW" placeholder="PW를 입력하세요.">
-    <button type="submit" onclick="login()">로그인</button>
+    <button type="submit">로그인</button>
   </form>
   <script>
-    function login() {
-      // 로그인 성공 시 상태를 저장
-      sessionStorage.setItem('loggedIn', 'true');
-      
-      // 초기화면으로 이동
-      window.location.href = '/';
+    async function login() {
+      // 입력한 ID와 PW 가져오기
+      const inputId = document.getElementsByName('ID')[0].value;
+      const inputPw = document.getElementsByName('PW')[0].value;
+
+      // userInfo.json 불러오기
+      const response = await fetch('/userInfo.json');
+      const users = await response.json();
+
+      // 입력한 ID로 사용자 찾기
+      const user = users.find(u => u.id === inputId);
+
+      // 사용자가 존재하고 비밀번호가 일치하면 로그인
+      if (user && user.pw === inputPw) {
+        // 로그인 성공 시 상태를 저장
+        sessionStorage.setItem('loggedIn', 'true');
+        
+        // 초기화면으로 이동
+        window.location.href = '/';
+      } else {
+        // 로그인 실패 시 메시지 표시 (예: alert)
+        alert('로그인 실패. ID 또는 비밀번호를 확인하세요.');
+        
+        // 폼 전송 막기
+        return false;
+      }
     }
   </script>
 </body>
