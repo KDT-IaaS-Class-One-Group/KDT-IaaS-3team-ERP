@@ -20,5 +20,38 @@
 
     <button type="submit">회원가입</button>
   </form>
+  <script>
+    function submitForm() {
+      // 사용자가 입력한 정보
+      const name = document.getElementById('name').value;
+      const id = document.getElementById('id').value;
+      const pw = document.getElementById('pw').value;
+
+      // 폼 데이터 객체 생성
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('id', id);
+      formData.append('pw', pw);
+
+      // 서버로 전송
+      fetch('/signup', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        alert('회원가입이 완료되었습니다.');
+      })
+      .catch(error => {
+        console.error('회원가입 중 오류 발생:', error);
+        alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+      });
+    }
+  </script>
+
 </body>
 </html>
