@@ -9,7 +9,7 @@
 | 🎨     | `:art:` Design:                   | CSS 등 사용자 UI 디자인 변경       |
 | ♻️     | `:recycle:` Refactor:             | 코드 리팩토링                      |
 | 🐛     | `:bug:` Fix:                      | 버그 수정                         |
-| ✏️     | `:pencil2:` Modify:               | 오타 수정                         |
+| ✏️     | `:pencil2:` Typo:               | 오타 수정                         |
 | 🔨     | `:hammer:` Modify:                | 코드 수정 - 기능적 수정            |
 | 🔥     | `:fire: ` Remove:                  | 코드 제거                         |
 | 🚚     | `:truck::` Rename:                | 파일/폴더 이동, 이름 변경, 삭제, 등 |
