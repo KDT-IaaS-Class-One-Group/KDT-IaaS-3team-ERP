@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      <label for="itemInput">Item:</label>
+      <input type="text" id="itemInput" name="item"/>
+      <input type="button" value="Add to Cart" onclick="addItemToCart()" />
+    </div>
+
+    <script>
+      function addItemToCart() {
+        const itemInput = document.getElementById('itemInput');
+        const newItem = {item: itemInput.value}
+        
+
+        fetch('/add-to-cart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ item: newItem }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            alert(data.message);
+
+            // 아이템이 등록되면 바로 cart.html 페이지로 이동
+            window.location.href = '/cart';
+          })
+          .catch((error) => console.error('Error:', error));
+      }
+    </script>
+  </body>
+</html>
