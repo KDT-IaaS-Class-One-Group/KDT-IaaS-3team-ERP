@@ -91,6 +91,12 @@ router.post('/signup', express.urlencoded({ extended: true }), async (req, res) 
     const data = await fs.readFile(userInfoPath, 'utf-8');
     const existingUsers = JSON.parse(data);
 
+    // 중복된 아이디가 있는지 확인
+    if (existingUsers.some(user => user.id === id)) {
+      // 중복된 아이디가 있다면 클라이언트에게 오류 응답 전송
+      return res.status(400).json({ error: '이미 사용 중인 아이디입니다.' });
+    }
+
     // 새로운 유저 정보 추가
     const newUser = { name, id, pw };
     existingUsers.push(newUser);
