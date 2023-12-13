@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Cart Page</h1>
+    <div id="cartItems"></div>
+
+    <script>
+      // 장바구니 아이템 가져와서 표시
+      fetch('/data.json')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const cartItemsDiv = document.getElementById('cartItems');
+          cartItemsDiv.innerHTML = data.map((item) => `<p>${item.item}</p>`).join('');
+        })
+        .catch((error) => console.error('Error:', error));
+    </script>
+  </body>
+</html>
