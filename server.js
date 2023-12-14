@@ -12,13 +12,13 @@ app.get("/", (req, res) => {
 })
 
 app.get("/admin", (req, res) => {
-  res.sendFile(__dirname + "/admin.html")
+  // res.sendFile(__dirname + "/admin.html")
     // info.json 파일 읽기
     const rawData = fs.readFileSync(__dirname + "/info.json");
     const info = JSON.parse(rawData);
   
     // admin.html 파일 전송
-    res.render(__dirname + "/admin.html", { id: info.id, password: info.password });
+    res.send(info);
 })
 
 app.post("/login", (req, res) => {
@@ -30,9 +30,8 @@ app.post("/login", (req, res) => {
   const info = { id, password };
   fs.writeFileSync(__dirname + "/info.json", JSON.stringify(info));
 
-  res.send(info);
   // // 관리자 페이지로 리다이렉트
-  // res.redirect("/admin");
+  res.redirect("/admin");
 });
 
 // 서버 실행
