@@ -25,11 +25,7 @@ app.get('/getProducts', (req, res) => {
 });
 
 app.post('/addProduct', (req, res) => {
-    const newProduct = {
-        image: req.body.image,  
-        name: req.body.name,
-        description: req.body.description,
-    };
+    const newProduct = req.body;
 
     // 서버에서 데이터 읽어오기
     const products = readProducts();
@@ -42,6 +38,7 @@ app.post('/addProduct', (req, res) => {
 
     res.send('Product added successfully!');
 });
+
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
