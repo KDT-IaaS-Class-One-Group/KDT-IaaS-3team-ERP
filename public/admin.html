@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Page</title>
-</head>
-<body>
+  </head>
+  <body>
     <div id="productsContainer"></div>
     <form id="productForm">
-        <input type="file" id="imageInput" accept="image/*">
-        <input type="text" id="productName" placeholder="Product Name">
-        <textarea id="productDescription" placeholder="Product Description"></textarea>
-        <button type="button" onclick="window.addProduct()">Add Product</button>
+      <input type="file" id="imageInput" accept="image/*" name="img" />
+      <input type="text" id="productName" placeholder="Product Name" name="name" />
+      <textarea id="productDescription" placeholder="Product Description" name="product"></textarea>
+      <button type="button" onclick="window.addProduct()">Add Product</button>
     </form>
     <div id="resultMessage"></div>
     <script src="admin.js"></script>
-</body>
+  </body>
 </html>
