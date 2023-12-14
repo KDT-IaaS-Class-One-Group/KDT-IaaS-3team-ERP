@@ -25,11 +25,10 @@ app.get('/getProducts', (req, res) => {
 });
 
 app.post('/addProduct', (req, res) => {
-    // 클라이언트에서 FormData로 전송한 데이터는 req.body가 아니라 req.body.image로 접근합니다.
     const newProduct = {
-        image: req.body.image,  // 이미지 주소
-        name: req.body.name,    // 상품 이름
-        description: req.body.description  // 상품 설명
+        image: req.body.image,  
+        name: req.body.name,
+        description: req.body.description,
     };
 
     // 서버에서 데이터 읽어오기
@@ -41,9 +40,7 @@ app.post('/addProduct', (req, res) => {
     // 데이터 저장
     saveProducts(products);
 
-    // JSON 형식으로 응답
-    res.setHeader('Content-Type', 'application/json');
-    res.json({ message: 'Product added successfully!' });
+    res.send('Product added successfully!');
 });
 
 app.listen(port, () => {
