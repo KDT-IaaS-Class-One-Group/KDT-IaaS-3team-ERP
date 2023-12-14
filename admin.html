@@ -8,9 +8,24 @@
 <body>
   <h2>관리자</h2>
   <h3>로그인 정보</h3>
+  <div id="adminData"></div>
   <ul>
     <li>ID: {{ id }}</li>
     <li>PW: {{ password }}</li>
   </ul>
+  <script>
+fetch('/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  .then(response => response.json())
+  .then(data => {
+    // Handle the JSON data here
+    const adminDataDiv = document.getElementById('adminData');
+    adminDataDiv.innerHTML = JSON.stringify(data, null, 2);
+  })
+  .catch(error => console.error('Error:', error));  </script>
 </body>
 </html>
