@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
 // 상품 목록 표시 함수
 function displayProducts() {
     fetch('/getProducts')
@@ -62,22 +61,11 @@ function addProduct() {
 
     // 이미지 업로드 및 상품 정보 서버로 전송
     const formData = new FormData();
-    formData.append('img', imageInput.files[0]);
-    formData.append('name', productName);
-    formData.append('description', productDescription);
-
-    // 상품 등록 함수
-    window.addProduct = function(){
-    const imageInput = document.getElementById('imageInput');
-    const productName = document.getElementById('productName').value;
-    const productDescription = document.getElementById('productDescription').value;
-
-    // 이미지 업로드 및 상품 정보 서버로 전송
-    const formData = new FormData();
     formData.append('image', imageInput.files[0]);
     formData.append('name', productName);
     formData.append('description', productDescription);
 
+    // fetch를 사용하여 서버에 POST 요청을 보냄
     fetch('/addProduct', {
         method: 'POST',
         body: formData,
@@ -88,7 +76,9 @@ function addProduct() {
         document.getElementById('resultMessage').innerText = message;
         // 상품 목록 다시 표시
         displayProducts();
+    })
+    .catch(error => {
+        console.error(error);
+        // 에러 메시지 표시 등 추가적인 처리
     });
-}
-
 }
