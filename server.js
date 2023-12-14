@@ -12,6 +12,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/admin", (req, res) => {
+  res.sendFile(__dirname + "/admin.html")
     // info.json 파일 읽기
     const rawData = fs.readFileSync(__dirname + "/info.json");
     const info = JSON.parse(rawData);
@@ -30,8 +31,8 @@ app.post("/login", (req, res) => {
   fs.writeFileSync(__dirname + "/info.json", JSON.stringify(info));
 
   res.send(info);
-  // 관리자 페이지로 리다이렉트
-  res.redirect("/admin");
+  // // 관리자 페이지로 리다이렉트
+  // res.redirect("/admin");
 });
 
 // 서버 실행
