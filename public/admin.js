@@ -42,7 +42,7 @@ function addProduct() {
     formData.append('description', productDescription);
 
     // 상품 등록 함수
-function addProduct() {
+    window.addProduct = function(){
     const imageInput = document.getElementById('imageInput');
     const productName = document.getElementById('productName').value;
     const productDescription = document.getElementById('productDescription').value;
