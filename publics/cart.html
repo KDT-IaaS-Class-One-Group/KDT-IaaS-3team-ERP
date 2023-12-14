@@ -8,6 +8,7 @@
   <body>
     <h1>Cart Page</h1>
     <div id="cartItems"></div>
+    <input type="button" value="삭제" onclick="deleteCheckedItems()" />
 
     <script>
       // 장바구니 아이템 가져와서 표시
@@ -20,9 +21,39 @@
         })
         .then((data) => {
           const cartItemsDiv = document.getElementById('cartItems');
-          cartItemsDiv.innerHTML = data.map((item) => `<p>${item.item}</p>`).join('');
+          console.log(data);
+          cartItemsDiv.innerHTML = data
+            .map(
+              (item) =>
+                `<div>
+            <input type="checkbox" class="itemCheckbox" value="${item.item}">
+            <label>${item.item}</label>
+           </div> `
+            )
+            .join('');
         })
         .catch((error) => console.error('Error:', error));
+
+      function deleteCheckedItems() {
+        const checkboxes = document.querySelectorAll('.itemCheckbox:checked');
+        const itemsToDelete = Array.from(checkboxes).map((checkbox) => checkbox.value);
+        console.log(itemsToDelete);
+
+        fetch('/delete-items', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ items: itemsToDelete }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            // 페이지 새로고침
+            location.reload();
+          })
+          .catch((error) => console.error('Error:', error));
+      }
     </script>
   </body>
 </html>
