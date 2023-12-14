@@ -29,6 +29,7 @@ app.post("/login", (req, res) => {
   const info = { id, password };
   fs.writeFileSync(__dirname + "/info.json", JSON.stringify(info));
 
+  res.send(info);
   // 관리자 페이지로 리다이렉트
   res.redirect("/admin");
 });
