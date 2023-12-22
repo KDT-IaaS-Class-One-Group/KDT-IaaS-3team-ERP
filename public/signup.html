@@ -9,11 +9,17 @@
 </head>
 <body>
   <h1>회원가입</h1>
-  <form action="/" method="post">
-    이름: <input type="text" alt="NAME">
-    ID: <input type="text" alt="ID">
-    PW: <input type="password" alt="PW">
-    <input type="submit" alt="제출">
+  <form action="/signup" method="post">
+    <label for="name">이름:</label>
+    <input type="text" name="NAME" required>
+
+    <label for="id">ID:</label>
+    <input type="text" name="ID" required>
+
+    <label for="password">PW:</label>
+    <input type="password" name="PW" required>
+
+    <input type="submit" value="제출">
   </form>
 </body>
 </html>
