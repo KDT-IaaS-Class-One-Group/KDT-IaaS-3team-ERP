@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const db = require('./public-db/db.js');
+// mysql 모듈을 불러옵니다.
+const mysql = require('mysql2');
 
 const app = express();
 const port = 5050;
@@ -16,15 +17,19 @@ app.use(bodyParser.json());
 // 정적 파일 서빙
 app.use(express.static('public-db'));
 
-// db 쿼리를 실행
-db.query('select * from userInfo', (err, rows) => {
-  // 에러가 있으면 콘솔에 출력합니다.
+// db 연결 정보를 설정합니다.
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'qwer123',
+  database: 'userInfo'
+});
+
+db.connect((err) => {
   if (err) {
-    console.error(err);
-  }
-  // 결과가 있으면 콘솔에 출력합니다.
-  if (rows) {
-    console.log(rows);
+    console.error('Error connecting to database:', err);
+  } else {
+    console.log('Connected to database');
   }
 });
 
@@ -51,19 +56,35 @@ app.get('/cart', (req, res) => {
 // 회원가입 요청을 처리하는 라우트
 app.post('/signUp/save', (req, res) => {
   // 요청의 바디에서 입력값을 받아온다.
-  const userId = req.body.userId;
-  const password = req.body.password;
-  const userName = req.body.userName;
-  // 입력값을 검증하고, db에 저장하고, 쿠키를 생성하는 로직을 작성
-  res.json({result: 'success'});
+  const {userId, password, userName} = req.body;
+  const query = 'INSERT INTO userInfo (userId, password, userName) VALUES (?, ?, ?)';
+  db.query(query, [userId, password, userName], (err, results) => {
+    if (err) {
+      console.error('Error inserting into database:', err);
+      res.status(500).send('Error signing up');
+    } else {
+      res.status(200).send('Signed up successfully');
+    }
+  });
 });
 
 // 로그인 요청을 처리하는 라우트를 설정합니다.
 app.post('/login-in', (req, res) => {
-  const userId = req.body.userId;
-  const password = req.body.password;
-  // 입력값을 검증하고, db와 비교하고, 쿠키를 생성하는 로직을 작성
-  res.json({result: 'success'});
+  const { userId, password } = req.body;
+
+  const query = 'SELECT * FROM userInfo WHERE userId = ? AND password = ?';
+  db.query(query, [userId, password], (err, results) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      res.status(500).send('Error logging in');
+    } else {
+      if (results.length > 0) {
+        res.status(200).send('Login successful');
+      } else {
+        res.status(401).send('Invalid credentials');
+      }
+    }
+  });
 });
 
 // // 데이터 저장 및 읽기
