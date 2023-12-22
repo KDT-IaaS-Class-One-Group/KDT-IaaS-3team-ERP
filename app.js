@@ -9,7 +9,7 @@ const port = 3000;
 // Middleware for serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rezgistering a router for the '/' path
+// Registering a router for the '/' path
 app.use('/', route);
 
 // Starting the server
