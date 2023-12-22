@@ -20,6 +20,10 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'signup.html')); // signup.html 서빙
 })
 
+// POST 요청 처리
+app.post('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); // index.html 서빙
+})
 
 // 서버 시작
 app.listen(port, () => {
