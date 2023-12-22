@@ -3,9 +3,26 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const mysql = require('mysql');
 
 const app = express();
 const port = 3000;
+
+// MariaDB 연결 설정
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '1234',
+});
+
+// MariaDB 연결
+db.connect(err => {
+  if (err) {
+    console.error('MariaDB 연결 실패:', err);
+  } else {
+    console.log('MariaDB 연결 성공');
+  }
+});
 
 // body-parser 미들웨어 설정
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,8 +43,21 @@ app.get('/signup', (req, res) => {
 
 // POST 요청 처리
 app.post('/signup', (req, res) => {
-  console.log('회원가입 완료! 로그인 페이지로 이동~');
-  res.redirect('/login');
+  const { NAME, ID, PW } = req.body;
+
+  // MariaDB에 테이블 추가
+  sql = 'CREATE TABLE userinfo (name, id, password);'
+  // MariaDB에 데이터 삽입
+  const sql = 'INSERT INTO userinfo (name, id, password) VALUES (?, ?, ?)';
+  db.query(sql, [NAME, ID, PW], (err, result) => {
+    if (err) {
+      console.log('회원가입 실패: ', err);
+      res.status(500).send('회원가입에 실패했습니다.');
+    } else {
+      console.log('회원가입 성공, 로그인 페이지로 이동~');
+      res.redirect('/login')
+    }
+  })
 })
 
 // 서버 시작
