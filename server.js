@@ -74,6 +74,7 @@ app.post('/login-in', (req, res) => {
 
   const query = 'SELECT * FROM userInfo WHERE userId = ? AND password = ?';
   db.query(query, [userId, password], (err, results) => {
+    console.log('Query results:', results);
     if (err) {
       console.error('Error querying database:', err);
       res.status(500).send('Error logging in');
