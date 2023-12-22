@@ -26,7 +26,8 @@ app.get('/signup', (req, res) => {
 
 // POST 요청 처리
 app.post('/signup', (req, res) => {
-  res.redirect('/');
+  console.log('회원가입 완료! 로그인 페이지로 이동~');
+  res.redirect('/login');
 })
 
 // 서버 시작
