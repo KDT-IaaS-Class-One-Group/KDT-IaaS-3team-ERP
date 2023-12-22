@@ -58,6 +58,8 @@ app.post('/signUp/save', (req, res) => {
   // 요청의 바디에서 입력값을 받아온다.
   const {userId, password, userName} = req.body;
   const query = 'INSERT INTO userInfo (userId, password, userName) VALUES (?, ?, ?)';
+  // 테이블에 있는 userId, password, userName이 html의 body에 있는 input의 name의 값을
+	// 인식을 하여 value 값을 가져와서 database query문에 대입하여 db에 저장이 된다.
   db.query(query, [userId, password, userName], (err, results) => {
     if (err) {
       console.error('Error inserting into database:', err);
