@@ -1,84 +1,69 @@
+// admin.js 파일
 document.addEventListener('DOMContentLoaded', function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
 
-    if (id) {
-        displayAdminPage(id);
-    } else {
-        alert('Invalid access. Please log in.');
-        window.location.href = 'index.html';
-    }
+  if (id) {
+    displayAdminPage(id);
+  } else {
+    alert('Invalid access. Please log in.');
+    window.location.href = 'index.html';
+  }
 });
 
-// 상품 목록 표시 함수
 function displayProducts() {
-    fetch('/getProducts')
-        .then(response => response.json())
-        .then(products => {
-            const productsContainer = document.getElementById('productsContainer');
-            productsContainer.innerHTML = '';
+  fetch('/getProducts')
+    .then((response) => response.json())
+    .then((products) => {
+      const productsContainer = document.getElementById('productsContainer');
+      productsContainer.innerHTML = '';
 
-            products.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                `;
-                productsContainer.appendChild(productDiv);
-            });
-        })
-        .catch(error => {
-            console.error(error);
-            // 에러 메시지 표시 등 추가적인 처리
-        });
+      products.forEach((product) => {
+        const productDiv = document.createElement('div');
+        productDiv.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+            `;
+        productsContainer.appendChild(productDiv);
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      // 에러 메시지 표시 등 추가적인 처리
+    });
 }
 
 function displayAdminPage(id) {
-    document.getElementById('productsContainer').innerHTML = `
+  document.getElementById('productsContainer').innerHTML = `
         <h2>Welcome ${id}!</h2>
         <form id="productForm">
-            <input type="file" id="imageInput" accept="image/*">
-            <input type="text" id="productName" placeholder="Product Name">
-            <textarea id="productDescription" placeholder="Product Description"></textarea>
+            <input type="file" id="imageInput" name="image" accept="image/*">
+            <input type="text" id="productName" name="name" placeholder="Product Name">
+            <textarea id="productDescription" name="description" placeholder="Product Description"></textarea>
             <button type="button" id="addProductBtn">Add Product</button>
         </form>
         <div id="resultMessage"></div>
         <div id="productsContainer"></div>
     `;
-    // 상품 목록 표시
-    displayProducts();
+  displayProducts();
 
-    // 이벤트 리스너 등록
-    document.getElementById('addProductBtn').addEventListener('click', addProduct);
+  document.getElementById('addProductBtn').addEventListener('click', addProduct);
 }
 
-// 상품 등록 함수
 function addProduct() {
-    const imageInput = document.getElementById('imageInput');
-    const productName = document.getElementById('productName').value;
-    const productDescription = document.getElementById('productDescription').value;
+  const formData = new FormData(document.getElementById('productForm'));
 
-    // 이미지 업로드 및 상품 정보 서버로 전송
-    const formData = new FormData();
-    formData.append('image', imageInput.files[0]);
-    formData.append('name', productName);
-    formData.append('description', productDescription);
-
-    // fetch를 사용하여 서버에 POST 요청을 보냄
-    fetch('/addProduct', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.text())
-    .then(message => {
-        // 등록 결과 메시지 표시
-        document.getElementById('resultMessage').innerText = message;
-        // 상품 목록 다시 표시
-        displayProducts();
-    })
-    .catch(error => {
-        console.error(error);
-        // 에러 메시지 표시 등 추가적인 처리
+  fetch('/addProduct', {
+    method: 'POST',
+    body: JSON.stringify(Object.fromEntries(formData)), // FormData를 JSON으로 변환
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.text())
+    .then((message) => {
+      document.getElementById('resultMessage').innerText = message;
+      displayProducts();
     });
 }
