@@ -24,5 +24,11 @@ router.post("/admin", (req, res) => {
   res.sendFile(path.join(__dirname + '/../public/admin.html'))
 })
 
+// product upload page
+router.get("/productUpload", (req, res) => {
+  res.sendFile(path.join(__dirname + '/../public/product-upload.html'))
+})
+
+
 // Exporting the module
 module.exports = router;
