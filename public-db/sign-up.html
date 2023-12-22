@@ -17,7 +17,7 @@
       <label for="signupUserName">User Name:</label>
       <input type="text" id="signupUserName" name="userName" required />
       <br />
-      <button type="button" onclick="signup()">Signup</button>
+      <input type="submit" onclick="signup()" value="회원가입">
     </form>
     <script>
       function signup() {
@@ -35,6 +35,7 @@
           .then((response) => {
             if (response.ok) {
               alert('Signup successful');
+              window.location.href = '/login'
             } else {
               alert('Error during signup');
             }

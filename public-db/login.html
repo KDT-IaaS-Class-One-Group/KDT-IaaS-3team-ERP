@@ -14,7 +14,7 @@
       <label for="loginPassword">Password:</label>
       <input type="password" id="loginPassword" name="password" required />
       <br />
-      <button type="button" onclick="login()">Login</button>
+      <input type="submit" onclick="login()" value="로그인">
     </form>
     <script>
       function login() {
@@ -31,6 +31,7 @@
           .then((response) => {
             if (response.ok) {
               alert('Login successful');
+              window.location.href = '/'
             } else {
               alert('Invalid credentials');
             }
