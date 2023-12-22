@@ -1,17 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>회원가입 페이지</h1>
-  <form action="/sign_up/save" method="POST">
-    <input type="text" name="userId" placeholder="아이디" required>
-    <input type="password" name="password" placeholder="비밀번호" required>
-    <input type="text" name="userName" placeholder="이름" required>
-    <input type="submit" value="회원가입">
-  </form>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Signup</h1>
+    <form id="signupForm">
+      <label for="signupUserId">User ID:</label>
+      <input type="text" id="signupUserId" name="userId" required />
+      <br />
+      <label for="signupPassword">Password:</label>
+      <input type="password" id="signupPassword" name="password" required />
+      <br />
+      <label for="signupUserName">User Name:</label>
+      <input type="text" id="signupUserName" name="userName" required />
+      <br />
+      <button type="button" onclick="signup()">Signup</button>
+    </form>
+    <script>
+      function signup() {
+        const userId = document.getElementById('signupUserId').value;
+        const password = document.getElementById('signupPassword').value;
+        const userName = document.getElementById('signupUserName').value;
+
+        fetch('/signUp/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId, password, userName }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert('Signup successful');
+            } else {
+              alert('Error during signup');
+            }
+          })
+          .catch((error) => {
+            console.error('Error during signup:', error);
+          });
+      }
+    </script>
+  </body>
 </html>
