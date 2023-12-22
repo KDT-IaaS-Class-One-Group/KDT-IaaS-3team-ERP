@@ -19,5 +19,10 @@ router.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname + '/../public/login.html'))
 })
 
+// admin page 
+router.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname + '/../public/admin.html'))
+})
+
 // Exporting the module
 module.exports = router;
