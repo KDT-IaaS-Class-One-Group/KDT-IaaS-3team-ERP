@@ -7,5 +7,13 @@
 </head>
 <body>
   <h1>메인페이지입니다.</h1>
+  <button id="loginPageButton">Login</button>
 </body>
+<script>
+  // page change with clickEvent
+  const loginBtn = document.getElementById('loginPageButton');
+  loginBtn.addEventListener('click', () => {
+    window.location.href = '/login'
+  })
+</script>
 </html>
