@@ -111,11 +111,11 @@
       products.forEach(product => {
         const productRow = document.createElement('tr');
         const productNameCell = document.createElement('td');
-        productNameCell.textContent = product.NAME;
+        productNameCell.textContent = product.name;
         const productPriceCell = document.createElement('td');
-        productPriceCell.textContent = product.PRICE;
+        productPriceCell.textContent = product.price;
         const productQuantityCell = document.createElement('td');
-        productQuantityCell.textContent = product.QUANTITY;
+        productQuantityCell.textContent = product.quantity;
   
         productRow.appendChild(productNameCell);
         productRow.appendChild(productPriceCell);
