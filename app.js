@@ -77,17 +77,42 @@ app.post('/signup', (req, res) => {
 
 // login 페이지
 app.post('/login', (req, res) => {
+  // 요청으로부터 받은 데이터의 ID와 PW를 추출
   const { ID, PW } = req.body;
 
-  // 로그인 실패에 대한 에러 처리
-  // 사용자 자격 증명 유효성 검사(현재는 하드코딩)
-  if (ID !== 'example' || PW !== 'password') {
-    console.log('로그인 실패: 아이디 또는 비밀번호가 잘못되었습니다.');
-    return res.status(401).send('아이디 또는 비밀번호가 잘못되었습니다.');
-  }
+  // 사용자 자격 증명 유효성 검사
+  const sql = 'SELECT * FROM userinfo WHERE id = ?';
 
-  // 로그인 성공 시, 메인 페이지로 리다이렉트
-  res.redirect('/');
+  // MariaDB에 쿼리를 보내서 사용자 정보를 검색
+  db.query(sql, [ID], (err, results) => {
+    // 에러 처리
+    if (err) {
+      console.error('로그인 처리 실패: ', err);
+      return res.status(500).send('로그인에 실패했습니다.');
+    }
+
+    // 로그인 실패 시, 결과가 없는 경우
+    if (results.length === 0) {
+      // 서버 콘솔 출력
+      console.log('로그인 실패: 회원가입 필요');
+
+      // 로그인 페이지 안내
+      return res.status(401).send('입력하신 ID가 존재하지 않습니다. 회원가입이 필요합니다.');
+    }
+
+    // 아이디는 존재하나 비밀번호가 틀린 경우
+    const user = results[0]; // 첫 번째로 검색된 사용자 정보를 가져옴
+    if (user.password !== PW) {
+      // 서버 콘솔 출력
+      console.log('로그인 실패: 비밀번호 입력 실수');
+      
+      // 로그인 페이지 안내
+      return res.status(401).send('비밀번호가 틀렸습니다.');
+    }
+
+    // 로그인 성공 시, 메인 페이지로 리다이렉트
+    res.redirect('/');
+  });
 });
 
 // 서버 시작
