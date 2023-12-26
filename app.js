@@ -25,10 +25,19 @@ connection.connect((err) => {
 });
 
 // query execute
-// connection.query('SELECT * FROM users', (error, results, fields) => {
-//   if (error) throw error;
-//   console.log('Query results: ', results);
-// })
+connection.query('CREATE DATABASE IF NOT EXISTS users', (err) => {
+  if (err) throw err;
+  // use database
+  connection.query('USE users', (err) => {
+    if (err) throw err;
+    // table create
+    connection.query('CREATE TABLE IF NOT EXISTS userinfo (name CHAR(255), id CHAR(255), password INT(255))', (err) => {
+      if (err) throw err;
+      console.log('CREATE DATABASE && TABLE complete')
+    })
+
+  })
+})
 
 // Middleware for serving static files
 app.use(express.static(path.join(__dirname, 'public')));
