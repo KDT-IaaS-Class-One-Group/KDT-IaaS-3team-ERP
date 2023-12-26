@@ -1,19 +1,20 @@
-import mysql from 'mysql2/promise';
+import mysql, { Pool, OkPacket, RowDataPacket } from 'mysql2/promise';
 
-const pool = mysql.createPool({
+// MySQL 데이터베이스에 연결하기 위한 풀 생성
+const pool: Pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '1234',
   database: 'KDT-IaaS-3team-ERP',
 });
 
-// query 함수 정의
-async function query(sql: string, params: any[] = []): Promise<any[]> {
-  const [rows] = await pool.execute(sql, params);
-  return rows as any[];
+// 쿼리 함수 정의
+async function query(sql: string, params: any[] = []): Promise<RowDataPacket[]> {
+  // 풀을 이용하여 SQL 쿼리 실행
+  const [rows]: [RowDataPacket[], OkPacket[]] = await pool.execute(sql, params);
+  return rows;
 }
 
-// addUser 함수 정의
 async function addUser(id: string, password: string, name: string): Promise<{ success: boolean; error?: string }> {
   try {
     // Check if user with the same id already exists
@@ -33,4 +34,5 @@ async function addUser(id: string, password: string, name: string): Promise<{ su
   }
 }
 
+// 모듈에서 외부로 노출할 함수들 정의
 export { query, addUser };
