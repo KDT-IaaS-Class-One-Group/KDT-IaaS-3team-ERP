@@ -23,7 +23,7 @@ productInfoDB.connect((err) => {
         if (err) throw err;
 
         // productInfo 테이블 생성
-        productInfoDB.query('CREATE TABLE IF NOT EXISTS productInfo (NAME VARCHAR(255), PRICE INT, QUANTITY INT)', (err) => {
+        productInfoDB.query('CREATE TABLE IF NOT EXISTS productInfo (name VARCHAR(255), price INT, quantity INT)', (err) => {
           if (err) throw err;
           console.log('productInfoDB 및 productInfo 테이블 생성 완료');
         });
