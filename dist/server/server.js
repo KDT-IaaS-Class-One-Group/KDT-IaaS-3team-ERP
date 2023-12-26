@@ -68,25 +68,32 @@ app.get('/admin', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, '../../public/adminPage.html'));
 });
 app.post('/signup', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id, password, name, result, error_1;
+    var _a, id, password, name, existingUsers, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id = _a.id, password = _a.password, name = _a.name;
                 _b.label = 1;
             case 1:
-                _b.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, db_1.addUser)(id, password, name)];
+                _b.trys.push([1, 6, , 7]);
+                return [4 /*yield*/, (0, db_1.query)('SELECT * FROM userInfo WHERE id = ?', [id])];
             case 2:
-                result = _b.sent();
-                res.json({ success: true }); // 성공 시 JSON 형식으로 응답
-                return [3 /*break*/, 4];
-            case 3:
+                existingUsers = _b.sent();
+                if (!(existingUsers.length > 0)) return [3 /*break*/, 3];
+                res.json({ success: false, error: '이미 등록된 ID입니다.' });
+                return [3 /*break*/, 5];
+            case 3: return [4 /*yield*/, (0, db_1.addUser)(id, password, name)];
+            case 4:
+                _b.sent();
+                res.json({ success: true });
+                _b.label = 5;
+            case 5: return [3 /*break*/, 7];
+            case 6:
                 error_1 = _b.sent();
                 console.error('Signup failed:', error_1.message);
-                res.status(400).json({ success: false, error: error_1.message }); // 실패 시 JSON 형식으로 응답
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                res.status(400).json({ success: false, error: error_1.message });
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); });
