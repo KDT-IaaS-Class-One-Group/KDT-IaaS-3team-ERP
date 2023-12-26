@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 document.getElementById('signupForm').addEventListener('submit', function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, password, name, response;
+    var id, password, name, response, result, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -48,23 +48,35 @@ document.getElementById('signupForm').addEventListener('submit', function (event
                     alert('빈칸을 채워서 제출해주세요');
                     return [2 /*return*/];
                 }
-                return [4 /*yield*/, fetch('/register', {
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
+                return [4 /*yield*/, fetch('/signup', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({ id: id, password: password, name: name }),
                     })];
-            case 1:
+            case 2:
                 response = _a.sent();
-                if (response.ok) {
+                return [4 /*yield*/, response.json()];
+            case 3:
+                result = _a.sent();
+                if (result.success) {
                     alert('제출 되었습니다');
                     window.location.href = '/login';
                 }
                 else {
-                    alert('회원가입에 실패하였습니다');
+                    alert(result.error || '회원가입에 실패하였습니다');
                 }
-                return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 4:
+                error_1 = _a.sent();
+                console.error('Error during signup:', error_1.message);
+                alert('회원가입에 실패하였습니다');
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); });
