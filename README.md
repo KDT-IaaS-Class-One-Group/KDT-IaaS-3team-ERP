@@ -18,3 +18,4 @@
 | 💩      | `:poop: Bad:`       |  개선이 필요한 코드 |
 | 💥      | `:boom: Reset:`       |  모두 리셋하고 초기화 |
 | ⚗️      | `:alembic: Test:`    |  테스팅 작업 |
+| 🗨️      | `:speech_balloon: Comments: `     | 주석 처리 업데이트 |
