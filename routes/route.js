@@ -19,6 +19,11 @@ router.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname + '/../public/login.html'))
 })
 
+// signup page
+router.get("/signup", (req, res) => {
+  res.sendFile(path.join(__dirname + '/../public/signup.html'))
+})
+
 // admin page 
 router.post("/admin", (req, res) => {
   res.sendFile(path.join(__dirname + '/../public/admin.html'))
