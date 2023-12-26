@@ -13,8 +13,6 @@
       box-sizing: border-box;
     }
     #root {
-      width: 90vw;
-      height: 90vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -41,6 +39,15 @@
     #container {
       flex: 8;
       width: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .productList {
+      width: 90vw;
+      height: 50vh;
+      border: 1px solid #000;
     }
     #footer {
       flex: 1;
@@ -57,6 +64,7 @@
       <a button href="http://localhost:3000/withdraw">회원 탈퇴 페이지로</a>
     </div>
     <div id="container">
+      <div class="productList"></div>
       <a button href="http://localhost:3000/admin">관리자 페이지로</a>
     </div>
     <div id="footer">
