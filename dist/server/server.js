@@ -68,23 +68,25 @@ app.get('/admin', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, '../../public/adminPage.html'));
 });
 app.post('/signup', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id, password, name, result;
+    var _a, id, password, name, result, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, id = _a.id, password = _a.password, name = _a.name;
-                return [4 /*yield*/, (0, db_1.addUser)(id, password, name)];
+                _b.label = 1;
             case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, (0, db_1.addUser)(id, password, name)];
+            case 2:
                 result = _b.sent();
-                if (result.success) {
-                    // 회원가입 성공 시 로그인 페이지로 이동
-                    res.redirect('/login');
-                }
-                else {
-                    // 회원가입 실패 시 에러 메시지 출력
-                    res.status(400).json({ error: result.error });
-                }
-                return [2 /*return*/];
+                res.json({ success: true }); // 성공 시 JSON 형식으로 응답
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _b.sent();
+                console.error('Signup failed:', error_1.message);
+                res.status(400).json({ success: false, error: error_1.message }); // 실패 시 JSON 형식으로 응답
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
