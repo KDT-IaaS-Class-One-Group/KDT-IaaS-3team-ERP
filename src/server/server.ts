@@ -38,11 +38,17 @@ app.get('/admin', (req, res) => {
 app.post('/signup', async (req, res) => {
   const { id, password, name } = req.body;
   try {
-    const result = await addUser(id, password, name);
-    res.json({ success: true }); // 성공 시 JSON 형식으로 응답
+    const existingUsers = await query('SELECT * FROM userInfo WHERE id = ?', [id]);
+
+    if (existingUsers.length > 0) {
+      res.json({ success: false, error: '이미 등록된 ID입니다.' });
+    } else {
+      await addUser(id, password, name);
+      res.json({ success: true });
+    }
   } catch (error) {
     console.error('Signup failed:', error.message);
-    res.status(400).json({ success: false, error: error.message }); // 실패 시 JSON 형식으로 응답
+    res.status(400).json({ success: false, error: error.message });
   }
 });
 
