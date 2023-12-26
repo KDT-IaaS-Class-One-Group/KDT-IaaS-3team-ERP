@@ -16,5 +16,13 @@
   <form action="/admin" method="post">
     <input type="submit" value="관리자 페이지 로그인">
   </form>
+  <button id="signUpPageButton">회원가입</button>
+  <script>
+    // page change with clickEvent
+    const signUpBtn = document.getElementById('signUpPageButton');
+    signUpBtn.addEventListener('click', () => {
+    window.location.href = '/signup'
+  })
+  </script>
 </body>
 </html>
