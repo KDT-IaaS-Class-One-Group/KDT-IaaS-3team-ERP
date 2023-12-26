@@ -28,7 +28,7 @@
       width: auto;
       position: relative;
     }
-    #header > a {
+    a {
       border: 1px solid #000;
       display: flex;
       justify-content: center;
@@ -50,8 +50,11 @@
 <body>
   <div id="root">
     <div id="header">
-      <a button href="http://localhost:3000/login">로그인</a>
-      <a button href="http://localhost:3000/signup">회원가입</a>
+      <div class="loginBox">
+        <div class="loginStatus">현재 상태: </div>
+        <a button href="http://localhost:3000/login">로그인</a>
+        <a button href="http://localhost:3000/signup">회원가입</a>
+      </div>
     </div>
     <div id="container"></div>
     <div id="footer"></div>
