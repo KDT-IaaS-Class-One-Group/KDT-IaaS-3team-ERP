@@ -118,6 +118,46 @@ app.post('/login', (req, res) => {
   });
 });
 
+// withdraw 페이지
+app.post('/withdraw', (req, res) => {
+  // 입력 폼에서 받아온 사용자 ID와 사용자 이름
+  const { ID, NAME } = req.body;
+
+  // 사용자 ID와 사용자 이름을 사용해 DB에서 해당 사용자 정보를 조회
+  const selectSQL = 'SELECT * FROM userinfo WHERE id = ? AND name = ?';
+
+  db.query(selectSQL, [ID, NAME], (err, result) => {
+    // 에러 처리
+    if (err) {
+      console.log('회원 탈퇴 조회 실패: ', err);
+      // 회원 탈퇴 페이지 안내
+      return res.status(500).send('회원 탈퇴 중 오류가 발생했습니다.');
+    }
+
+    // 조회된 결과가 없는 경우 (ID 또는 이름이 일치하지 않음)
+    if (result.length === 0) {
+      console.log('회원 탈퇴 실패: ID와 이름이 일치하지 않음');
+      return res.status(404).send('해당 ID 또는 이름을 찾을 수 없습니다.');
+    }
+
+    // 사용자 ID와 사용자 이름을 사용해 DB에서 해당 사용자 정보를 삭제
+    const deleteSQL = 'DELETE FROM userinfo WHERE id = ? AND name = ?';
+
+    db.query(deleteSQL, [ID, NAME], (err, result) => {
+      // 에러 처리
+      if (err) {
+        console.log('회원 탈퇴 실패: ', err);
+        // 회원 탈퇴 페이지 안내
+        return res.status(500).send('회원 탈퇴 중 오류가 발생했습니다.');
+      }
+
+      console.log('회원 탈퇴 완료');
+      // 회원 탈퇴 성공 시, 응답을 전송
+      res.send('회원 탈퇴가 완료되었습니다.');
+    });
+  });
+});
+
 // 서버 시작
 app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port}/`)
