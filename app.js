@@ -59,6 +59,9 @@ app.get('/signup', (req, res) => {
 app.get('/withdraw', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'withdraw.html')); // withdraw.html 서빙
 })
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html')) // admin.html 서빙
+})
 
 //* POST 요청 처리
 // signup 페이지
