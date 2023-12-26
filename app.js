@@ -3,7 +3,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const app = express();
 const port = 3000;
@@ -21,7 +21,21 @@ db.connect(err => {
     console.error('MariaDB 연결 실패:', err);
   } else {
     console.log('MariaDB 연결 성공');
-  }
+
+// userInfoDB 데이터베이스가 없다면 생성
+db.query('CREATE DATABASE IF NOT EXISTS userInfoDB', (err) => {
+  if (err) throw err;
+    // userInfoDB 데이터베이스 선택
+    db.query('USE userInfoDB', (err) => {
+      if (err) throw err;
+      // userinfo 테이블 생성
+      db.query('CREATE TABLE IF NOT EXISTS userinfo (name VARCHAR(255), id VARCHAR(255), password VARCHAR(255))', (err) => {
+        if (err) throw err;
+        console.log('userInfoDB 및 userinfo 테이블 생성 완료');
+      });
+    });
+  });
+}
 });
 
 // body-parser 미들웨어 설정
@@ -45,8 +59,6 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
   const { NAME, ID, PW } = req.body;
 
-  // MariaDB에 테이블 추가
-  sql = 'CREATE TABLE userinfo (name, id, password);'
   // MariaDB에 데이터 삽입
   const sql = 'INSERT INTO userinfo (name, id, password) VALUES (?, ?, ?)';
   db.query(sql, [NAME, ID, PW], (err, result) => {
@@ -55,10 +67,11 @@ app.post('/signup', (req, res) => {
       res.status(500).send('회원가입에 실패했습니다.');
     } else {
       console.log('회원가입 성공, 로그인 페이지로 이동~');
-      res.redirect('/login')
+      res.redirect('/login');
     }
-  })
-})
+  });
+});
+
 
 // 서버 시작
 app.listen(port, () => {
