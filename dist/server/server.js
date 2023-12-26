@@ -9,7 +9,9 @@ var path_1 = __importDefault(require("path"));
 var app = (0, express_1.default)();
 var port = 9997;
 app.use(body_parser_1.default.json());
-app.use(express_1.default.static(path_1.default.join(__dirname, '../../public')));
+app.get('/', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname, '../../public/mainPage.html'));
+});
 app.listen(port, function () {
     console.log("Server is running at http://localhost:".concat(port));
 });
