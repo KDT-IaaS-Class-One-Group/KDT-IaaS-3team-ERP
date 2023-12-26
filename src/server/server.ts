@@ -37,14 +37,12 @@ app.get('/admin', (req, res) => {
 
 app.post('/signup', async (req, res) => {
   const { id, password, name } = req.body;
-  const result = await addUser(id, password, name);
-
-  if (result.success) {
-    // 회원가입 성공 시 로그인 페이지로 이동
-    res.redirect('/login');
-  } else {
-    // 회원가입 실패 시 에러 메시지 출력
-    res.status(400).json({ error: result.error });
+  try {
+    const result = await addUser(id, password, name);
+    res.json({ success: true }); // 성공 시 JSON 형식으로 응답
+  } catch (error) {
+    console.error('Signup failed:', error.message);
+    res.status(400).json({ success: false, error: error.message }); // 실패 시 JSON 형식으로 응답
   }
 });
 
