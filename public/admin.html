@@ -4,9 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자 페이지</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    #root {
+      width: 90vw;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+    #root div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #header {
+      flex: 1;
+    }
+    #container {
+      flex: 8;
+    }
+    img {
+      width: 50vh;
+      height: 50vh;
+    }
+    button {
+      width: 8vw;
+      height: 5vh;
+      margin: 2rem;
+    }
+    #footer {
+      flex: 1;
+    }
+
+  </style>
 </head>
 <body>
-  <h1>관리자</h1>
-  <button>상품 등록하기</button>
+  <div id="root">
+    <div id="header">
+      <h1>관리자</h1>
+    </div>
+    <div id="container">
+      <img src="" alt="">
+      <button>상품 등록하기</button>
+    </div>
+    <div id="footer">
+    </div>
+  </div>
 </body>
 </html>
