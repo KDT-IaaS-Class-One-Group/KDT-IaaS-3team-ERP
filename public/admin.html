@@ -49,8 +49,18 @@
       <h1>관리자</h1>
     </div>
     <div id="container">
-      <img src="" alt="">
-      <button>상품 등록하기</button>
+      <form id="productForm" action="/product" method="post">
+        <label for="name">상품 이름: </label>
+        <input type="text" name="NAME" required>
+        
+        <label for="price">상품 가격(원): </label>
+        <input type="number" name="PRICE" required>
+
+        <label for="quantity">수량: </label>
+        <input type="number" name="QUANTITY" required>
+
+        <button type="submit">상품 등록하기</button>
+      </form>
     </div>
     <div id="footer">
     </div>
