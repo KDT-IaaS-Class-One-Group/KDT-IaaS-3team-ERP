@@ -1,4 +1,4 @@
-document.getElementById('signupForm').addEventListener('submit', async (event) => {
+document.getElementById('signupForm')!.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const id = (document.getElementById('id') as HTMLInputElement).value;
@@ -10,18 +10,25 @@ document.getElementById('signupForm').addEventListener('submit', async (event) =
     return;
   }
 
-  const response = await fetch('/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ id, password, name }),
-  });
+  try {
+    const response = await fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, password, name }),
+    });
 
-  if (response.ok) {
-    alert('제출 되었습니다');
-    window.location.href = '/login';
-  } else {
+    const result: { success: boolean; error?: string } = await response.json();
+
+    if (result.success) {
+      alert('제출 되었습니다');
+      window.location.href = '/login';
+    } else {
+      alert(result.error || '회원가입에 실패하였습니다');
+    }
+  } catch (error) {
+    console.error('Error during signup:', error.message);
     alert('회원가입에 실패하였습니다');
   }
 });
