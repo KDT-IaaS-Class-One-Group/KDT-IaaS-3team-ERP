@@ -4,41 +4,12 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mysql = require('mysql2');
+const userInfoDB = require('./databases/userInfoDB');
+const productInfoDB = require('./databases/productInfoDB');
 
 // Express 서버를 위한 변수 선언
 const app = express();
 const port = 3000;
-
-// MariaDB 연결 설정
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '1234',
-});
-
-// MariaDB 연결
-db.connect(err => {
-  if (err) {
-    console.error('MariaDB 연결 실패:', err);
-  } else {
-    console.log('MariaDB 연결 성공');
-
-// userInfoDB 데이터베이스가 없다면 생성
-db.query('CREATE DATABASE IF NOT EXISTS userInfoDB', (err) => {
-  if (err) throw err;
-    // userInfoDB 데이터베이스 선택
-    db.query('USE userInfoDB', (err) => {
-      if (err) throw err;
-      // userinfo 테이블 생성
-      db.query('CREATE TABLE IF NOT EXISTS userinfo (name VARCHAR(255), id VARCHAR(255), password VARCHAR(255))', (err) => {
-        if (err) throw err;
-        console.log('userInfoDB 및 userinfo 테이블 생성 완료');
-      });
-    });
-  });
-}
-});
 
 // body-parser 미들웨어 설정
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,7 +42,7 @@ app.post('/signup', (req, res) => {
   // MariaDB에서 중복된 ID 체크
   const checkDuplicateIdSQL = 'SELECT * FROM userinfo WHERE id = ?';
 
-  db.query(checkDuplicateIdSQL, [ID], (err, result) => {
+  userInfoDB.query(checkDuplicateIdSQL, [ID], (err, result) => {
     if (err) {
       console.error('ID 중복 체크 실패: ', err);
       return res.status(500).send('회원 가입 중 오류가 발생했습니다.');
@@ -85,7 +56,7 @@ app.post('/signup', (req, res) => {
 
     // MariaDB에 데이터 삽입
     const insertUserSQL = 'INSERT INTO userinfo (name, id, password) VALUES (?, ?, ?)';
-    db.query(insertUserSQL, [NAME, ID, PW], (err, result) => {
+    userInfoDB.query(insertUserSQL, [NAME, ID, PW], (err, result) => {
       if (err) {
         console.error('회원 가입 실패: ', err);
         return res.status(500).send('회원 가입 중 오류가 발생했습니다.');
@@ -106,7 +77,7 @@ app.post('/login', (req, res) => {
   const sql = 'SELECT * FROM userinfo WHERE id = ?';
 
   // MariaDB에 쿼리를 보내서 사용자 정보를 검색
-  db.query(sql, [ID], (err, results) => {
+  userInfoDB.query(sql, [ID], (err, results) => {
     // 에러 처리
     if (err) {
       console.error('로그인 처리 실패: ', err);
@@ -145,7 +116,7 @@ app.post('/withdraw', (req, res) => {
   // 사용자 ID와 사용자 이름을 사용해 DB에서 해당 사용자 정보를 조회
   const selectSQL = 'SELECT * FROM userinfo WHERE id = ? AND name = ?';
 
-  db.query(selectSQL, [ID, NAME], (err, result) => {
+  userInfoDB.query(selectSQL, [ID, NAME], (err, result) => {
     // 에러 처리
     if (err) {
       console.log('회원 탈퇴 조회 실패: ', err);
@@ -162,7 +133,7 @@ app.post('/withdraw', (req, res) => {
     // 사용자 ID와 사용자 이름을 사용해 DB에서 해당 사용자 정보를 삭제
     const deleteSQL = 'DELETE FROM userinfo WHERE id = ? AND name = ?';
 
-    db.query(deleteSQL, [ID, NAME], (err, result) => {
+    userInfoDB.query(deleteSQL, [ID, NAME], (err, result) => {
       // 에러 처리
       if (err) {
         console.log('회원 탈퇴 실패: ', err);
