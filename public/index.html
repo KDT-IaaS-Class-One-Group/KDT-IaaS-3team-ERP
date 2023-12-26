@@ -48,6 +48,13 @@
       width: 90vw;
       height: 50vh;
       border: 1px solid #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .productList > table {
+      text-align: center;
     }
     #footer {
       flex: 1;
@@ -71,7 +78,7 @@
     </div>
   </div>
   <script>
-    // 페이지 로딩 시, 서버에서 상품 데이터를 받아와 렌더링
+    // 페이지 로딩 시 서버에서 상품 데이터를 받아와 렌더링
     document.addEventListener('DOMContentLoaded', () => {
       fetch('http://localhost:3000/api/products')
         .then(response => response.json())
@@ -79,18 +86,47 @@
         .catch(error => console.error('상품 데이터를 불러오는 중 에러 발생: ', error));
     });
   
-    // 받아온 상품 데이터를 렌더링하는 함수
+    // 받아온 상품 데이터를 표로 렌더링하는 함수
     function renderProducts(products) {
       const productListContainer = document.querySelector('.productList');
   
-      // 각 상품에 대해 HTML 요소 생성 및 추가
+      // 표 생성
+      const table = document.createElement('table');
+      table.border = '10';
+  
+      // 헤더 생성
+      const headerRow = document.createElement('tr');
+      const headerName = document.createElement('th');
+      headerName.textContent = '상품명';
+      const headerPrice = document.createElement('th');
+      headerPrice.textContent = '가격';
+      const headerQuantity = document.createElement('th');
+      headerQuantity.textContent = '수량';
+      headerRow.appendChild(headerName);
+      headerRow.appendChild(headerPrice);
+      headerRow.appendChild(headerQuantity);
+      table.appendChild(headerRow);
+  
+      // 각 상품에 대해 행 생성 및 추가
       products.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.textContent = `상품명: ${product.NAME}, 가격: ${product.PRICE}, 수량: ${product.QUANTITY}`;
-        productListContainer.appendChild(productElement);
+        const productRow = document.createElement('tr');
+        const productNameCell = document.createElement('td');
+        productNameCell.textContent = product.NAME;
+        const productPriceCell = document.createElement('td');
+        productPriceCell.textContent = product.PRICE;
+        const productQuantityCell = document.createElement('td');
+        productQuantityCell.textContent = product.QUANTITY;
+  
+        productRow.appendChild(productNameCell);
+        productRow.appendChild(productPriceCell);
+        productRow.appendChild(productQuantityCell);
+  
+        table.appendChild(productRow);
       });
+  
+      // 표를 컨테이너에 추가
+      productListContainer.appendChild(table);
     }
   </script>
-  
 </body>
 </html>
