@@ -5,7 +5,6 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-const { initSession, sessionStore } = require('./utils/session');
 
 // Express 서버를 위한 변수 선언
 const app = express();
@@ -115,9 +114,6 @@ app.post('/login', (req, res) => {
     res.redirect('/');
   });
 });
-
-// 세션 초기화
-initSession(app);
 
 // 서버 시작
 app.listen(port, () => {
