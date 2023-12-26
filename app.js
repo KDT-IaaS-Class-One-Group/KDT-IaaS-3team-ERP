@@ -65,16 +65,32 @@ app.get('/withdraw', (req, res) => {
 app.post('/signup', (req, res) => {
   const { NAME, ID, PW } = req.body;
 
-  // MariaDB에 데이터 삽입
-  const sql = 'INSERT INTO userinfo (name, id, password) VALUES (?, ?, ?)';
-  db.query(sql, [NAME, ID, PW], (err, result) => {
+  // MariaDB에서 중복된 ID 체크
+  const checkDuplicateIdSQL = 'SELECT * FROM userinfo WHERE id = ?';
+
+  db.query(checkDuplicateIdSQL, [ID], (err, result) => {
     if (err) {
-      console.log('회원 가입 실패: ', err);
-      res.status(500).send('회원가입에 실패했습니다.');
-    } else {
-      console.log('회원 가입 성공, 로그인 페이지로 이동~');
-      res.redirect('/login');
+      console.error('ID 중복 체크 실패: ', err);
+      return res.status(500).send('회원 가입 중 오류가 발생했습니다.');
     }
+
+    // 중복된 ID가 존재하는 경우
+    if (result.length > 0) {
+      console.log('회원 가입 실패: 중복된 ID');
+      return res.status(409).send('이미 사용 중인 ID입니다. 다른 ID를 선택해주세요.');
+    }
+
+    // MariaDB에 데이터 삽입
+    const insertUserSQL = 'INSERT INTO userinfo (name, id, password) VALUES (?, ?, ?)';
+    db.query(insertUserSQL, [NAME, ID, PW], (err, result) => {
+      if (err) {
+        console.error('회원 가입 실패: ', err);
+        return res.status(500).send('회원 가입 중 오류가 발생했습니다.');
+      }
+
+      console.log('회원 가입 성공, 로그인 페이지로 이동');
+      res.redirect('/login');
+    });
   });
 });
 
