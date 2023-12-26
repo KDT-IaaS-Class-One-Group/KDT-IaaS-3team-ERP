@@ -152,17 +152,33 @@ app.post('/withdraw', (req, res) => {
 app.post('/product', (req, res) => {
   const { NAME, PRICE, QUANTITY } = req.body;
 
-  // productInfoDB에 데이터 삽입
-  const insertProductSQL = 'INSERT INTO productInfo (name, price, quantity) VALUES (?, ?, ?)';
-  productInfoDB.query(insertProductSQL, [NAME, PRICE, QUANTITY], (err, result) => {
+  // productInfoDB에서 중복된 상품명을 체크
+  const checkDuplicateNameSQL = 'SELECT * FROM productInfo WHERE name = ?';
+
+  productInfoDB.query(checkDuplicateNameSQL, [NAME], (err, result) => {
     if (err) {
-      console.error('상품 등록 실패: ', err);
+      console.error('상품 등록 실패: 중복 체크 오류', err);
       return res.status(500).send('상품 등록 중 오류가 발생했습니다.');
     }
 
-    console.log('상품 등록 성공');
-    // 성공 시, 추가적인 로직을 수행하거나 응답을 전송할 수 있습니다.
-    res.send('상품 등록이 완료되었습니다.');
+    // 중복된 상품명이 존재하는 경우
+    if (result.length > 0) {
+      console.log('상품 등록 실패: 중복된 상품명');
+      return res.status(409).send('이미 등록된 상품명입니다. 다른 상품명을 선택해주세요.');
+    }
+
+    // 중복이 없는 경우, 상품을 추가
+    const insertProductSQL = 'INSERT INTO productInfo (name, price, quantity) VALUES (?, ?, ?)';
+    productInfoDB.query(insertProductSQL, [NAME, PRICE, QUANTITY], (err, result) => {
+      if (err) {
+        console.error('상품 등록 실패: ', err);
+        return res.status(500).send('상품 등록 중 오류가 발생했습니다.');
+      }
+
+      console.log('상품 등록 성공');
+      // 성공 시, 추가적인 로직을 수행하거나 응답을 전송할 수 있습니다.
+      res.send('상품 등록이 완료되었습니다.');
+    });
   });
 });
 
@@ -179,7 +195,6 @@ app.get('/api/products', (req, res) => {
     res.json(result);
   });
 });
-
 
 // 서버 시작
 app.listen(port, () => {
