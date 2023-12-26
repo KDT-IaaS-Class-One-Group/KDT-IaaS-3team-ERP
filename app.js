@@ -55,7 +55,8 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'signup.html')); // signup.html 서빙
 })
 
-// POST 요청 처리
+//* POST 요청 처리
+// signup 페이지
 app.post('/signup', (req, res) => {
   const { NAME, ID, PW } = req.body;
 
@@ -72,6 +73,19 @@ app.post('/signup', (req, res) => {
   });
 });
 
+// login 페이지
+app.post('/login', (req, res) => {
+  const { ID, PW } = req.body;
+
+  // 로그인 실패에 대한 에러 처리
+  if (ID !== 'example' || PW !== 'password') {
+    console.log('로그인 실패: 아이디 또는 비밀번호가 잘못되었습니다.');
+    return res.status(401).send('아이디 또는 비밀번호가 잘못되었습니다.');
+  }
+
+  // 로그인 성공 시, 메인 페이지로 리다이렉트
+  res.redirect('/');
+});
 
 // 서버 시작
 app.listen(port, () => {
