@@ -166,6 +166,21 @@ app.post('/product', (req, res) => {
   });
 });
 
+// API 엔드포인트 추가: productInfo 테이블의 모든 데이터를 가져오는 엔드포인트
+app.get('/api/products', (req, res) => {
+  const selectAllProductsSQL = 'SELECT * FROM productInfo';
+  productInfoDB.query(selectAllProductsSQL, (err, result) => {
+    if (err) {
+      console.error('상품 조회 실패: ', err);
+      return res.status(500).send('상품 조회 중 오류가 발생했습니다.');
+    }
+
+    // 조회 결과를 클라이언트로 전송
+    res.json(result);
+  });
+});
+
+
 // 서버 시작
 app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port}/`)
