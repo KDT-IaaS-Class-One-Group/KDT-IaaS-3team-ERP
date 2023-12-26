@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // 정적 파일 제공을 위한 미들웨어 설정
 app.use(express.static(path.join(__dirname, 'public')));
 
-// GET 요청 처리
+//* GET 요청 처리
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html')); // index.html 서빙
 })
@@ -55,6 +55,9 @@ app.get('/login', (req, res) => {
 })
 app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'signup.html')); // signup.html 서빙
+})
+app.get('/withdraw', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'withdraw.html')); // withdraw.html 서빙
 })
 
 //* POST 요청 처리
