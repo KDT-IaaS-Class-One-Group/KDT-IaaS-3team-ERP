@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,8 +8,15 @@
   <body>
     <h1>환영합니다!</h1>
     <button id="loginBtn">로그인</button>
-    <button id="SignupBtn">회원가입</button>
+    <button id="signupBtn">회원가입</button>
 
-    <script src="../dist/pages/mainPage.js"></script>
+    <script>
+      document.getElementById('loginBtn').addEventListener('click', function () {
+        window.location.href = '/login';
+      });
+      document.getElementById('signupBtn').addEventListener('click', function () {
+        window.location.href = '/signup';
+      });
+    </script>
   </body>
 </html>
