@@ -1,0 +1,60 @@
+<!-- public/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메인 페이지</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    #root {
+      width: 90vw;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #root div {
+      display: flex;
+    }
+    #header {
+      flex: 1;
+      width: auto;
+      position: relative;
+    }
+    #header > a {
+      border: 1px solid #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2rem;
+      background-color: lightgray;
+    }
+    #container {
+      flex: 8;
+      width: auto;
+    }
+    #footer {
+      flex: 1;
+      width: auto;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div id="header">
+      <a button href="http://localhost:3000/login">로그인</a>
+      <a button href="http://localhost:3000/signup">회원가입</a>
+    </div>
+    <div id="container"></div>
+    <div id="footer"></div>
+  </div>
+</body>
+</html>
