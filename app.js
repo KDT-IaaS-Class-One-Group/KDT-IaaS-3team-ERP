@@ -148,6 +148,24 @@ app.post('/withdraw', (req, res) => {
   });
 });
 
+// product 페이지
+app.post('/product', (req, res) => {
+  const { NAME, PRICE, QUANTITY } = req.body;
+
+  // productInfoDB에 데이터 삽입
+  const insertProductSQL = 'INSERT INTO productInfo (name, price, quantity) VALUES (?, ?, ?)';
+  productInfoDB.query(insertProductSQL, [NAME, PRICE, QUANTITY], (err, result) => {
+    if (err) {
+      console.error('상품 등록 실패: ', err);
+      return res.status(500).send('상품 등록 중 오류가 발생했습니다.');
+    }
+
+    console.log('상품 등록 성공');
+    // 성공 시, 추가적인 로직을 수행하거나 응답을 전송할 수 있습니다.
+    res.send('상품 등록이 완료되었습니다.');
+  });
+});
+
 // 서버 시작
 app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port}/`)
