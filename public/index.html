@@ -35,7 +35,6 @@
       align-items: center;
       margin: 2rem;
       background-color: lightgray;
-      cursor: pointer;
     }
     #container {
       flex: 8;
@@ -51,59 +50,11 @@
 <body>
   <div id="root">
     <div id="header">
-      <div id="loginStatus">현재 상태: </div>
-      <a onclick="toggleLogin()">로그인</a>
-      <a onclick="logout()">로그아웃</a>
+      <a button href="http://localhost:3000/login">로그인</a>
+      <a button href="http://localhost:3000/signup">회원가입</a>
     </div>
     <div id="container"></div>
     <div id="footer"></div>
   </div>
-  <script>
-    // 초기화면 로딩 시, 실행되는 함수
-    window.onload = function() {
-      // 로그인 상태를 확인하고 상태 창을 업데이트하는 함수
-      updateLoginStatus();
-    };
-
-    // 로그인/로그아웃을 토글하는 함수
-    function toggleLogin() {
-      var isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
-
-      if (isLoggedIn) {
-        // 로그인 상태라면, 로그아웃 처리
-        logout();
-      } else {
-        // 로그아웃 상태라면, 로그인 처리
-        login();
-      }
-    }
-
-    // 로그인 함수
-    function login() {
-      // 로그인 시, 상태를 저장
-      sessionStorage.setItem('loggedIn', 'true');
-      // 로그인 상태를 업데이트
-      updateLoginStatus();
-    }
-
-    // 로그아웃 함수
-    function logout() {
-      // 로그아웃 시, 상태를 삭제
-      sessionStorage.removeItem('loggedIn');
-      // 로그아웃 상태를 업데이트
-      updateLoginStatus();
-    }
-
-    // 로그인 상태를 확인하고 상태 창을 업데이트하는 함수
-    function updateLoginStatus() {
-      var loginStatusElement = document.getElementById('loginStatus');
-      var isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
-
-      // 로그인 상태에 따라 표시할 메시지를 설정
-      var statusMessage = isLoggedIn ? '로그인 중' : '로그아웃 상태';
-      loginStatusElement.textContent = '상태: ' + statusMessage;
-    }
-  </script>
-
 </body>
 </html>
