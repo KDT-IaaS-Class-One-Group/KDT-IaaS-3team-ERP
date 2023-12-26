@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>회원가입</h1>
-    <form id="registerForm">
+    <form id="signupForm" action="/signup" onsubmit="submitForm(event)">
       <label for="id">ID:</label><br />
       <input type="text" id="id" name="id" /><br />
       <label for="password">비밀번호:</label><br />
@@ -17,6 +17,38 @@
       <input type="submit" value="회원가입" />
     </form>
 
-    <script src="../dist/pages/signupPage.js"></script>
+    <script>
+      function submitForm(event) {
+        event.preventDefault(); // 기본 제출 동작 방지
+
+        // 폼 데이터 수집
+        const formData = {
+          id: document.getElementById('id').value,
+          password: document.getElementById('password').value,
+          name: document.getElementById('name').value,
+        };
+
+        // AJAX를 사용하여 서버에 데이터 전송
+        fetch('/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // 회원 가입 완료 팝업창 표시
+            alert('회원 가입이 완료되었습니다.');
+
+            // 로그인 페이지로 리다이렉션
+            window.location.href = '/login';
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            alert('회원 가입에 실패했습니다. 다시 시도해주세요.');
+          });
+      }
+    </script>
   </body>
 </html>
