@@ -69,10 +69,10 @@ app.post('/signup', (req, res) => {
   const sql = 'INSERT INTO userinfo (name, id, password) VALUES (?, ?, ?)';
   db.query(sql, [NAME, ID, PW], (err, result) => {
     if (err) {
-      console.log('회원가입 실패: ', err);
+      console.log('회원 가입 실패: ', err);
       res.status(500).send('회원가입에 실패했습니다.');
     } else {
-      console.log('회원가입 성공, 로그인 페이지로 이동~');
+      console.log('회원 가입 성공, 로그인 페이지로 이동~');
       res.redirect('/login');
     }
   });
@@ -97,7 +97,7 @@ app.post('/login', (req, res) => {
     // 로그인 실패 시, 결과가 없는 경우
     if (results.length === 0) {
       // 서버 콘솔 출력
-      console.log('로그인 실패: 회원가입 필요');
+      console.log('로그인 실패: 회원 가입 필요');
 
       // 로그인 페이지 안내
       return res.status(401).send('입력하신 ID가 존재하지 않습니다. 회원가입이 필요합니다.');
