@@ -11,9 +11,16 @@ const port = 3000;
 const connection = mysql.createConnection({
   host: 3333,
   user: "root",
-  password: "Andpf445169!",
+  password: 1234,
   database: "janjanbari",
 })
+
+connection.connect((err) => {
+  if (err) {
+    console.error('MariaDB connection failed')
+  }
+  console.log('Connected to MariaDB as id' + connection.threadId);
+});
 
 // Middleware for serving static files
 app.use(express.static(path.join(__dirname, 'public')));
