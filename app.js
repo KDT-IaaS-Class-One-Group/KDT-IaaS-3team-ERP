@@ -1,10 +1,12 @@
 // app.js
 
+// 필요한 모듈 가져오기
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 
+// Express 서버를 위한 변수 선언
 const app = express();
 const port = 3000;
 
@@ -78,6 +80,7 @@ app.post('/login', (req, res) => {
   const { ID, PW } = req.body;
 
   // 로그인 실패에 대한 에러 처리
+  // 사용자 자격 증명 유효성 검사(현재는 하드코딩)
   if (ID !== 'example' || PW !== 'password') {
     console.log('로그인 실패: 아이디 또는 비밀번호가 잘못되었습니다.');
     return res.status(401).send('아이디 또는 비밀번호가 잘못되었습니다.');
