@@ -27,12 +27,31 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/loginPage.html'));
 });
 
-app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../public/signupPage.html'));
+app.post('/login', async (req, res) => {
+  const { id, password } = req.body;
+
+  try {
+    // Check if the user with the provided id and password exists
+    const users = await query('SELECT * FROM userInfo WHERE id = ? AND password = ?', [id, password]);
+    if (users.length > 0) {
+      // 로그인 성공
+      res.json({ success: true });
+    } else {
+      // 로그인 실패
+      res.status(401).json({ success: false, error: '아이디 또는 비밀번호가 일치하지 않습니다.' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
 });
 
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/adminPage.html'));
+});
+
+app.get('/signup', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../public/signupPage.html'));
 });
 
 app.post('/signup', async (req, res) => {
