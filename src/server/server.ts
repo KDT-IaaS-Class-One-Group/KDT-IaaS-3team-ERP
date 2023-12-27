@@ -51,12 +51,13 @@ app.get('/admin', (req, res) => {
 });
 
 // 상품 등록 엔드포인트 추가
-app.post('/addProduct', async (req, res) => {
-  const { productName, productPrice, productQuantity } = req.body;
 
+app.post('/addProducts', async (req, res) => {
+  const { name, price, quantity } = req.body;
   try {
+    // Insert the new product into products table
     const sql = 'INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)';
-    await query(sql, [productName, productPrice, productQuantity]);
+    await query(sql, [name, price, quantity]);
 
     res.json({ success: true });
   } catch (error) {
