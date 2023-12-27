@@ -94,11 +94,36 @@ app.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0
 app.get('/admin', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, '../../public/adminPage.html'));
 });
+// 상품 등록 엔드포인트 추가
+app.post('/addProduct', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, productName, productPrice, productQuantity, sql, error_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, productName = _a.productName, productPrice = _a.productPrice, productQuantity = _a.productQuantity;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                sql = 'INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)';
+                return [4 /*yield*/, (0, db_1.query)(sql, [productName, productPrice, productQuantity])];
+            case 2:
+                _b.sent();
+                res.json({ success: true });
+                return [3 /*break*/, 4];
+            case 3:
+                error_2 = _b.sent();
+                console.error('Error adding product:', error_2.message);
+                res.status(400).json({ success: false, error: error_2.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
 app.get('/signup', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, '../../public/signupPage.html'));
 });
 app.post('/signup', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id, password, name, existingUsers, error_2;
+    var _a, id, password, name, existingUsers, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -119,9 +144,9 @@ app.post('/signup', function (req, res) { return __awaiter(void 0, void 0, void 
                 _b.label = 5;
             case 5: return [3 /*break*/, 7];
             case 6:
-                error_2 = _b.sent();
-                console.error('Signup failed:', error_2.message);
-                res.status(400).json({ success: false, error: error_2.message });
+                error_3 = _b.sent();
+                console.error('Signup failed:', error_3.message);
+                res.status(400).json({ success: false, error: error_3.message });
                 return [3 /*break*/, 7];
             case 7: return [2 /*return*/];
         }
