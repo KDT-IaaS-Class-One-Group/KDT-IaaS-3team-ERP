@@ -61,14 +61,44 @@ app.get('/', function (req, res) {
 app.get('/login', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, '../../public/loginPage.html'));
 });
-app.get('/signup', function (req, res) {
-    res.sendFile(path_1.default.join(__dirname, '../../public/signupPage.html'));
-});
+app.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, id, password, users, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, id = _a.id, password = _a.password;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, (0, db_1.query)('SELECT * FROM userInfo WHERE id = ? AND password = ?', [id, password])];
+            case 2:
+                users = _b.sent();
+                if (users.length > 0) {
+                    // 로그인 성공
+                    res.json({ success: true });
+                }
+                else {
+                    // 로그인 실패
+                    res.status(401).json({ success: false, error: '아이디 또는 비밀번호가 일치하지 않습니다.' });
+                }
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _b.sent();
+                console.error('Error during login:', error_1.message);
+                res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
 app.get('/admin', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, '../../public/adminPage.html'));
 });
+app.get('/signup', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname, '../../public/signupPage.html'));
+});
 app.post('/signup', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, id, password, name, existingUsers, error_1;
+    var _a, id, password, name, existingUsers, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -89,9 +119,9 @@ app.post('/signup', function (req, res) { return __awaiter(void 0, void 0, void 
                 _b.label = 5;
             case 5: return [3 /*break*/, 7];
             case 6:
-                error_1 = _b.sent();
-                console.error('Signup failed:', error_1.message);
-                res.status(400).json({ success: false, error: error_1.message });
+                error_2 = _b.sent();
+                console.error('Signup failed:', error_2.message);
+                res.status(400).json({ success: false, error: error_2.message });
                 return [3 /*break*/, 7];
             case 7: return [2 /*return*/];
         }
