@@ -56,8 +56,9 @@ app.post('/addProducts', async (req, res) => {
   const { name, price, quantity } = req.body;
   try {
     // Insert the new product into products table
-    const sql = 'INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)';
-    await query(sql, [name, price, quantity]);
+    const sql = 'INSERT INTO products (id, name, price, quantity) VALUES (?, ?, ?, ?)';
+    const productId = generateUniqueId(); // 새로운 고유한 ID 생성 (예: uuid 사용)
+    await query(sql, [productId, name, price, quantity]);
 
     res.json({ success: true });
   } catch (error) {
