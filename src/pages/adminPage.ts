@@ -3,11 +3,11 @@
 document.getElementById('productForm')!.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const productName = (document.getElementById('productName') as HTMLInputElement).value;
-  const productPrice = (document.getElementById('productPrice') as HTMLInputElement).value;
-  const productQuantity = (document.getElementById('productQuantity') as HTMLInputElement).value;
+  const name = (document.getElementById('name') as HTMLInputElement).value;
+  const price = (document.getElementById('price') as HTMLInputElement).value;
+  const quantity = (document.getElementById('quantity') as HTMLInputElement).value;
 
-  if (!productName || !productPrice || !productQuantity) {
+  if (!name || !price || !quantity) {
     alert('빈칸을 채워서 제출해주세요');
     return;
   }
@@ -18,7 +18,7 @@ document.getElementById('productForm')!.addEventListener('submit', async (event)
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ productName, productPrice, productQuantity }),
+      body: JSON.stringify({ name, price, quantity }),
     });
 
     const result: { success: boolean; error?: string } = await response.json();
