@@ -37,15 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 document.getElementById('productForm').addEventListener('submit', function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var productName, productPrice, productQuantity, response, result, error_1;
+    var name, price, quantity, response, result, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 event.preventDefault();
-                productName = document.getElementById('productName').value;
-                productPrice = document.getElementById('productPrice').value;
-                productQuantity = document.getElementById('productQuantity').value;
-                if (!productName || !productPrice || !productQuantity) {
+                name = document.getElementById('name').value;
+                price = document.getElementById('price').value;
+                quantity = document.getElementById('quantity').value;
+                if (!name || !price || !quantity) {
                     alert('빈칸을 채워서 제출해주세요');
                     return [2 /*return*/];
                 }
@@ -57,7 +57,7 @@ document.getElementById('productForm').addEventListener('submit', function (even
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ productName: productName, productPrice: productPrice, productQuantity: productQuantity }),
+                        body: JSON.stringify({ name: name, price: price, quantity: quantity }),
                     })];
             case 2:
                 response = _a.sent();
