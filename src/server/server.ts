@@ -50,6 +50,21 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/adminPage.html'));
 });
 
+// 상품 등록 엔드포인트 추가
+app.post('/addProduct', async (req, res) => {
+  const { productName, productPrice, productQuantity } = req.body;
+
+  try {
+    const sql = 'INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)';
+    await query(sql, [productName, productPrice, productQuantity]);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error adding product:', error.message);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
 app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/signupPage.html'));
 });
