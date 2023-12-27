@@ -41,13 +41,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addUser = exports.query = void 0;
 var promise_1 = __importDefault(require("mysql2/promise"));
+// MySQL 데이터베이스에 연결하기 위한 풀 생성
 var pool = promise_1.default.createPool({
     host: 'localhost',
     user: 'root',
     password: '1234',
     database: 'KDT-IaaS-3team-ERP',
 });
-// query 함수 정의
+// 쿼리 함수 정의
 function query(sql, params) {
     if (params === void 0) { params = []; }
     return __awaiter(this, void 0, void 0, function () {
@@ -63,7 +64,6 @@ function query(sql, params) {
     });
 }
 exports.query = query;
-// addUser 함수 정의
 function addUser(id, password, name) {
     return __awaiter(this, void 0, void 0, function () {
         var existingUsers, sql, error_1;
