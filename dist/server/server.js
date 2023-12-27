@@ -96,7 +96,7 @@ app.get('/admin', function (req, res) {
 });
 // 상품 등록 엔드포인트 추가
 app.post('/addProducts', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, price, quantity, sql, productId, error_2;
+    var _a, name, price, quantity, sql, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -104,9 +104,8 @@ app.post('/addProducts', function (req, res) { return __awaiter(void 0, void 0, 
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
-                sql = 'INSERT INTO products (id, name, price, quantity) VALUES (?, ?, ?, ?)';
-                productId = generateUniqueId();
-                return [4 /*yield*/, (0, db_1.query)(sql, [productId, name, price, quantity])];
+                sql = 'INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)';
+                return [4 /*yield*/, (0, db_1.query)(sql, [name, price, quantity])];
             case 2:
                 _b.sent();
                 res.json({ success: true });
