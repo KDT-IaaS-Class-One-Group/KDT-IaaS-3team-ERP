@@ -17,3 +17,8 @@ console.log('강의실별 학생 수:', studentCounts);
 // totalRooms는 data객체의 키인 강의실을 배열로 변환하고 길이(갯수)를 나타낸다.
 const totalRooms = Object.keys(data).length;
 console.log('전체 강의실 갯수:', totalRooms);
+
+//* 전체 학생 수 확인
+
+const totalStudent = studentCounts.reduce((sum, room) => sum + room.studentCount, 0);
+console.log('전체 학생수:', totalStudent);
