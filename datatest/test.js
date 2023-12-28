@@ -34,4 +34,6 @@ console.log('가장 많은 학생이 있는 강의실:', maxStudentRoom.room, '�
 
 const maxComputer = Object.keys(data).reduce((maxRoom, room) => (data[room].computers > data[maxRoom].computers ? room : maxRoom), Object.keys(data)[0]);
 const minComputer = Object.keys(data).reduce((minRoom, room) => (data[room].computers < data[minRoom].computers ? room : minRoom), Object.keys(data)[0]);
-console.log('가장 컴퓨터가 많은 곳', maxComputer, '가장 컴퓨터가 적은 곳', minComputer);
+
+console.log(`가장 컴퓨터 수가 많은곳 : ${maxComputer} 컴퓨터 수: ${data[maxComputer].computers}`);
+console.log(`가장 컴퓨터 수가 적은곳 : ${minComputer} 컴퓨터 수: ${data[minComputer].computers}`);
