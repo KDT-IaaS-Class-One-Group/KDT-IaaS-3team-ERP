@@ -31,3 +31,7 @@ console.log('전체 학생수:', totalStudent);
 const maxStudentRoom = studentCounts.reduce((maxRoom, room) => (room.studentCount > maxRoom.studentCount ? room : maxRoom), { studentCount: -1 });
 //{ studentCount: -1 }이 주어져 있습니다. 이 초기값은 학생 수가 0 이상이라는 가정하에 설정되어있다.
 console.log('가장 많은 학생이 있는 강의실:', maxStudentRoom.room, '학생 수:', maxStudentRoom.studentCount);
+
+const maxComputer = Object.keys(data).reduce((maxRoom, room) => (data[room].computers > data[maxRoom].computers ? room : maxRoom), Object.keys(data)[0]);
+const minComputer = Object.keys(data).reduce((minRoom, room) => (data[room].computers < data[minRoom].computers ? room : minRoom), Object.keys(data)[0]);
+console.log('가장 컴퓨터가 많은 곳', maxComputer, '가장 컴퓨터가 적은 곳', minComputer);
