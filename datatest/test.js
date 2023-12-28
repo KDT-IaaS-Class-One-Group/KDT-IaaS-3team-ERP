@@ -20,5 +20,7 @@ console.log('전체 강의실 갯수:', totalRooms);
 
 //* 전체 학생 수 확인
 
+// studentCounts의 함수를 실행 하고 하나의 결과값 반환 ?
+// 값을 누적하여 전체 학생수를 확인 할 수 있다.
 const totalStudent = studentCounts.reduce((sum, room) => sum + room.studentCount, 0);
 console.log('전체 학생수:', totalStudent);
