@@ -26,5 +26,5 @@ console.log('전체 강의실 갯수:', totalRooms);
 const totalStudent = studentCounts.reduce((sum, room) => sum + room.studentCount, 0);
 console.log('전체 학생수:', totalStudent);
 
-const maxStudent = studentCounts.reduce((maxRoom, room) => (room.studentCount ? room : maxRoom), { studentCounts: 0 });
-console.log('학생이 가장 많은 강의실', maxStudent.room, '학생 수 ', maxStudent.studentCount);
+const maxStudentRoom = studentCounts.reduce((maxRoom, room) => (room.studentCount > maxRoom.studentCount ? room : maxRoom), { studentCount: -1 });
+console.log('가장 많은 학생이 있는 강의실:', maxStudentRoom.room, '학생 수:', maxStudentRoom.studentCount);
