@@ -1,4 +1,3 @@
-const { log } = require('console');
 const fs = require('fs');
 
 const rawData = fs.readFileSync('test.json');
@@ -26,6 +25,7 @@ console.log('전체 강의실 갯수:', totalRooms);
 const totalStudent = studentCounts.reduce((sum, room) => sum + room.studentCount, 0);
 console.log('전체 학생수:', totalStudent);
 
+//* 가장 많은 학생이 있는 강의실 과 학생 수
 //하나씩 순회하면서 콜백 함수를 실행
 //이 콜백 함수는 현재까지 가장 학생 수가 많은 강의실 정보인 maxRoom과 현재 순회 중인 강의실 room을 비교하여 더 많은 학생이 있는 경우 room으로 갱신
 const maxStudentRoom = studentCounts.reduce((maxRoom, room) => (room.studentCount > maxRoom.studentCount ? room : maxRoom), { studentCount: -1 });
