@@ -1,13 +1,13 @@
 import React from "react";
 
-interface Class {
+interface Classroom {
   instructor: string;
   field: string;
   computers: number;
   students: string[];
 }
 
-const Room = ({ instructor, field, computers, students }: Class) => {
+const Room = ({ instructor, field, computers, students }: Classroom) => {
   return (
     <div>
       <p>instructor: {instructor}</p>
