@@ -1,5 +1,4 @@
 import React from "react";
-import { NumberLiteralType } from "typescript";
 
 interface Class {
   instructor: string;
@@ -18,3 +17,5 @@ const Room = ({ instructor, field, computers, students }: Class) => {
     </div>
   );
 };
+
+export default Room;
