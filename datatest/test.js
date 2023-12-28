@@ -1,3 +1,4 @@
+const { log } = require('console');
 const fs = require('fs');
 
 const rawData = fs.readFileSync('test.json');
@@ -24,3 +25,6 @@ console.log('전체 강의실 갯수:', totalRooms);
 // 값을 누적하여 전체 학생수를 확인 할 수 있다.
 const totalStudent = studentCounts.reduce((sum, room) => sum + room.studentCount, 0);
 console.log('전체 학생수:', totalStudent);
+
+const maxStudent = studentCounts.reduce((maxRoom, room) => (room.studentCount ? room : maxRoom), { studentCounts: 0 });
+console.log('학생이 가장 많은 강의실', maxStudent.room, '학생 수 ', maxStudent.studentCount);
