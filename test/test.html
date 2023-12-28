@@ -37,40 +37,6 @@
     <div id="root">
       <div class="test"></div>
     </div>
-    <script>
-      // greenAcademy_classrooms.json 파일의 경로
-      const jsonFilePath = "/test/greenAcademy_classrooms.json";
-
-      // JSON 파일을 불러와서 파싱
-      fetch(jsonFilePath)
-        .then((response) => response.json())
-        .then((data) => {
-          // JSON 데이터를 원하는 형태로 화면에 렌더링
-          const classrooms = Object.entries(data);
-
-          classrooms.forEach(([room, info]) => {
-            // 각 강의실의 정보를 HTML로 변환하여 .test에 추가
-            document.querySelector(".test").innerHTML += `<h2>${room}</h2>`; // 강의실 번호
-            document.querySelector(".test").innerHTML += `<p>강사: ${info.instructor}</p>`; // 강사명
-            document.querySelector(".test").innerHTML += `<p>과목: ${info.field}</p>`; // 과목명
-            document.querySelector(".test").innerHTML += `<p>컴퓨터 수: ${info.computers}</p>`; // 컴퓨터 대수
-            document.querySelector(".test").innerHTML += "<p>학생 목록:</p>"; // 학생 목록
-            
-            // 학생 목록을 <ul>, <li> 태그로 출력
-            // 부모 요소로 쓸 <ul> 시작
-            document.querySelector(".test").innerHTML += "<ul>";
-            
-            info.students.forEach((student) => {
-              document.querySelector(
-                ".test"
-              ).innerHTML += `<li>${student}</li>`; // 각각의 학생들을 <li>로 표시
-            });
-
-            // 부모 요소로 쓸 <ul> 끝
-            document.querySelector(".test").innerHTML += "</ul>";
-          });
-        })
-        .catch((error) => console.error("Error loading JSON:", error));
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>
