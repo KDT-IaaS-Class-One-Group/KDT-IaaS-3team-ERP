@@ -1,10 +1,19 @@
 import React from 'react';
+// import logo from './logo.svg';
 import './App.css';
 
-function Headers() {
+function Header() {
   return (
-    <div className="Header">
-      <p>이건 헤더입니다.</p>
+    <div>
+      <p>이것은 Header입니다.</p>
+    </div>
+  );
+}
+
+function Container() {
+  return (
+    <div>
+      <p>이건 Container입니다.</p>
     </div>
   );
 }
@@ -12,7 +21,8 @@ function Headers() {
 function App() {
   return (
     <div className="App">
-      <Headers />
+      <Header />
+      <Container />
     </div>
   );
 }
