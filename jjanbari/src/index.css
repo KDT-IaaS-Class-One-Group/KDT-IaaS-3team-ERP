@@ -7,7 +7,6 @@
 }
 
 #header,
-#container,
 #footer {
   display: flex;
   justify-content: center;
@@ -29,6 +28,24 @@
 #container {
   width: 100vw;
   height: 80vh;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  text-align: center;
+}
+
+h1 {
+  margin-top: 2rem;
+  font-size: 2rem;
+  color: green;
+}
+
+h2 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: blue;
 }
 
 #footer {
