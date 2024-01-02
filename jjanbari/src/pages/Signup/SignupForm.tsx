@@ -1,5 +1,6 @@
 // src/SignupForm.tsx
 
+import { response } from "express";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +19,6 @@ const SignupForm: React.FC = () => {
     password: "",
     name: "",
   });
-
   // 입력 값이 변경될 때마다 호출되는 핸들러 함수
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,7 +27,6 @@ const SignupForm: React.FC = () => {
       [name]: value,
     });
   };
-
   // 폼이 제출될 때, 호출되는 핸들러 함수
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,13 +38,26 @@ const SignupForm: React.FC = () => {
     }
 
     try {
-      // 여기서 실제로 서버로 데이터를 전송하고, 성공했을 경우에만 로그인 페이지로 이동
-      console.log("회원 가입 정보: ", formData);
+      // 서버로 회원 가입 정보 전송
+      const response = await fetch("http://localhost:3001/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      // 가입이 성공했을 경우, 로그인 페이지로 이동
-      navigate("/login");
-    } catch (err) {
-      console.error("회원 가입 실패: ", err);
+      if (response.ok) {
+        console.log("회원 가입 정보 전송 성공: ", formData);
+        // 가입이 성공했을 경우, 로그인 페이지로 이동
+        navigate("/login");
+      } else {
+        console.error("회원 가입 정보 전송 실패:", response.statusText);
+        alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      const errorMessage = await response.json(); // 에러 메시지를 JSON 형식으로 파싱
+      console.error("회원 가입 실패: ", errorMessage);
       alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
     }
   };
@@ -61,7 +73,7 @@ const SignupForm: React.FC = () => {
             name="id"
             value={formData.id}
             onChange={handleInputChange}
-            required 
+            required
           />
         </label>
         <br />
@@ -72,7 +84,7 @@ const SignupForm: React.FC = () => {
             name="password"
             value={formData.password}
             onChange={handleInputChange}
-            required 
+            required
           />
         </label>
         <br />
@@ -83,7 +95,7 @@ const SignupForm: React.FC = () => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            required 
+            required
           />
         </label>
         <br />
