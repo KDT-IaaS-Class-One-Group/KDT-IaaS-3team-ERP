@@ -11,9 +11,13 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
+// 로그인 페이지 라우팅
+
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, './build/index.html'));
 });
+
+// 로그인 페이지 로그인 userInfo DB 비교
 
 app.post('/login', async (req, res) => {
   const { id, password } = req.body;
@@ -31,10 +35,12 @@ app.post('/login', async (req, res) => {
   }
 });
 
+//회원가입페이지 라우팅
 app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, './build/index.html'));
 });
 
+// 회원가입 정보 저장
 app.post('/signup', async (req, res) => {
   const { id, password, name } = req.body;
 
@@ -48,6 +54,22 @@ app.post('/signup', async (req, res) => {
     }
   } catch (error) {
     console.error('Error during signup:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, './build/index.html'));
+});
+//상품등록 함수
+app.post('/addProducts', async (req, res) => {
+  const { name, price, quantity } = req.body;
+
+  try {
+    await query('INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)', [name, price, quantity]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error during product registration:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
