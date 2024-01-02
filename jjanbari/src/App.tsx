@@ -1,30 +1,17 @@
 import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import MainPage from './components/mainPage';
+import LoginPage from './components/loginPage';
 
-function Header() {
+const App = () => {
   return (
-    <div>
-      <p>이것은 Header입니다.</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<MainPage />} />
+      </Routes>
+    </Router>
   );
-}
-
-function Container() {
-  return (
-    <div>
-      <p>이건 Container입니다.</p>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <Container />
-    </div>
-  );
-}
+};
 
 export default App;
