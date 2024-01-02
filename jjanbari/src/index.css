@@ -1,10 +1,5 @@
 /* src/index.css */
 
-body {
-  width: 100vw;
-  height: 100vh;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -12,23 +7,24 @@ body {
 }
 
 #root {
-  width: 90vw;
-  height: 90vh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-#root div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 #header {
-  flex: 1;
+  width: 100vw;
+  height: 10vh;
 }
 
 #container {
-  flex: 8;
+  width: 100vw;
+  height: 80vh;
+  border: 1px solid #000;
+}
+
+#footer {
+  width: 100vw;
+  height: 10vh;
 }
