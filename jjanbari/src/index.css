@@ -10,7 +10,12 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-direction: column;
+}
+
+#header, #container, #footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #header {
@@ -21,10 +26,15 @@
 #container {
   width: 100vw;
   height: 80vh;
-  border: 1px solid #000;
 }
 
 #footer {
   width: 100vw;
   height: 10vh;
+}
+
+a {
+  padding: 3rem;
+  border: 1px solid #000;
+  border-radius: 15%;
 }
