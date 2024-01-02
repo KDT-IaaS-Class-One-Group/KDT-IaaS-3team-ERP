@@ -56,8 +56,7 @@ const SignupForm: React.FC = () => {
         alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
       }
     } catch (error) {
-      const errorMessage = await response.json(); // 에러 메시지를 JSON 형식으로 파싱
-      console.error("회원 가입 실패: ", errorMessage);
+      console.error("회원 가입 실패: ", error);
       alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
     }
   };
