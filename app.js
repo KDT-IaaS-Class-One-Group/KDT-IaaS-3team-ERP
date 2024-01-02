@@ -5,7 +5,7 @@ const route = require('./routes/route');
 const mysql = require('mysql2');
 
 const app = express();
-const port = 3000;
+const port = 9997;
 
 // Connect MariaDB
 const connection = mysql.createConnection({
