@@ -16,7 +16,7 @@
 | 📦      | `:package: Package: `             |  패키지/컴파일 관리 |
 | 📝      | `:memo: Docs: `                   |  Markdown 파일 등 문서 작업 |
 | 💩      | `:poop: Bad: `                    |  개선이 필요한 코드 |
-| ⏪      | `:rewind: Rewind:: `              |  이전 작업 되돌아가기 |
+| ⏪      | `:rewind: Rewind: `              |  이전 작업 되돌아가기 |
 | 💥      | `:boom: Reset: `                  |  모두 리셋하고 초기화 |
 | ⚗️      | `:alembic: Test: `                |  테스팅 작업 |
 | 🗨️      | `:speech_balloon: Comments: `     | 주석 처리 업데이트 |
