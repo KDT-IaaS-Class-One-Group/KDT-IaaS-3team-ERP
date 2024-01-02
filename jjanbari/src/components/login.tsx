@@ -2,7 +2,7 @@ function Login() {
   return (
     <div className="Login">
       <h2>로그인 하세요</h2>
-      <form action="/login" method="post">
+      <form action="/" method="get">
         <input type="text" name="name" placeholder="이름"></input>
         <input type="text" name="id" placeholder="아이디"></input>
         <input type="password" name="password" placeholder="비밀번호"></input>
