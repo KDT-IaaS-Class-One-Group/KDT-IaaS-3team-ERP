@@ -2,16 +2,18 @@
 
 import React from "react";
 import Header from "./Component/Header/Header";
-import Container from "./Component/Container/Container";
 import Footer from "./Component/Footer/Footer";
 
-
+import Router from "./Component/Routes/Router";
 
 const App = () => {
   return (
     <div className="App">
       <Header />
-      <Container />
+      <>
+        {" "}
+        <Router />
+      </>
       <Footer />
     </div>
   );
