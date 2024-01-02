@@ -1,12 +1,9 @@
 // src/pages/Main/MainPage.tsx
 
-import React from 'react';
-
-const MainPage: React.FC = () => {
+const MainPage = () => {
   return (
-    <div>
-      <h1>Main 페이지</h1>
-      <h3>TEST</h3>
+    <div id="container">
+      <h1>메인 페이지</h1>
     </div>
   );
 };
