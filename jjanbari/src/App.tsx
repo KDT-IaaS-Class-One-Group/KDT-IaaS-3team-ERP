@@ -6,6 +6,8 @@ import Footer from "./Component/Footer/Footer";
 
 import Router from "./Component/Routes/Router";
 
+import "./App.css";
+
 const App = () => {
   return (
     <div className="App">

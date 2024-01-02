@@ -1,1 +1,17 @@
 /* src/Component/Header/Header.css */
+
+a {
+  padding: 3rem;
+  border: 1px solid #000;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration-line: none;
+}
+a:hover {
+  background-color: #45a049;
+}
