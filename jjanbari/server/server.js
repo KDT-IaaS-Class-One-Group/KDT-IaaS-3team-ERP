@@ -3,10 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+const cors = require('cors'); // CORS 미들웨어 추가
 
 const app = express();
 const port = 3001;
 
+app.use(cors()); // 모든 경로에 대해 CORS 허용
 app.use(bodyParser.json());
 
 const connection = mysql.createConnection({

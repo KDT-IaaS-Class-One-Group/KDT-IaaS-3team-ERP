@@ -1,6 +1,5 @@
 // src/SignupForm.tsx
 
-import { response } from "express";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +38,7 @@ const SignupForm: React.FC = () => {
 
     try {
       // 서버로 회원 가입 정보 전송
-      const response = await fetch("http://localhost:3001/signup", {
+      const response = await fetch("/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

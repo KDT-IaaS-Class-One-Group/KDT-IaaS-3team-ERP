@@ -10,6 +10,7 @@
     "@types/node": "^16.18.68",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
+    "cors": "^2.8.5",
     "mysql2": "^3.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -41,5 +42,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
