@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 
 function Signup() {
-  
+
   const [formData, setFormData] = useState({
     name: '',
     username: '',
     password: '',
   });
+
+  // e: ~ 객체의 타입 지정
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
   <div>
