@@ -18,6 +18,7 @@ const connection = mysql.createConnection({
   database: 'userInfoDB',
 });
 
+// 회원 가입 라우트
 app.post('/signup', (req, res) => {
   const { id, password, name } = req.body;
 
@@ -36,6 +37,33 @@ app.post('/signup', (req, res) => {
     }
   });
 });
+
+// 로그인 라우트
+app.post('/login', (req, res) => {
+  const { id, password } = req.body;
+
+  const selectDataQuery = `
+    SELECT * FROM userInfo
+    WHERE id = ? AND password = ?;
+  `;
+
+  connection.query(selectDataQuery, [id, password], (error, results) => {
+    if (error) {
+      console.error('로그인 실패: ', error);
+      res.status(500).send('로그인에 실패했습니다. 다시 시도해주세요.');
+    } else {
+      if (results.length > 0) {
+        // 사용자 ID와 비밀번호가 일치할 경우
+        console.log('로그인 성공: ', id);
+        res.sendStatus(200);
+      } else {
+        console.error('로그인 실패: 해당 ID 또는 비밀번호가 일치하지 않습니다.');
+        res.status(401).send('해당 ID 또는 비밀번호가 일치하지 않습니다.');
+      }
+    }
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port} 에서 실행 중입니다.`);
