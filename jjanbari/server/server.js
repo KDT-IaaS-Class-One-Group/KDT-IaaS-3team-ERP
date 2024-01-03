@@ -85,11 +85,38 @@ app.get('/admin', (req, res) => {
   res.send('관리자 페이지입니다.');
 });
 
+// 상품 등록 라우트
+app.post('/add-product', async (req, res) => {
+  const { name, price, quantity } = req.body;
+
+  try {
+    // 상품 정보 저장
+    const insertDataQuery = `
+      INSERT INTO productInfo (name, price, quantity)
+      VALUES (?, ?, ?);
+    `;
+
+    productInfoDB.connection.query(insertDataQuery, [name, price, quantity], (error, results) => {
+      if (error) {
+        console.error('상품 등록 실패:', error);
+        res.status(500).send('상품 등록에 실패했습니다. 다시 시도해주세요.');
+      } else {
+        console.log('상품 등록 정보 저장 성공:', req.body);
+        res.sendStatus(200);
+      }
+    });
+  } catch (error) {
+    console.error('상품 등록 실패:', error);
+    res.status(500).send('상품 등록에 실패했습니다. 다시 시도해주세요.');
+  }
+});
+
+
 // 사용자 페이지 라우트
 app.get('/main', (req, res) => {
   res.send('사용자 페이지입니다.');
 });
 
 app.listen(port, () => {
-  console.log(`서버 ON: http://localhost:${port} 에서 실행 중입니다.`);
+  console.log(`서버 ON: http://localhost:${port}`);
 });
