@@ -3,9 +3,12 @@ const express = require('express');
 const path = require('path');
 const route = require('./routes/route');
 const mysql = require('mysql2');
+const cors = require('cors');
 
 const app = express();
 const port = 9997;
+
+app.use(cors);
 
 // Connect MariaDB
 const connection = mysql.createConnection({
