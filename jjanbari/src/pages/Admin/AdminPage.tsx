@@ -3,6 +3,8 @@
 import React from "react";
 import ProductForm from "./ProductForm";
 
+import './AdminPage.css';
+
 const AdminPage = () => {
   return (
     <div id="container">
