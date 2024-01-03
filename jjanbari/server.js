@@ -62,12 +62,21 @@ app.post('/signup', async (req, res) => {
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, './build/index.html'));
 });
-//상품등록 함수
 app.post('/addProducts', async (req, res) => {
   const { name, price, quantity } = req.body;
 
   try {
-    await query('INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)', [name, price, quantity]);
+    // 먼저 동일한 name과 price를 가진 상품이 있는지 확인합니다.
+    const products = await query('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
+
+    if (products.length > 0) {
+      // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트합니다.
+      await query('UPDATE products SET quantity = quantity + ? WHERE name = ? AND price = ?', [quantity, name, price]);
+    } else {
+      // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가합니다.
+      await query('INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)', [name, price, quantity]);
+    }
+
     res.json({ success: true });
   } catch (error) {
     console.error('Error during product registration:', error.message);
