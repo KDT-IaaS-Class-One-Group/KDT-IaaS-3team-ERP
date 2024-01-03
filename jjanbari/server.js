@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { query } = require('./src/database/db');
+const port = 3000;
 
 const app = express();
 app.use(bodyParser.json());
@@ -85,5 +86,5 @@ app.get('/products', async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  console.log(`http://http://localhost:${port}`);
 });
