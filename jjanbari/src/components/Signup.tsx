@@ -1,4 +1,4 @@
-function Admin() {
+function Signup() {
   return (
   <div>
     <h2>회원가입 하세요</h2>
@@ -12,4 +12,4 @@ function Admin() {
   )
 }
 
-export default Admin;
+export default Signup;
