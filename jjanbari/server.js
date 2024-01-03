@@ -16,7 +16,7 @@ const sequelize = new Sequelize('userInfo', 'root', 'qwer123', {
 });
 
 // 모델 정의 (예: User 모델)
-const User = sequelize.define('user', {
+const UserInfo = sequelize.define('userInfo', {
   userId: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -35,7 +35,7 @@ const User = sequelize.define('user', {
 });
 
 // 테이블 생성
-User.sync()
+UserInfo.sync()
   .then(() => {
     console.log('MariaDB 연결 성공');
   })
@@ -47,7 +47,7 @@ User.sync()
 app.post('/login-in', async (req, res) => {  
   try {
     const { userId, password } = req.body;
-    const user = await User.findOne({
+    const user = await UserInfo.findOne({
       where: {
         userId,
         password
@@ -69,7 +69,7 @@ app.post('/login-in', async (req, res) => {
 app.post('/signUp/save', async (req, res) => { 
   try {
     const { userId, userName, password } = req.body;
-    const newUser = await User.create({
+    const newUser = await UserInfo.create({
       userId,
       userName,
       password
