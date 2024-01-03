@@ -26,15 +26,14 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     // 필수 필드 확인
     if (!loginFormData.id || !loginFormData.password) {
       alert("아이디와 비밀번호를 입력해주세요.");
       return;
     }
-
+  
     try {
-      // 서버로 로그인 정보 전송
       const response = await fetch("http://localhost:3001/login", {
         method: "POST",
         headers: {
@@ -42,21 +41,30 @@ const LoginForm: React.FC = () => {
         },
         body: JSON.stringify(loginFormData),
       });
-
+  
       if (response.ok) {
-        console.log("로그인 성공!");
-        // 로그인이 성공했을 경우, 메인 페이지로 이동
-        navigate("/");
+        const data = await response.json();
+  
+        if (data.role === 'admin') {
+          // 관리자 로그인 성공
+          console.log("관리자로 로그인하였습니다.");
+          navigate("/admin"); // 관리자 페이지로 이동
+        } else if (data.role === 'user') {
+          // 사용자 로그인 성공
+          console.log("사용자로 로그인하였습니다.");
+          navigate("/main"); // 메인 페이지로 이동
+        }
       } else {
         console.error("로그인 실패:", response.statusText);
         alert("로그인에 실패했습니다. 다시 시도해주세요.");
       }
     } catch (error) {
-      console.error("로그인 실패: ", error);
+      console.error("로그인 실패:", error);
       alert("로그인에 실패했습니다. 다시 시도해주세요.");
     }
   };
-
+  
+  
   return (
     <div>
       <h2>로그인</h2>
