@@ -21,16 +21,12 @@ const connection = mysql.createConnection({
 app.post('/signup', (req, res) => {
   const { id, password, name } = req.body;
 
-  connection.connect();
-
   const insertDataQuery = `
     INSERT INTO userInfo (id, password, name)
     VALUES (?, ?, ?);
   `;
 
   connection.query(insertDataQuery, [id, password, name], (error, results) => {
-    connection.end();
-
     if (error) {
       console.error('회원 가입 실패:', error);
       res.status(500).send('회원 가입에 실패했습니다. 다시 시도해주세요.');
@@ -42,5 +38,5 @@ app.post('/signup', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`서버가 http://localhost:${port} 에서 실행 중입니다.`);
+  console.log(`서버 ON: http://localhost:${port} 에서 실행 중입니다.`);
 });

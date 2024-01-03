@@ -38,14 +38,14 @@ const SignupForm: React.FC = () => {
 
     try {
       // 서버로 회원 가입 정보 전송
-      const response = await fetch("/signup", {
+      const response = await fetch("http://localhost:3001/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-
+      
       if (response.ok) {
         console.log("회원 가입 정보 전송 성공: ", formData);
         // 가입이 성공했을 경우, 로그인 페이지로 이동
