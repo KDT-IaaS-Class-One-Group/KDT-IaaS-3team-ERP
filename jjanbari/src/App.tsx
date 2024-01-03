@@ -14,11 +14,17 @@ function App() {
     return <Login />;
   }
 
-  return (
+  function Mainpage() {
+    return (
     <div className="App">
       <h1>메인페이지입니다.</h1>
       <button onClick={handleClick}>Login</button>
     </div>
+    )
+  }
+
+  return (
+    <Mainpage />
   );
 }
 
