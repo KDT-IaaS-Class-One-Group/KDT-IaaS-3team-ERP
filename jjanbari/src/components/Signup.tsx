@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
 function Signup() {
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    username: '',
+    password: '',
+  });
 
   return (
   <div>
