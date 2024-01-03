@@ -2,6 +2,9 @@
 
 import LoginForm from "./LoginForm";
 
+import './LoginPage.css';
+
+
 const LoginPage = () => {
   return (
     <div id="container">
