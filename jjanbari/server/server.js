@@ -3,8 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const userInfoDB = require('../Databases/userInfoDB');
-const productInfoDB = require('../Databases/productInfoDB');
+const userInfoDB = require('../src/api/Databases/userInfoDB');
+const productInfoDB = require('../src/api/Databases/productInfoDB');
 
 const app = express();
 const port = 3001;
@@ -113,8 +113,24 @@ app.post('/add-product', async (req, res) => {
 
 
 // 사용자 페이지 라우트
-app.get('/main', (req, res) => {
-  res.send('사용자 페이지입니다.');
+app.get('/main', async (req, res) => {
+  try {
+    // MariaDB의 productInfoDB에서 productInfo 테이블 내용을 조회
+    const query = 'SELECT * FROM productInfo';
+    productInfoDB.connection.query(query, (error, results) => {
+      if (error) {
+        console.error('상품 조회 실패:', error);
+        res.status(500).send('상품 조회에 실패했습니다. 다시 시도해주세요.');
+      } else {
+        console.log('상품 조회 성공:', results);
+        // 조회 결과를 클라이언트에 전송
+        res.status(200).json(results);
+      }
+    });
+  } catch (error) {
+    console.error('상품 조회 실패:', error);
+    res.status(500).send('상품 조회에 실패했습니다. 다시 시도해주세요.');
+  }
 });
 
 app.listen(port, () => {
