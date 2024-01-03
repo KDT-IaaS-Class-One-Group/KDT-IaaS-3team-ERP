@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { Sequelize, DataTypes} = require('sequelize');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(cors());
@@ -16,7 +17,7 @@ const sequelize = new Sequelize('userInfo', 'root', 'qwer123', {
 });
 
 // 모델 정의 (예: User 모델)
-const User = sequelize.define('User', {
+const User = sequelize.define('user', {
   userId: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -53,7 +54,7 @@ app.post('/login-in', async (req, res) => {
       }
     });
 
-    if (user === password) {
+    if (user && await bcrypt.compare(password, user.password)) {
       res.json({ success: true, message: '로그인 성공' });
     } else {
       res.json({ success: false, message: '로그인 실패' });
@@ -68,10 +69,11 @@ app.post('/login-in', async (req, res) => {
 app.post('/signUp/save', async (req, res) => { 
   try {
     const { userId, userName, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10); // 10은 salt를 몇 번 반복할지를 나타냄
     const newUser = await User.create({
       userId,
       userName,
-      password
+      password: hashedPassword,
     });
 
     res.json({ success: true, message: '회원가입 성공' });
