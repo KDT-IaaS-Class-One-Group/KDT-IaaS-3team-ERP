@@ -85,6 +85,19 @@ app.get('/products', async (req, res) => {
   }
 });
 
+app.put('/products/:name', async (req, res) => {
+  const { name } = req.params;
+  const { quantity } = req.body;
+
+  try {
+    await query('UPDATE products SET quantity = quantity - ? WHERE name = ?', [quantity, name]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error during updating product:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
 app.listen(3000, () => {
-  console.log(`http://http://localhost:${port}`);
+  console.log(`http://localhost:${port}`);
 });
