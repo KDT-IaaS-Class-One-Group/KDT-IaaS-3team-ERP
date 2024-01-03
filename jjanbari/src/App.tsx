@@ -5,14 +5,9 @@ import Login from './components/Login'
 
 
 function App() {
-  const [page, setPage] = useState('main');
 
   function handleClick() {
-    setPage('login');
-  }
-
-  if (page === 'login') {
-    return <Login />;
+    window.location.href="/login"
   }
 
   function Mainpage() {
