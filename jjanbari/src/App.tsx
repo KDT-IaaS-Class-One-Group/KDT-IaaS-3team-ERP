@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './App.css';
+
 import Login from './components/Login'
 
-import './App.css';
 
 function App() {
   const [page, setPage] = useState('main');
