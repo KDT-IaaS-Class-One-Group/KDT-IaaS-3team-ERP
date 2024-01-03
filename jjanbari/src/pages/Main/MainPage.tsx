@@ -2,6 +2,8 @@
 
 import ProductRender from './ProductRender';
 
+import './MainPage.css';
+
 const MainPage = () => {
   return (
     <div id="container">
