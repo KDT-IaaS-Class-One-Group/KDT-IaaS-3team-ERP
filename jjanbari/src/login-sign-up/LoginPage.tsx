@@ -1,11 +1,22 @@
-// src/pages/LoginPage.tsx
 import React from 'react';
 import LoginForm from './LoginForm';
+import axios from 'axios';
 
 const LoginPage: React.FC = () => {
   const handleLogin = (userId: string, password: string) => {
-    // 로그인 로직 구현
-    console.log(userId, password);
+    axios
+      .post('/login-in', { userId, password }, { headers: { 'Content-Type': 'application/json' } })
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Login successful');
+          window.location.href = '/';
+        } else {
+          alert('Invalid credentials');
+        }
+      })
+      .catch((error) => {
+        console.error('Error during login:', error);
+      });
   };
 
   return (
