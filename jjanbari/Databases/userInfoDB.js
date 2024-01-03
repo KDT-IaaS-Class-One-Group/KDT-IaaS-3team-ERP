@@ -28,6 +28,6 @@ const getUserById = (id) => {
 };
 
 module.exports = {
-  connection,
+  connection: connection,
   getUserById,
 };

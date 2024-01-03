@@ -9,4 +9,6 @@ const connection = mysql.createConnection({
   database: 'productInfoDB',
 });
 
-module.exports = connection;
+module.exports = {
+  connection: connection,
+};
