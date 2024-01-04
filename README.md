@@ -20,3 +20,4 @@
 | ⚗️      | `:alembic: Test: `                |  테스팅 작업 |
 | 🗨️      | `:speech_balloon: Comments: `     | 주석 처리 업데이트 |
 | 🗃️      | `:card_file_box: Data: `          | JSON/DB 업데이트 |
+
