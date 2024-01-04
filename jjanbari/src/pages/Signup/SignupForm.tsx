@@ -66,7 +66,7 @@ const SignupForm: React.FC = () => {
           아이디:
           <input
             type="text"
-            name="id"
+            name="userID"
             value={formData.id}
             onChange={handleInputChange}
             required
@@ -77,7 +77,7 @@ const SignupForm: React.FC = () => {
           비밀번호:
           <input
             type="password"
-            name="password"
+            name="userPW"
             value={formData.password}
             onChange={handleInputChange}
             required
@@ -88,7 +88,7 @@ const SignupForm: React.FC = () => {
           이름:
           <input
             type="text"
-            name="name"
+            name="userNAME"
             value={formData.name}
             onChange={handleInputChange}
             required

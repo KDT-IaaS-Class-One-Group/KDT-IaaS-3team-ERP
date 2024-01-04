@@ -1,9 +1,9 @@
 // src/pages/Admin/ProductForm.tsx
 
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AdminPage = () => {
+const ProductForm = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -61,4 +61,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default ProductForm;

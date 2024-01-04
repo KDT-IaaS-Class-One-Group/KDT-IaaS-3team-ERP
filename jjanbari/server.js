@@ -3,8 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const userInfoDB = require('../src/Databases/userInfoDB');
-const productInfoDB = require('../src/Databases/productInfoDB');
+const userInfoDB = require('./src/Databases/userInfoDB');
+const {query} = require('./src/Databases/productInfoDB');
 
 const app = express();
 const port = 3001;
@@ -48,15 +48,15 @@ app.post('/signup', async (req, res) => {
 
 // 로그인 라우트
 app.post('/login', async (req, res) => {
-  const { id, password } = req.body;
+  const { userID, userPW } = req.body;
 
   try {
     // 아이디로 사용자 조회
-    const user = await userInfoDB.getUserById(id);
+    const user = await userInfoDB.getUserById(userID);
 
     if (user) {
       // 비밀번호 비교
-      if (user.password === password) {
+      if (user.userPW === userPW) {
         if (user.id === 'adroot') {
           // 관리자 로그인 성공
           console.log('관리자로 로그인하였습니다.');
@@ -85,51 +85,48 @@ app.get('/admin', (req, res) => {
   res.send('관리자 페이지입니다.');
 });
 
-// 상품 등록 라우트
-app.post('/add-product', async (req, res) => {
+app.post('/addProducts', async (req, res) => {
   const { name, price, quantity } = req.body;
 
   try {
-    // 상품 정보 저장
-    const insertDataQuery = `
-      INSERT INTO productInfo (name, price, quantity)
-      VALUES (?, ?, ?);
-    `;
+    // 먼저 동일한 name과 price를 가진 상품이 있는지 확인합니다.
+    const products = await query('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
 
-    productInfoDB.connection.query(insertDataQuery, [name, price, quantity], (error, results) => {
-      if (error) {
-        console.error('상품 등록 실패:', error);
-        res.status(500).send('상품 등록에 실패했습니다. 다시 시도해주세요.');
-      } else {
-        console.log('상품 등록 정보 저장 성공:', req.body);
-        res.sendStatus(200);
-      }
-    });
+    if (products.length > 0) {
+      // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트합니다.
+      await query('UPDATE products SET quantity = quantity + ? WHERE name = ? AND price = ?', [quantity, name, price]);
+    } else {
+      // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가합니다.
+      await query('INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)', [name, price, quantity]);
+    }
+
+    res.json({ success: true });
   } catch (error) {
-    console.error('상품 등록 실패:', error);
-    res.status(500).send('상품 등록에 실패했습니다. 다시 시도해주세요.');
+    console.error('Error during product registration:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
 
-
-// 사용자 페이지 라우트
-app.get('/main', async (req, res) => {
+app.get('/products', async (req, res) => {
   try {
-    // MariaDB의 productInfoDB에서 productInfo 테이블 내용을 조회
-    const query = 'SELECT * FROM productInfo';
-    productInfoDB.connection.query(query, (error, results) => {
-      if (error) {
-        console.error('상품 조회 실패:', error);
-        res.status(500).send('상품 조회에 실패했습니다. 다시 시도해주세요.');
-      } else {
-        console.log('상품 조회 성공:', results);
-        // 조회 결과를 클라이언트에 전송
-        res.status(200).json(results);
-      }
-    });
+    const products = await query('SELECT * FROM products');
+    res.json(products);
   } catch (error) {
-    console.error('상품 조회 실패:', error);
-    res.status(500).send('상품 조회에 실패했습니다. 다시 시도해주세요.');
+    console.error('Error during fetching products:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+app.put('/products/:name', async (req, res) => {
+  const { name } = req.params;
+  const { quantity } = req.body;
+
+  try {
+    await query('UPDATE products SET quantity = quantity - ? WHERE name = ?', [quantity, name]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error during updating product:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
 
