@@ -1,5 +1,8 @@
 // server.js
 
+const userInfo =require('./src/Databases/userInfo');
+const productInfo=require('./src/Databases/productInfo');
+
 const express = require('express');
 
 const app = express();
