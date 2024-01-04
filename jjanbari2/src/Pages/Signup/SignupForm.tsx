@@ -2,7 +2,7 @@
 
 const SignupForm = () => {
 return (    
-  <form className="SignupForm">
+  <form className="SignupForm" method="post" action="http://localhost:3001/signup">
     <label>
       아이디:
       <input
