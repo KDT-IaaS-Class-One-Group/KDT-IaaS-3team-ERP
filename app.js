@@ -10,10 +10,10 @@ const port = 9997;
 // Connect MariaDB
 const connection = mysql.createConnection({
   host: 'localhost',
-  port: '3333',
+  port: '3338',
   user: 'root',
   password: '1234',
-  database: 'janjanbari'
+  database: 'prac'
 })
 
 connection.connect((err) => {

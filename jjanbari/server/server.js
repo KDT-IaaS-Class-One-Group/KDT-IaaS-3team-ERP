@@ -1,7 +1,6 @@
 // Importing modules 
 const express = require('express');
 const path = require('path');
-const route = require('./routes/route');
 const mysql = require('mysql2');
 const cors = require('cors');
 
