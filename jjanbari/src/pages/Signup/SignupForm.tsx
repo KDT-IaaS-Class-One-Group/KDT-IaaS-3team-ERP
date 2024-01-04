@@ -60,9 +60,7 @@ const SignupForm: React.FC = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>회원 가입</h2>
+  return (    
       <form onSubmit={handleSubmit} className="SignupForm">
         <label>
           아이디:
@@ -99,7 +97,6 @@ const SignupForm: React.FC = () => {
         <br />
         <button type="submit">가입하기</button>
       </form>
-    </div>
   );
 };
 

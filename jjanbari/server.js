@@ -3,8 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const userInfoDB = require('../src/api/Databases/userInfoDB');
-const productInfoDB = require('../src/api/Databases/productInfoDB');
+const userInfoDB = require('../src/Databases/userInfoDB');
+const productInfoDB = require('../src/Databases/productInfoDB');
 
 const app = express();
 const port = 3001;

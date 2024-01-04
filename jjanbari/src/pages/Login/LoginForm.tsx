@@ -66,14 +66,12 @@ const LoginForm: React.FC = () => {
   
   
   return (
-    <div>
-      <h2>로그인</h2>
       <form onSubmit={handleSubmit} className="LoginForm">
         <label>
           아이디:
           <input
             type="text"
-            name="id"
+            name="userID"
             value={loginFormData.id}
             onChange={handleInputChange}
             required
@@ -84,7 +82,7 @@ const LoginForm: React.FC = () => {
           비밀번호:
           <input
             type="password"
-            name="password"
+            name="userPW"
             value={loginFormData.password}
             onChange={handleInputChange}
             required
@@ -93,7 +91,6 @@ const LoginForm: React.FC = () => {
         <br />
         <button type="submit">로그인</button>
       </form>
-    </div>
   );
 };
 
