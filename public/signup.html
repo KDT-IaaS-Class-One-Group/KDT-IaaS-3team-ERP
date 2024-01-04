@@ -1,0 +1,25 @@
+<!-- public/signup.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 가입 페이지</title>
+</head>
+<body>
+  <h1>회원 가입</h1>
+  <form action="/signup" method="post">
+    <label for="name">이름:</label>
+    <input type="text" name="NAME" required>
+
+    <label for="id">ID:</label>
+    <input type="text" name="ID" required>
+
+    <label for="password">PW:</label>
+    <input type="password" name="PW" required>
+
+    <input type="submit" value="제출">
+  </form>
+</body>
+</html>
