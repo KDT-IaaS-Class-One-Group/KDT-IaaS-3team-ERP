@@ -1,5 +1,7 @@
 // src/Layout/Header/Header.tsx
 
+import './Header.css';
+
 const Header = () => {
   return <div id="header">
     <a href="/admin">관리자 페이지로</a>

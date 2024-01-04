@@ -2,6 +2,8 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import './Container.css';
+
 const Container = () => {
   return (
     <BrowserRouter>
