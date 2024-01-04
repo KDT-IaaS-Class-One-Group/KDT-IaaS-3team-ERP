@@ -21,6 +21,23 @@ const createTableQuery = `
   name VARCHAR(255) NOT NULL
   );
 `;
+// 아이디로 사용자 조회
+const getUserById = (id) => {
+  return new Promise((resolve, reject) => {
+    const selectDataQuery = `
+      SELECT * FROM users
+      WHERE id = ?;
+    `;
+
+    connection.query(selectDataQuery, [id], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
 
 // MariaDB 서버에 연결하면, userInfo DB 생성 및 users 테이블 생성
 connection.connect((error) => {
@@ -49,4 +66,7 @@ connection.connect((error) => {
   }
 });
 
-module.exports = connection;
+module.exports = {
+  connection: connection,
+  getUserById
+};
