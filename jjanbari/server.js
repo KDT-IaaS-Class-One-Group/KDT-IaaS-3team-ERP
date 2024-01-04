@@ -12,10 +12,10 @@ app.use(cors);
 // Connect MariaDB
 const connection = mysql.createConnection({
   host: 'localhost',
-  port: '3333',
+  port: '3338',
   user: 'root',
   password: '1234',
-  database: 'janjanbari'
+  database: 'prac'
 })
 
 connection.connect((err) => {
@@ -39,15 +39,4 @@ connection.query('CREATE DATABASE IF NOT EXISTS users', (err) => {
     })
 
   })
-})
-
-// Middleware for serving static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Registering a router for the '/' path
-app.use('/', route);
-
-// Starting the server
-app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
 })
