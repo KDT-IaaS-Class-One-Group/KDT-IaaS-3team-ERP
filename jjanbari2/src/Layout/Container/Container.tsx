@@ -3,6 +3,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import AdminPage from "../../Pages/Admin/AdminPage";
+import LoginPage from "../../Pages/Login/LoginPage";
 
 import './Container.css';
 
@@ -11,7 +12,7 @@ const Container = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/admin" element={<AdminPage/>}></Route>
-        <Route path="/login"></Route>
+        <Route path="/login" element={<LoginPage/>}></Route>
         <Route path="/signup"></Route>
         <Route path="/withdraw"></Route>
         <Route path="/"></Route>
