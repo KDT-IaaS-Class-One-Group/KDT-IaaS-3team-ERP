@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const userInfoDB = require('./src/Databases/userInfoDB');
+const userInfoDB = require('./src/Databases/userInfo');
 const {query} = require('./src/Databases/productInfoDB');
 
 const app = express();
