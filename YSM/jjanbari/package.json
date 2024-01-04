@@ -10,15 +10,11 @@
     "@types/node": "^16.18.68",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
-<<<<<<<< HEAD:BHN/jjanbari/package.json
     "axios": "^1.6.3",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "mariadb": "^3.2.3",
-========
-    "cors": "^2.8.5",
->>>>>>>> samuel21695/issue6-2:sosa/jjanbari/package.json
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
@@ -50,6 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:3001"
+  }
 }
