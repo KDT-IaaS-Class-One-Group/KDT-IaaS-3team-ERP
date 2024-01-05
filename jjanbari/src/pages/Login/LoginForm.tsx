@@ -3,15 +3,15 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 
 interface LoginFormData {
-  id: string;
-  password: string;
+  userID: string;
+  userPW: string;
 }
 
 const LoginForm: React.FC = () => {
 
   const [loginFormData, setLoginFormData] = useState<LoginFormData>({
-    id: "",
-    password: "",
+    userID: "",
+    userPW: "",
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
   
     // 필수 필드 확인
-    if (!loginFormData.id || !loginFormData.password) {
+    if (!loginFormData.userID || !loginFormData.userPW) {
       alert("아이디와 비밀번호를 입력해주세요.");
       return;
     }
@@ -69,8 +69,8 @@ const LoginForm: React.FC = () => {
           아이디:
           <input
             type="text"
-            name="id"
-            value={loginFormData.id}
+            name="userID"
+            value={loginFormData.userID}
             onChange={handleInputChange}
             required
           />
@@ -80,8 +80,8 @@ const LoginForm: React.FC = () => {
           비밀번호:
           <input
             type="password"
-            name="password"
-            value={loginFormData.password}
+            name="userPW"
+            value={loginFormData.userPW}
             onChange={handleInputChange}
             required
           />

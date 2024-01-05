@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const userInfoDB = require('./src/Databases/userInfo');
+const userInfo = require('./src/Databases/userInfo');
 const {query} = require('./src/Databases/productInfoDB');
 
 const app = express();
@@ -18,7 +18,7 @@ app.post('/signup', async (req, res) => {
 
   try {
     // 아이디로 사용자 조회
-    const existingUser = await userInfoDB.getUserById(id);
+    const existingUser = await userInfo.getUserById(id);
 
     if (existingUser) {
       console.error('회원 가입 실패: 이미 존재하는 아이디입니다.');
@@ -30,7 +30,7 @@ app.post('/signup', async (req, res) => {
         VALUES (?, ?, ?);
       `;
 
-      userInfoDB.connection.query(insertDataQuery, [id, password, name], (error, results) => {
+      userInfo.connection.query(insertDataQuery, [id, password, name], (error, results) => {
         if (error) {
           console.error('회원 가입 실패:', error);
           res.status(500).send('회원 가입에 실패했습니다. 다시 시도해주세요.');
@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
 
   try {
     // 아이디로 사용자 조회
-    const user = await userInfoDB.getUserById(userID);
+    const user = await userInfo.getUserById(userID);
 
     if (user) {
       // 비밀번호 비교

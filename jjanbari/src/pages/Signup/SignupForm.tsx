@@ -4,9 +4,9 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface FormData {
-  id: string;
-  password: string;
-  name: string;
+  userID: string;
+  userPW: string;
+  userNAME: string;
 }
 
 const SignupForm: React.FC = () => {
@@ -14,9 +14,9 @@ const SignupForm: React.FC = () => {
 
   // 폼 입력 상태를 관리하기 위한 state 설정
   const [formData, setFormData] = useState<FormData>({
-    id: "",
-    password: "",
-    name: "",
+    userID: "",
+    userPW: "",
+    userNAME: "",
   });
   // 입력 값이 변경될 때마다 호출되는 핸들러 함수
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +31,7 @@ const SignupForm: React.FC = () => {
     e.preventDefault();
 
     // 필수 필드 확인
-    if (!formData.id || !formData.password || !formData.name) {
+    if (!formData.userID || !formData.userPW || !formData.userNAME) {
       alert("모든 필수 항목을 입력해주세요.");
       return;
     }
@@ -67,7 +67,7 @@ const SignupForm: React.FC = () => {
           <input
             type="text"
             name="userID"
-            value={formData.id}
+            value={formData.userID}
             onChange={handleInputChange}
             required
           />
@@ -78,7 +78,7 @@ const SignupForm: React.FC = () => {
           <input
             type="password"
             name="userPW"
-            value={formData.password}
+            value={formData.userPW}
             onChange={handleInputChange}
             required
           />
@@ -89,7 +89,7 @@ const SignupForm: React.FC = () => {
           <input
             type="text"
             name="userNAME"
-            value={formData.name}
+            value={formData.userNAME}
             onChange={handleInputChange}
             required
           />
