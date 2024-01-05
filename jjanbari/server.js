@@ -1,10 +1,10 @@
 // server.js
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const connection = require('./src/Databases/userInfo');
-const {query} = require('./src/Databases/productInfoDB');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const connection = require("./src/Databases/userInfo");
+const {query} = require('./src/Databases/productInfo');
 
 const app = express();
 const port = 3001;
@@ -97,6 +97,7 @@ app.get('/admin', (req, res) => {
   res.send('관리자 페이지입니다.');
 });
 
+// 상품 등록 라우트
 app.post('/addProducts', async (req, res) => {
   const { name, price, quantity } = req.body;
 
@@ -115,16 +116,6 @@ app.post('/addProducts', async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.error('Error during product registration:', error.message);
-    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
-  }
-});
-
-app.get('/products', async (req, res) => {
-  try {
-    const products = await query('SELECT * FROM products');
-    res.json(products);
-  } catch (error) {
-    console.error('Error during fetching products:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const ProductForm = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [quantity, setQuantity] = useState(0);
 
   const navigate = useNavigate();
 
@@ -31,33 +31,33 @@ const ProductForm = () => {
 
       if (result.success) {
         alert('상품이 등록되었습니다');
-        navigate("/");
+        navigate('/');
         // 추가로 필요한 동작 수행 (예: 등록한 상품 목록 새로고침)
       } else {
         alert(result.error || '상품 등록에 실패하였습니다');
       }
     } catch (error: any) {
-      console.error('Error during product registration:', error.message);
+      console.error('상품 등록 중 오류 발생:', error.message);
       alert('상품 등록에 실패하였습니다');
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-    <label htmlFor="name">상품명:</label>
-    <br />
-    <input type="text" id="name" name="productName" value={name} onChange={(e) => setName(e.target.value)} />
-    <br />
-    <label htmlFor="price">가격:</label>
-    <br />
-    <input type="text" id="price" name="productPrice" value={price} onChange={(e) => setPrice(e.target.value)} />
-    <br />
-    <label htmlFor="quantity">수량:</label>
-    <br />
-    <input type="text" id="quantity" name="productQuantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-    <br />
-    <input type="submit" value="상품 등록" />
-  </form>
+      <label htmlFor="name">상품명:</label>
+      <br />
+      <input type="text" id="name" name="NAME" value={name} onChange={(e) => setName(e.target.value)} />
+      <br />
+      <label htmlFor="price">가격:</label>
+      <br />
+      <input type="text" id="price" name="PRICE" value={price} onChange={(e) => setPrice(e.target.value)} />
+      <br />
+      <label htmlFor="quantity">수량:</label>
+      <br />
+      <input type="number" id="quantity" name="QUANTITY" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+      <br />
+      <input type="submit" value="상품 등록" />
+    </form>
   );
 };
 
