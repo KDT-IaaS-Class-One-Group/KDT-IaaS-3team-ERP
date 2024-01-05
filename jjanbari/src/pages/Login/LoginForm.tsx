@@ -52,7 +52,7 @@ const LoginForm: React.FC = () => {
         } else if (data.role === 'user') {
           // 사용자 로그인 성공
           console.log("사용자로 로그인하였습니다.");
-          navigate("/main"); // 메인 페이지로 이동
+          navigate("/"); // 메인 페이지로 이동
         }
       } else {
         console.error("로그인 실패:", response.statusText);
