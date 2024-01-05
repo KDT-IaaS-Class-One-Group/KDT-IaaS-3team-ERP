@@ -3,7 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const userInfo = require("./src/Databases/userInfo");
+const connection = require("./src/Databases/userInfo");
 // const {query} = require('./src/Databases/productInfoDB');
 
 const app = express();
@@ -25,7 +25,7 @@ app.post("/signup", async (req, res) => {
       VALUES (?, ?, ?);
     `;
 
-    userInfo.connection.query(
+    connection.query(
       insertDataQuery,
       [userID, userPW, userNAME],
       (error, results) => {
