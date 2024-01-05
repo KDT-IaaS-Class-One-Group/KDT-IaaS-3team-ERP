@@ -46,10 +46,6 @@ app.post("/signup", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`서버 ON: http://localhost:${port}`);
-});
-
 // 로그인 라우트
 app.post('/login', async (req, res) => {
   try {
@@ -140,4 +136,8 @@ app.put('/products/:name', async (req, res) => {
     console.error('Error during updating product:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
+});
+
+app.listen(port, () => {
+  console.log(`서버 ON: http://localhost:${port}`);
 });
