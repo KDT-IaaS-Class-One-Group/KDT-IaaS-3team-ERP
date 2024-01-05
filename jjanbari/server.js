@@ -1,11 +1,9 @@
 // Importing modules 
 const express = require('express');
-const path = require('path');
 const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
-const port = 9997;
 
 app.use(cors);
 

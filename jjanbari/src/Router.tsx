@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Admin from "./components/Admin";
-import Login from "./components/Login";
+import Admin from "./components/admin";
+import Login from "./components/login";
 import Signup from "./components/Signup";
 import Product from "./components/Product";
 
