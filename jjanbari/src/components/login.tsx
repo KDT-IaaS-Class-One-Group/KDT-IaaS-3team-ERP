@@ -8,9 +8,9 @@ function Login() {
     <div className="Login">
       <h2>로그인 하세요</h2>
       <form action="/">
-        <input type="text" name="name" placeholder="이름"></input>
-        <input type="text" name="id" placeholder="아이디"></input>
-        <input type="password" name="password" placeholder="비밀번호"></input>
+        <input type="text" name="userNAME" placeholder="이름"></input>
+        <input type="text" name="userID" placeholder="아이디"></input>
+        <input type="password" name="userPW" placeholder="비밀번호"></input>
         <input type="submit" value="로그인"></input>
       </form>
       <form action="/admin">

@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 function Signup() {
 
   const [formData, setFormData] = useState({
-    name: '',
-    username: '',
-    password: '',
+    userID: '',
+    userPW: '',
+    userNAME: '',
   });
 
   // e: ~ 객체의 타입 지정
@@ -43,9 +43,9 @@ function Signup() {
   <div>
     <h2>회원가입 하세요</h2>
       <form action="/login" onSubmit={handleSignup}>
-      <input type="text" name="name" placeholder="이름" value={formData.name} onChange={handleInputChange}></input>
-      <input type="text" name="id" placeholder="아이디" value={formData.username} onChange={handleInputChange}></input>
-      <input type="password" name="password" value={formData.password} placeholder="비밀번호" onChange={handleInputChange}></input>
+      <input type="text" name="userNAME" placeholder="이름" value={formData.userNAME} onChange={handleInputChange}></input>
+      <input type="text" name="userID" placeholder="아이디" value={formData.userID} onChange={handleInputChange}></input>
+      <input type="password" name="userPW" value={formData.userPW} placeholder="비밀번호" onChange={handleInputChange}></input>
       <input type="submit" value="회원가입"></input>
   </form>
   </div>
