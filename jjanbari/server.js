@@ -1,4 +1,4 @@
-// server/server.js
+// server.js
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -133,7 +133,3 @@ app.listen(port, () => {
 //     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
 //   }
 // });
-
-app.listen(port, () => {
-  console.log(`서버 ON: http://localhost:${port}`);
-});
