@@ -50,45 +50,46 @@ app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port}`);
 });
 
-// 로그인 라우트
-app.post('/login', async (req, res) => {
-  const { userID, userPW } = req.body;
+// // 로그인 라우트
+// app.post('/login', async (req, res) => {
+//   const { userID, userPW } = req.body;
 
-  try {
-    // 아이디로 사용자 조회
-    const user = await userInfo.getUserById(userID);
+//   try {
+//     // 아이디로 사용자 조회
+//     const user = await userInfo.getUserById(userID);
 
-    if (user) {
-      // 비밀번호 비교
-      if (user.userPW === userPW) {
-        if (user.id === 'adroot') {
-          // 관리자 로그인 성공
-          console.log('관리자로 로그인하였습니다.');
-          res.status(201).json({ role: 'admin' });
-        } else {
-          // 사용자 로그인 성공
-          console.log('사용자로 로그인하였습니다.');
-          res.status(200).json({ role: 'user' });
-        }
-      } else {
-        console.error('로그인 실패: 비밀번호가 일치하지 않습니다.');
-        res.status(401).send('비밀번호가 일치하지 않습니다.');
-      }
-    } else {
-      console.error('로그인 실패: 해당 ID가 존재하지 않습니다.');
-      res.status(401).send('해당 ID가 존재하지 않습니다.');
-    }
-  } catch (error) {
-    console.error('로그인 실패:', error);
-    res.status(500).send('로그인에 실패했습니다. 다시 시도해주세요.');
-  }
-});
+//     if (user) {
+//       // 비밀번호 비교
+//       if (user.userPW === userPW) {
+//         if (user.id === 'adroot') {
+//           // 관리자 로그인 성공
+//           console.log('관리자로 로그인하였습니다.');
+//           res.status(201).json({ role: 'admin' });
+//         } else {
+//           // 사용자 로그인 성공
+//           console.log('사용자로 로그인하였습니다.');
+//           res.status(200).json({ role: 'user' });
+//         }
+//       } else {
+//         console.error('로그인 실패: 비밀번호가 일치하지 않습니다.');
+//         res.status(401).send('비밀번호가 일치하지 않습니다.');
+//       }
+//     } else {
+//       console.error('로그인 실패: 해당 ID가 존재하지 않습니다.');
+//       res.status(401).send('해당 ID가 존재하지 않습니다.');
+//     }
+//   } catch (error) {
+//     console.error('로그인 실패:', error);
+//     res.status(500).send('로그인에 실패했습니다. 다시 시도해주세요.');
+//   }
+// });
 
 // 관리자 페이지 라우트
 app.get('/admin', (req, res) => {
   res.send('관리자 페이지입니다.');
 });
 
+// 상품 등록 라우트
 app.post('/addProducts', async (req, res) => {
   const { name, price, quantity } = req.body;
 

@@ -2,7 +2,7 @@
 
 const ProductForm = () => {
   return (
-    <form>
+    <form className="ProductForm">
       <label htmlFor="name">상품명:</label>
       <br />
       <input
@@ -14,7 +14,7 @@ const ProductForm = () => {
       <label htmlFor="price">가격:</label>
       <br />
       <input
-        type="text"
+        type="number"
         id="price"
         name="PRICE"
       />
