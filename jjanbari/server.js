@@ -1,9 +1,9 @@
 // server/server.js
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const userInfo = require('./src/Databases/userInfo');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const userInfo = require("./src/Databases/userInfo");
 // const {query} = require('./src/Databases/productInfoDB');
 
 const app = express();
@@ -13,7 +13,41 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // 회원 가입 라우트
-app.post('/signup', async (req, res) => {
+app.post("/signup", async (req, res) => {
+  try {
+    const { userID, userPW, userNAME } = req.body;
+
+    // 아이디로 사용자 조회 관련 내용 삭제
+
+    // 사용자 정보 저장
+    const insertDataQuery = `
+      INSERT INTO users (userID, userPW, userNAME)
+      VALUES (?, ?, ?);
+    `;
+
+    userInfo.connection.query(
+      insertDataQuery,
+      [userID, userPW, userNAME],
+      (error, results) => {
+        if (error) {
+          console.error("회원 가입 실패:", error);
+          res
+            .status(500)
+            .send("회원 가입에 실패했습니다. 다시 시도해주세요.");
+        } else {
+          console.log("회원 가입 정보 저장 성공:", req.body);
+          res.sendStatus(200);
+        }
+      }
+    );
+  } catch (error) {
+    console.error("회원 가입 실패:", error);
+    res.status(500).send("회원 가입에 실패했습니다. 다시 시도해주세요.");
+  }
+});
+
+app.listen(port, () => {
+  console.log(`서버 ON: http://localhost:${port}`);
 });
 
 // // 로그인 라우트
