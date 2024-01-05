@@ -1,11 +1,13 @@
 // Importing modules 
 const express = require('express');
+const bodyParser = require("body-parser");
 const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
 
 app.use(cors);
+app.use(bodyParser.json());
 
 // Connect MariaDB
 const connection = mysql.createConnection({
