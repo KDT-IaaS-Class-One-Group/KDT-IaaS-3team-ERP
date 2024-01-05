@@ -43,10 +43,10 @@ function Signup() {
   <div>
     <h2>회원가입 하세요</h2>
       <form action="/login" onSubmit={handleSignup}>
-      <input type="text" name="name" placeholder="이름" onChange={handleInputChange}></input>
-      <input type="text" name="id" placeholder="아이디" onChange={handleInputChange}></input>
-      <input type="password" name="password" placeholder="비밀번호" onChange={handleInputChange}></input>
-      <input type="submit" value="회원가입" onChange={handleInputChange}></input>
+      <input type="text" name="name" placeholder="이름" value={formData.name} onChange={handleInputChange}></input>
+      <input type="text" name="id" placeholder="아이디" value={formData.username} onChange={handleInputChange}></input>
+      <input type="password" name="password" value={formData.password} placeholder="비밀번호" onChange={handleInputChange}></input>
+      <input type="submit" value="회원가입"></input>
   </form>
   </div>
   )
