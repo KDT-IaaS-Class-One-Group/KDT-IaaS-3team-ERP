@@ -40,3 +40,20 @@ connection.query('CREATE DATABASE IF NOT EXISTS userInfo', (err) => {
 
   })
 })
+
+app.post("/signup", async (req, res) => {
+  const { userID, userPW, userNAME } = req.body;
+
+  try {
+    const result = await connection.query(
+      'INSERT INTO users (userID, userPW, userNAME) VALUES (?, ?, ?)',
+      [userID, userPW, userNAME]
+    );
+
+    console.log('회원 가입 성공', result);
+    res.status(200).json({ success: true});
+  } catch (error) {
+    console.error('회원 가입 실패', error);
+    res.status(500).json({ success: false, error: '서버 에러'});
+  }
+});
