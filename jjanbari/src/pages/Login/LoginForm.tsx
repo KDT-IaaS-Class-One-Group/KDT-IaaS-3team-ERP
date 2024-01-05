@@ -45,7 +45,6 @@ const LoginForm: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
   
-        // todo 관리자 페이지 이동 구현
         if (data.role === 'admin') {
           // 관리자 로그인 성공
           console.log("관리자로 로그인하였습니다.");
