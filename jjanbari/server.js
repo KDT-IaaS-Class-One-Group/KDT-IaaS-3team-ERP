@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const connection = require("./src/Databases/userInfo");
-const {query} = require('./src/Databases/productInfoDB');
+const {query} = require('./src/Databases/productInfo');
 
 const app = express();
 const port = 3001;

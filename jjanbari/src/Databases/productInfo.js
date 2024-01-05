@@ -4,7 +4,6 @@ const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '1234',
-  database: 'productInfo',
 });
 
 async function query(sql, params) {
