@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const userInfo = require('./src/Databases/userInfo');
+const connection = require('./src/Databases/userInfo');
 const {query} = require('./src/Databases/productInfoDB');
 
 const app = express();
@@ -52,12 +52,13 @@ app.post('/login', async (req, res) => {
 
   try {
     // 아이디로 사용자 조회
-    const user = await userInfo.getUserById(userID);
-
-    if (user) {
+    const [users] = await connection.query('SELECT * FROM users WHERE userID = ? ', [userID]);
+    
+    if (users.length > 0 ) {
+      const user = users[0];
       // 비밀번호 비교
       if (user.userPW === userPW) {
-        if (user.id === 'adroot') {
+        if (user.userID === 'adroot') {
           // 관리자 로그인 성공
           console.log('관리자로 로그인하였습니다.');
           res.status(201).json({ role: 'admin' });
