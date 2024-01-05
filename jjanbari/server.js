@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
+const port = 3001;
 
 app.use(cors);
 app.use(bodyParser.json());
@@ -15,7 +16,7 @@ const connection = mysql.createConnection({
   port: '3338',
   user: 'root',
   password: '1234',
-  database: ''
+  database: 'userInfo'
 })
 
 connection.connect((err) => {
@@ -56,4 +57,8 @@ app.post("/signup", async (req, res) => {
     console.error('회원 가입 실패', error);
     res.status(500).json({ success: false, error: '서버 에러'});
   }
+});
+
+app.listen(port, () => {
+  console.log(`서버 ON: http://localhost:${port}`);
 });
