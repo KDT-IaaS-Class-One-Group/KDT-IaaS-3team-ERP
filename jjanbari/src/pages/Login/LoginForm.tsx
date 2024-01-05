@@ -1,6 +1,7 @@
 // src/pages/Login/LoginForm.tsx
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";  // 추가된 부분: react-router-dom에서 navigate 가져오기
 
 interface LoginFormData {
   userID: string;
@@ -8,7 +9,8 @@ interface LoginFormData {
 }
 
 const LoginForm: React.FC = () => {
-
+  const navigate = useNavigate();  // useNavigate 훅 사용
+  
   const [loginFormData, setLoginFormData] = useState<LoginFormData>({
     userID: "",
     userPW: "",
@@ -50,7 +52,7 @@ const LoginForm: React.FC = () => {
         } else if (data.role === 'user') {
           // 사용자 로그인 성공
           console.log("사용자로 로그인하였습니다.");
-          
+          navigate("/"); // 메인 페이지로 이동
         }
       } else {
         console.error("로그인 실패:", response.statusText);
@@ -61,7 +63,6 @@ const LoginForm: React.FC = () => {
       alert("로그인에 실패했습니다. 다시 시도해주세요.");
     }
   };
-  
   
   return (
       <form onSubmit={handleSubmit} className="LoginForm">

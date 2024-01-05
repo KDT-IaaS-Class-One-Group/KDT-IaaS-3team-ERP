@@ -1,9 +1,9 @@
 // server.js
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const connection = require("./src/Databases/userInfo");
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const connection = require('./src/Databases/userInfo');
 const {query} = require('./src/Databases/productInfoDB');
 
 const app = express();
@@ -52,32 +52,40 @@ app.listen(port, () => {
 
 // 로그인 라우트
 app.post('/login', async (req, res) => {
-  const { userID, userPW } = req.body;
-
   try {
+    const { userID, userPW } = req.body;
+    
     // 아이디로 사용자 조회
-    const user = await userInfo.getUserById(userID);
+    connection.query('SELECT * FROM users WHERE userID = ?', [userID], async (error, results) => {
+      if (error) {
+        console.error('로그인 실패:', error);
+        res.status(500).send('로그인에 실패했습니다. 다시 시도해주세요.');
+        return;
+      }
 
-    if (user) {
-      // 비밀번호 비교
-      if (user.userPW === userPW) {
-        if (user.id === 'adroot') {
-          // 관리자 로그인 성공
-          console.log('관리자로 로그인하였습니다.');
-          res.status(201).json({ role: 'admin' });
+      if (results.length > 0) {
+        const user = results[0];
+
+        // 비밀번호 비교
+        if (user.userPW === userPW) {
+          if (user.userID === 'adroot') {
+            // 관리자 로그인 성공
+            console.log('관리자로 로그인하였습니다.');
+            res.status(201).json({ role: 'admin' });
+          } else {
+            // 사용자 로그인 성공
+            console.log('사용자로 로그인하였습니다.');
+            res.status(200).json({ role: 'user' });
+          }
         } else {
-          // 사용자 로그인 성공
-          console.log('사용자로 로그인하였습니다.');
-          res.status(200).json({ role: 'user' });
+          console.error('로그인 실패: 비밀번호가 일치하지 않습니다.');
+          res.status(401).send('비밀번호가 일치하지 않습니다.');
         }
       } else {
-        console.error('로그인 실패: 비밀번호가 일치하지 않습니다.');
-        res.status(401).send('비밀번호가 일치하지 않습니다.');
+        console.error('로그인 실패: 해당 ID가 존재하지 않습니다.');
+        res.status(401).send('해당 ID가 존재하지 않습니다.');
       }
-    } else {
-      console.error('로그인 실패: 해당 ID가 존재하지 않습니다.');
-      res.status(401).send('해당 ID가 존재하지 않습니다.');
-    }
+    });
   } catch (error) {
     console.error('로그인 실패:', error);
     res.status(500).send('로그인에 실패했습니다. 다시 시도해주세요.');
