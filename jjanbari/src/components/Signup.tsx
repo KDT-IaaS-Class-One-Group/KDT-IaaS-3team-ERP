@@ -19,6 +19,24 @@ function Signup() {
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    try {
+      const response = await fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log('회원가입 성공');
+      } else {
+        console.error('회원가입 실패');
+      }
+    } catch (error) {
+      console.error('회원가입 에러 발생', error);
+    }
+
   }
 
   return (
