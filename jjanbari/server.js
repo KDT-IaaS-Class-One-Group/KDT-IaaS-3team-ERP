@@ -112,16 +112,6 @@ app.post('/addProducts', async (req, res) => {
   }
 });
 
-app.get('/products', async (req, res) => {
-  try {
-    const products = await query('SELECT * FROM products');
-    res.json(products);
-  } catch (error) {
-    console.error('Error during fetching products:', error.message);
-    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
-  }
-});
-
 app.put('/products/:name', async (req, res) => {
   const { name } = req.params;
   const { quantity } = req.body;
