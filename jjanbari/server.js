@@ -9,7 +9,14 @@ const { query } = require('./src/Databases/productInfoDB');
 const app = express();
 const port = 3001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // 클라이언트의 도메인으로 변경
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
 
 // 회원 가입 라우트
