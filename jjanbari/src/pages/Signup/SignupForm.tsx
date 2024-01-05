@@ -30,65 +30,73 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // 서버로 회원 가입 정보 전송
-    const response = await fetch("http://localhost:3001/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userID: formData.userID,
-        userPW: formData.userPW,
-        userNAME: formData.userNAME,
-      }),
-    });
+    // 필수 필드 확인
+    if (!formData.userID || !formData.userPW || !formData.userNAME) {
+      alert("모든 필수 항목을 입력해주세요.");
+      return;
+    }
 
-    if (response.ok) {
-      console.log("회원 가입 정보 전송 성공: ", formData);
-      // 가입이 성공했을 경우, 로그인 페이지로 이동
-      navigate("/login");
-    } else {
-      console.error("회원 가입 정보 전송 실패:", response.statusText);
+    try {
+      // 서버로 회원 가입 정보 전송
+      const response = await fetch("http://localhost:3001/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (response.ok) {
+        console.log("회원 가입 정보 전송 성공: ", formData);
+        // 가입이 성공했을 경우, 로그인 페이지로 이동
+        navigate("/login");
+      } else {
+        console.error("회원 가입 정보 전송 실패:", response.statusText);
+        alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("회원 가입 실패: ", error);
       alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} className="SignupForm">
-      <label>
-        아이디:
-        <input
-          type="text"
-          name="userID"
-          value={formData.userID}
-          onChange={handleInputChange}
-          required
-        />
-      </label>
-      <br />
-      <label>
-        비밀번호:
-        <input
-          type="password"
-          name="userPW"
-          value={formData.userPW}
-          onChange={handleInputChange}
-          required
-        />
-      </label>
-      <br />
-      <label>
-        이름:
-        <input
-          type="text"
-          name="userNAME"
-          value={formData.userNAME}
-          onChange={handleInputChange}
-        />
-      </label>
-      <br />
-      <button type="submit">가입하기</button>
-    </form>
+  return (    
+      <form onSubmit={handleSubmit} className="SignupForm">
+        <label>
+          아이디:
+          <input
+            type="text"
+            name="userID"
+            value={formData.userID}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          비밀번호:
+          <input
+            type="password"
+            name="userPW"
+            value={formData.userPW}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          이름:
+          <input
+            type="text"
+            name="userNAME"
+            value={formData.userNAME}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <button type="submit">가입하기</button>
+      </form>
   );
 };
 

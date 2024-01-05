@@ -1,4 +1,4 @@
-// server.js
+// server/server.js
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -13,48 +13,44 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // 회원 가입 라우트
-app.post("/signup", (req, res) => {
+app.post('/signup', async (req, res) => {
+  const { id, password, name } = req.body;
+
   try {
-    const { userID, userPW, userNAME } = req.body;
+    // 아이디로 사용자 조회
+    const existingUser = await userInfo.getUserById(id);
 
-    // 아이디로 사용자 조회 관련 내용 삭제
+    if (existingUser) {
+      console.error('회원 가입 실패: 이미 존재하는 아이디입니다.');
+      res.status(409).send('이미 존재하는 아이디입니다.');
+    } else {
+      // 사용자 정보 저장
+      const insertDataQuery = `
+        INSERT INTO userInfo (id, password, name)
+        VALUES (?, ?, ?);
+      `;
 
-    // 사용자 정보 저장
-    const insertDataQuery = `
-      INSERT INTO users (userID, userPW, userNAME)
-      VALUES (?, ?, ?);
-    `;
-
-    connection.query(
-      insertDataQuery,
-      [userID, userPW, userNAME],
-      (error, results) => {
+      userInfo.connection.query(insertDataQuery, [id, password, name], (error, results) => {
         if (error) {
-          console.error("회원 가입 실패:", error);
-          res
-            .status(500)
-            .send("회원 가입에 실패했습니다. 다시 시도해주세요.");
+          console.error('회원 가입 실패:', error);
+          res.status(500).send('회원 가입에 실패했습니다. 다시 시도해주세요.');
         } else {
-          console.log("회원 가입 정보 저장 성공:", req.body);
+          console.log('회원 가입 정보 저장 성공:', req.body);
           res.sendStatus(200);
         }
-      }
-    );
+      });
+    }
   } catch (error) {
-    console.error("회원 가입 실패:", error);
-    res.status(500).send("회원 가입에 실패했습니다. 다시 시도해주세요.");
+    console.error('회원 가입 실패:', error);
+    res.status(500).send('회원 가입에 실패했습니다. 다시 시도해주세요.');
   }
-});
-
-app.listen(port, () => {
-  console.log(`서버 ON: http://localhost:${port}`);
 });
 
 // 로그인 라우트
 app.post('/login', async (req, res) => {
   try {
     const { userID, userPW } = req.body;
-    
+    // 아이디로 사용자 조회
     // 아이디로 사용자 조회
     connection.query('SELECT * FROM users WHERE userID = ?', [userID], async (error, results) => {
       if (error) {
@@ -131,4 +127,8 @@ app.put('/products/:name', async (req, res) => {
     console.error('Error during updating product:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
+});
+
+app.listen(port, () => {
+  console.log(`서버 ON: http://localhost:${port}`);
 });
