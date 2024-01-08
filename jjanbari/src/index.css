@@ -1,5 +1,6 @@
 /* src/index.css */
 
+
 * {
   margin: 0;
   padding: 0;
@@ -18,10 +19,14 @@
   flex-direction: column;
 }
 
+#adminContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 #header {
   width: 100vw;
   height: 10vh;
-
   background-color: #333;
   color: #fff;
   padding: 1rem;
