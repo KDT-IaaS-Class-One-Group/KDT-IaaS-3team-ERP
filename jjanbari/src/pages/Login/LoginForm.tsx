@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import handleInputChange from "./Function/HandleInputChange";
 
 interface LoginFormData {
   userID: string;
@@ -16,13 +17,8 @@ const LoginForm: React.FC = () => {
     userPW: "",
   });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setLoginFormData({
-      ...loginFormData,
-      [name]: value,
-    });
-  };
+  const handleInputChangeFunc = handleInputChange(setLoginFormData);
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,7 +69,7 @@ const LoginForm: React.FC = () => {
             type="text"
             name="userID"
             value={loginFormData.userID}
-            onChange={handleInputChange}
+            onChange={handleInputChangeFunc}
             required
           />
         </label>
@@ -84,7 +80,7 @@ const LoginForm: React.FC = () => {
             type="password"
             name="userPW"
             value={loginFormData.userPW}
-            onChange={handleInputChange}
+            onChange={handleInputChangeFunc}
             required
           />
         </label>
