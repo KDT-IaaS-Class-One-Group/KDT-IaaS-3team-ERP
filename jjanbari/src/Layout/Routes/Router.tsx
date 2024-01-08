@@ -14,15 +14,13 @@ import "./Router.css";
 
 const Router = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/admin" element={<AdminPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/signup" element={<SignupPage />}></Route>
-        <Route path="/withdraw" element={<WithdrawPage />}></Route>
-        <Route path="/" element={<MainPage />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/admin" element={<AdminPage />}></Route>
+      <Route path="/login" element={<LoginPage />}></Route>
+      <Route path="/signup" element={<SignupPage />}></Route>
+      <Route path="/withdraw" element={<WithdrawPage />}></Route>
+      <Route path="/" element={<MainPage />}></Route>
+    </Routes>
   );
 };
 
