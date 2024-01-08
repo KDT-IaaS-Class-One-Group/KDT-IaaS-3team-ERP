@@ -24,7 +24,8 @@
   flex-direction: column;
 }
 
-#header {
+#userHeader,
+#adminHeader {
   width: 100vw;
   height: 10vh;
   background-color: #333;

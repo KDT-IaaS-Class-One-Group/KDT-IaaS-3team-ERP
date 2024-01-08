@@ -3,7 +3,7 @@
 import "./UserHeader.css";
 
 const Header = () => {
-  return <div id="header">
+  return <div id="userHeader">
     <a href="/admin">관리자 페이지로</a>
     <a href="/login">로그인 페이지로</a>
     <a href="signup">회원 가입 페이지로</a>
