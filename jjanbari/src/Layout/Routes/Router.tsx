@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AdminPage from '../../pages/Admin/AdminPage';
 import LoginPage from '../../pages/Login/LoginPage';
 import SignupPage from '../../pages/Signup/SignupPage';
-import WithdrawPage from '../../pages/Withdraw/WithdrawPage';
+import WithdrawPage from '../../pages/Mypage/Withdraw/WithdrawPage';
 import MainPage from '../../pages/Main/MainPage';
 
 import './Router.css';
