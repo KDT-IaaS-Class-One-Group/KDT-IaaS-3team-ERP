@@ -1,6 +1,6 @@
 // src/Component/Routes/Router.tsx
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import AdminPage from "../../pages/Admin/AdminPage";
 import LoginPage from "../../pages/Login/LoginPage";
