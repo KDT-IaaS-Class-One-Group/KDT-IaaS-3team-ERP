@@ -1,14 +1,15 @@
 // src/Component/Routes/Router.tsx
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import AdminPage from "../../pages/Admin/AdminPage";
-import LoginPage from "../../pages/Login/LoginPage";
-import SignupPage from "../../pages/Signup/SignupPage";
-import WithdrawPage from "../../pages/Withdraw/WithdrawPage";
-import MainPage from "../../pages/Main/MainPage";
+import AdminPage from '../../pages/Admin/AdminPage';
+import LoginPage from '../../pages/Login/LoginPage';
+import SignupPage from '../../pages/Signup/SignupPage';
+import WithdrawPage from '../../pages/Withdraw/WithdrawPage';
+import MainPage from '../../pages/Main/MainPage';
 
-import "./Router.css";
+import './Router.css';
+import Mypage from '../../pages/Mypage/Mypage';
 
 const Router = () => {
   return (
@@ -18,6 +19,7 @@ const Router = () => {
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/signup" element={<SignupPage />}></Route>
         <Route path="/withdraw" element={<WithdrawPage />}></Route>
+        <Route path="/mypage" element={<Mypage />}></Route>
         <Route path="/" element={<MainPage />}></Route>
       </Routes>
     </BrowserRouter>
