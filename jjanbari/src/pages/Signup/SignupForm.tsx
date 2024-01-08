@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import handleSubmit from "./Function/HandleSubmit";
 
 interface FormData {
   userID: string;
@@ -26,40 +27,7 @@ const SignupForm: React.FC = () => {
       [name]: value,
     });
   };
-  // 폼이 제출될 때, 호출되는 핸들러 함수
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // 필수 필드 확인
-    if (!formData.userID || !formData.userPW || !formData.userNAME) {
-      alert("모든 필수 항목을 입력해주세요.");
-      return;
-    }
-
-    try {
-      // 서버로 회원 가입 정보 전송
-      const response = await fetch("http://localhost:3001/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      if (response.ok) {
-        console.log("회원 가입 정보 전송 성공: ", formData);
-        // 가입이 성공했을 경우, 로그인 페이지로 이동
-        navigate("/login");
-      } else {
-        console.error("회원 가입 정보 전송 실패:", response.statusText);
-        alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
-      }
-    } catch (error) {
-      console.error("회원 가입 실패: ", error);
-      alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
-    }
-  };
-
+  
   return (    
       <form onSubmit={handleSubmit} className="SignupForm">
         <label>
