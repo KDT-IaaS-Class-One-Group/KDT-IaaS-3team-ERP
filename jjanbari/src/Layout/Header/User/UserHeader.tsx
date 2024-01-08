@@ -1,6 +1,6 @@
 // src/Component/Header/Header.tsx
 
-import "./Header.css";
+import "./UserHeader.css";
 
 const Header = () => {
   return <div id="header">

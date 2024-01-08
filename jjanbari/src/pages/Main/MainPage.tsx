@@ -1,7 +1,7 @@
 // src/pages/Main/MainPage.tsx
 
 import ProductRender from './ProductRender';
-import Header from '../../Layout/Header/User/Header';
+import Header from '../../Layout/Header/User/UserHeader';
 
 import './MainPage.css';
 
