@@ -1,9 +1,6 @@
-// src/pages/Login/handleSubmit.tsx
-
 import { FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const handleSubmit = (loginFormData: any) => async (e: FormEvent<HTMLFormElement>) => {
+const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   // 필수 필드 확인
@@ -23,7 +20,6 @@ const handleSubmit = (loginFormData: any) => async (e: FormEvent<HTMLFormElement
 
     if (response.ok) {
       const data = await response.json();
-      const navigate = useNavigate(); // useNavigate 훅 사용
 
       if (data.role === 'admin') {
         // 관리자 로그인 성공
