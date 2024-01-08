@@ -2,7 +2,7 @@
 
 import "./UserHeader.css";
 
-const Header = () => {
+const UserHeader = () => {
   return <div id="userHeader">
     <a href="/admin">관리자 페이지로</a>
     <a href="/login">로그인 페이지로</a>
@@ -12,4 +12,4 @@ const Header = () => {
   </div>;
 };
 
-export default Header;
+export default UserHeader;
