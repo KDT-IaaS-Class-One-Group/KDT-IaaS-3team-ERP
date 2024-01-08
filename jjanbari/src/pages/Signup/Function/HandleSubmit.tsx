@@ -17,12 +17,12 @@ const handleSubmit = (formData: any, navigate: any) => async (event: React.FormE
         userNAME: formData.userNAME,
       }),
     });
-    const result = await response.json();
-    if (result.success) {
+
+    if (response.ok) {
       alert('회원 가입이 완료되었습니다');
       navigate('/');
     } else {
-      alert(result.error || '회원 가입에 실패하였습니다');
+      alert('회원 가입에 실패하였습니다');
     }
   } catch (error: any) {
     console.error('회원 가입 중 오류 발생:', error.message);

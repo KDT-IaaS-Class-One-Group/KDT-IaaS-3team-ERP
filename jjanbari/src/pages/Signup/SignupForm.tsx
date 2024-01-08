@@ -29,7 +29,7 @@ const SignupForm: React.FC = () => {
   };
   
   return (    
-      <form onSubmit={handleSubmit} className="SignupForm">
+      <form onSubmit={handleSubmit(formData, navigate)} className="SignupForm">
         <label>
           아이디:
           <input
