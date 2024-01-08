@@ -1,6 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-
-const handleSubmit = (name: string, price: string, quantity: number) => async (event: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = (name: string, price: string, quantity: number, navigate: any) => async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
 
   if (!name || !price || !quantity) {
@@ -18,7 +16,6 @@ const handleSubmit = (name: string, price: string, quantity: number) => async (e
     });
 
     const result = await response.json();
-    const navigate = useNavigate();
 
     if (result.success) {
       alert('상품이 등록되었습니다');
