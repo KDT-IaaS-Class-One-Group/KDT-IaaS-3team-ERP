@@ -1,6 +1,7 @@
 // src/pages/Admin/ProductForm.tsx
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import handleSubmit from './function/HandleSubmit';
 
 const ProductForm = () => {
@@ -8,8 +9,10 @@ const ProductForm = () => {
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState(0);
 
+  const navigate = useNavigate();
+
   return (
-    <form onSubmit={handleSubmit(name, price, quantity)}>
+    <form onSubmit={handleSubmit(name, price, quantity, navigate)}>
       <label htmlFor="name">상품명:</label>
       <br />
       <input type="text" id="name" name="NAME" value={name} onChange={(e) => setName(e.target.value)} />
