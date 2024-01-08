@@ -1,20 +1,18 @@
-import CartPage from './Cart/Cart';
-import DeliveryPage from './Delivery/Delivery';
-import LikePage from './Like/Like';
-import OrderPage from './Order/Order';
-import RecentPage from './Recent/Recent';
-import WithdrawPage from './Withdraw/WithdrawPage';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Mypage = () => {
   return (
     <div id="container">
-      <h1>마이페이지</h1>
-      <OrderPage />
-      <LikePage />
-      <DeliveryPage />
-      <CartPage />
-      <RecentPage />
-      <WithdrawPage />
+      <Link to="/order">
+        <h1>주문목록</h1>
+      </Link>
+      <h1>주문목록</h1>
+      <h1>찜한 목록</h1>
+      <h1>배송조회</h1>
+      <h1>장바구니</h1>
+      <h1>최근 본 상품</h1>
+      <h1>회원 탈퇴 페이지</h1>
     </div>
   );
 };
