@@ -1,6 +1,7 @@
 // src/pages/Login/LoginForm.tsx
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import handleInputChange from './function/HandleInputChange';
 import handleSubmit from './function/HandleSubmit';
 
@@ -14,9 +15,10 @@ const LoginForm: React.FC = () => {
     userID: '',
     userPW: '',
   });
+  const navigate = useNavigate();
 
   return (
-    <form onSubmit={handleSubmit(loginFormData)} className="LoginForm">
+    <form onSubmit={handleSubmit(loginFormData, navigate)} className="LoginForm">
       <label>
         아이디:
         <input type="text" name="userID" value={loginFormData.userID} onChange={handleInputChange(loginFormData, setLoginFormData)} required />
