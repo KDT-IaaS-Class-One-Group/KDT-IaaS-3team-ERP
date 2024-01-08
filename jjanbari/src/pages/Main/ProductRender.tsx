@@ -1,4 +1,4 @@
-// src/pages/MainPage/ProductRender.tsx
+// src/pages/Main/ProductRender.tsx
 
 import React, { useEffect, useState } from 'react';
 import handlePurchase from './function/HandlePurchase';

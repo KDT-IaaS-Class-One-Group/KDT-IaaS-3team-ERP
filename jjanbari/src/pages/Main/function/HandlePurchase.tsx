@@ -1,4 +1,4 @@
-// src/pages/MainPage/handlePurchase.tsx
+// src/pages/Main/function/HandlePurchase.tsx
 
 const handlePurchase = (products: any, setProducts: any) => async (id: string, quantity: number) => {
   if (!id) {

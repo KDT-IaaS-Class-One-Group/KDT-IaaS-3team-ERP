@@ -1,3 +1,5 @@
+// src/pages/Login/function/HandleInputChange.tsx
+
 import { ChangeEvent } from 'react';
 
 const handleInputChange = (loginFormData: any, setLoginFormData: any) => (e: ChangeEvent<HTMLInputElement>) => {

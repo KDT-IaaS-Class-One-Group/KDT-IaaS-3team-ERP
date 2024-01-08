@@ -1,3 +1,5 @@
+// src/pages/Admin/function/HandleSubmit.tsx
+
 const handleSubmit = (name: string, price: string, quantity: number, navigate: any) => async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
 

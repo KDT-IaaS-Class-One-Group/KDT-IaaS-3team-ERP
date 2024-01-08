@@ -1,3 +1,5 @@
+// src/pages/Signup/function/HandleInputChange.tsx
+
 import { ChangeEvent } from 'react';
 
 const handleInputChange = (formData: any, setFormData: any) => (e: ChangeEvent<HTMLInputElement>) => {
