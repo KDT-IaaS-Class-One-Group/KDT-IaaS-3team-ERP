@@ -3,6 +3,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import handleInputChange from "./Function/HandleInputChange";
+// import handleInputChange2 from "./Function/HandleInputChange copy";
 
 interface LoginFormData {
   userID: string;
