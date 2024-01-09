@@ -5,11 +5,10 @@ import './AdminHeader.css';
 const AdminHeader = () => {
   return (
     <div id="adminHeader">
-      <a href="/admin">관리자 페이지로</a>
-      <a href="/login">로그인 페이지로</a>
-      <a href="signup">회원 가입 페이지로</a>
-      <a href="mypage">마이 페이지로</a>
-      <a href="/">메인 페이지로</a>
+      <a href="/admin">상품 관리</a>
+      <a href="/login">회원 관리</a>
+      <a href="/statics">통계 처리</a>
+      <a href="/admin">관리자 페이지 로고</a>
     </div>
   );
 };
