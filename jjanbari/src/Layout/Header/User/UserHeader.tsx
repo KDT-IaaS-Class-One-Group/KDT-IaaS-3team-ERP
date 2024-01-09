@@ -1,7 +1,7 @@
 // src/Component/Header/Header.tsx
 
 import './UserHeader.css';
-import LoginToggle from '../../../Test/LoginToggle';
+import LoginToggle from './LoginStatus/LoginToggle';
 
 const UserHeader = () => {
   return (

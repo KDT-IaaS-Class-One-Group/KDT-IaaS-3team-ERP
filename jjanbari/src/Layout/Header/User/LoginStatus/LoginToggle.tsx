@@ -1,7 +1,7 @@
 // src/Test/LoginToggle.tsx
 
 import React, { useState, useEffect } from 'react';
-import Login from './LoginPage';
+import Login from './Login';
 
 const LoginToggle: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
