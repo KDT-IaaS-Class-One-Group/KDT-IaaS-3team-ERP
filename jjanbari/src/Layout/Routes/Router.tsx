@@ -19,12 +19,12 @@ import RecentPage from "../../pages/Mypage/Recent/RecentPage";
 import WithdrawPage from "../../pages/Mypage/Withdraw/WithdrawPage";
 
 // 관리자페이지 하위 컴포넌트 import
-import ProductManagement from "../../pages/Admin/Product/ProductManagementPage";
-import ProductUpload from "../../pages/Admin/Product/ProductUpload/ProductUploadPage";
-import ProductRemove from "../../pages/Admin/Product/ProductRemove/ProductRemovePage";
-import UserManagement from "../../pages/Admin/User/UserManagementPage";
-import OrderHistory from "../../pages/Admin/User/OrderHistory/OrderHistoryPage";
-import Statics from "../../pages/Admin/Statics/StaticsPage";
+import ProductManagementPage from "../../pages/Admin/Product/ProductManagementPage";
+import ProductUploadPage from "../../pages/Admin/Product/ProductUpload/ProductUploadPage";
+import ProductRemovePage from "../../pages/Admin/Product/ProductRemove/ProductRemovePage";
+import UserManagementPage from "../../pages/Admin/User/UserManagementPage";
+import OrderHistoryPage from "../../pages/Admin/User/OrderHistory/OrderHistoryPage";
+import StaticsPage from "../../pages/Admin/Statics/StaticsPage";
 
 const Router = () => {
   return (
