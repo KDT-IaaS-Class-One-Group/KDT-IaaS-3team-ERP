@@ -24,7 +24,7 @@ import ProductUploadPage from "../../pages/Admin/Product/ProductUpload/ProductUp
 import ProductRemovePage from "../../pages/Admin/Product/ProductRemove/ProductRemovePage";
 import UserManagementPage from "../../pages/Admin/User/UserManagementPage";
 import OrderHistoryPage from "../../pages/Admin/User/OrderHistory/OrderHistoryPage";
-import StaticsPage from "../../pages/Admin/Statics/StaticsPage";
+import StatisticsPage from "../../pages/Admin/Statistics/StaticsPage";
 
 const Router = () => {
   return (
@@ -49,7 +49,7 @@ const Router = () => {
       <Route path="/productUpload" element={<ProductUploadPage />}></Route>
       <Route path="/userManagement" element={<UserManagementPage />}></Route>
       <Route path="/orderHistory" element={<OrderHistoryPage />}></Route>
-      <Route path="/statics" element={<StaticsPage />}></Route>
+      <Route path="/statistics" element={<StatisticsPage />}></Route>
     </Routes>
   );
 };
