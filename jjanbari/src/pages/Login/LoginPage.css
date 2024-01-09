@@ -24,16 +24,13 @@ div {
   text-align: center;
   align-items: center;
   border: 1px solid #000;
-  width: 2vw;
-  height: 2vh;
+  width: 60px;
+  height: 30px;
   background-color: #efefef;
+  margin-right: 10px;
 }
 
 .sign {
   text-decoration: none;
   color: inherit;
-}
-
-button {
-  margin-right: 10px;
 }
