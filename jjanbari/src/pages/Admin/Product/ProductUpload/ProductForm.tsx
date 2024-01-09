@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import handleSubmit from './function/HandleSubmit';
+import handleSubmit from '../../function/HandleSubmit';
 
 const ProductForm = () => {
   const [name, setName] = useState('');
