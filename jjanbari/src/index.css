@@ -1,5 +1,6 @@
 /* src/index.css */
 
+
 * {
   margin: 0;
   padding: 0;
@@ -13,10 +14,20 @@
   align-items: center;
 }
 
-#header {
+#userContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+#adminContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+#userHeader,
+#adminHeader {
   width: 100vw;
   height: 10vh;
-
   background-color: #333;
   color: #fff;
   padding: 1rem;

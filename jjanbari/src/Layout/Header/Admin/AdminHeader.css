@@ -1,9 +1,8 @@
-/* src/Component/Header/Header.css */
-
-a {
+/* src/Component/Header/Admin/AdminHeader.css */
+#adminHeader > a {
   padding: 3rem;
   border: 1px solid #000;
-  background-color: #4caf50;
+  background-color: #e16a02;
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -12,6 +11,6 @@ a {
   transition: background-color 0.3s ease;
   text-decoration-line: none;
 }
-a:hover {
-  background-color: #45a049;
+#adminHeader> a:hover {
+  background-color: #d97000;
 }
