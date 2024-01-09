@@ -24,7 +24,7 @@ import ProductUploadPage from "../../pages/Admin/Product/ProductUpload/ProductUp
 import ProductRemovePage from "../../pages/Admin/Product/ProductRemove/ProductRemovePage";
 import UserManagementPage from "../../pages/Admin/User/UserManagementPage";
 import OrderHistoryPage from "../../pages/Admin/User/OrderHistory/OrderHistoryPage";
-import StatisticsPage from "../../pages/Admin/Statistics/StaticsPage";
+import StatisticsPage from "../../pages/Admin/Statistics/StatisticsPage";
 
 const Router = () => {
   return (
