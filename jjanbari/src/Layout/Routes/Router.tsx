@@ -8,13 +8,7 @@ import SignupPage from "../../pages/Signup/SignupPage";
 import WithdrawPage from "../../pages/Mypage/Withdraw/WithdrawPage";
 import MainPage from "../../pages/Main/MainPage";
 
-import './Router.css';
-import Mypage from '../../pages/Mypage/Mypage';
-import OrderPage from '../../pages/Mypage/Order/Order';
-import CartPage from '../../pages/Mypage/Cart/Cart';
-import DeliveryPage from '../../pages/Mypage/Delivery/Delivery';
-import LikePage from '../../pages/Mypage/Like/Like';
-import RecentPage from '../../pages/Mypage/Recent/Recent';
+import "./Router.css";
 
 const Router = () => {
   return (
