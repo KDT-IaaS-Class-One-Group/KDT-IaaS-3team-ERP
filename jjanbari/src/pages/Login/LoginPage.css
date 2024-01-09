@@ -18,3 +18,22 @@ div {
   
   margin: 2rem;
 }
+
+.signup {
+  font-size: 12px;
+  text-align: center;
+  align-items: center;
+  border: 1px solid #000;
+  width: 2vw;
+  height: 2vh;
+  background-color: #efefef;
+}
+
+.sign {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  margin-right: 10px;
+}
