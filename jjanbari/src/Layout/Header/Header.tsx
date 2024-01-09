@@ -1,15 +1,22 @@
-// src/Component/Header/Header.tsx
-
-import './Header.css';
+// src/Layout/Header/Header.tsx
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import UserHeader from './User/UserHeader';
+import AdminHeader from './Admin/AdminHeader';
 
 const Header = () => {
-  return (
-    <div id="header">
-      <a href="/login" className='header'>로그인 페이지로</a>
-      <a href="/" className='header'>로고</a>
-      <a href="/mypage" className='header'>마이페이지</a>
-    </div>
-  );
+  const location = useLocation();
+  const [header, setHeader] = useState(<UserHeader />);
+
+  useEffect(() => {
+    if (location.pathname === '/admin') {
+      setHeader(<AdminHeader />);
+    } else {
+      setHeader(<UserHeader />);
+    }
+  }, [location]);
+
+  return <>{header}</>;
 };
 
 export default Header;
