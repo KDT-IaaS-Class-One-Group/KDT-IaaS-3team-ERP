@@ -14,7 +14,7 @@ import CartPage from "../../pages/Mypage/Cart/CartPage";
 import DeliveryPage from "../../pages/Mypage/Delivery/DeliveryPage";
 import LikePage from "../../pages/Mypage/Like/LikePage";
 import OrderPage from "../../pages/Mypage/Order/OrderPage";
-import RecentPage from "../../pages/Mypage/Recent/Recent";
+import RecentPage from "../../pages/Mypage/Recent/RecentPage";
 import WithdrawPage from "../../pages/Mypage/Withdraw/WithdrawPage";
 
 const Router = () => {
