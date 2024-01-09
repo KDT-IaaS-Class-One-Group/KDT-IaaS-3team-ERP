@@ -1,11 +1,12 @@
 // src/Component/Header/Header.tsx
 
 import './UserHeader.css';
+import LoginToggle from '../../../Test/LoginToggle';
 
 const UserHeader = () => {
   return (
     <div id="userHeader">
-      <a href="/login">로그인 페이지로</a>
+      <LoginToggle />
       <a href="/">로고</a>
       <a href="/mypage">마이페이지</a>
     </div>

@@ -1,7 +1,7 @@
 // src/Test/LoginToggle.tsx
 
 import React, { useState, useEffect } from 'react';
-import Login from './Login';
+import Login from './LoginPage';
 
 const LoginToggle: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -31,8 +31,7 @@ const LoginToggle: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>로그인/로그아웃 토글 예제</h1>
+    <a href='/login' className='loginStatus'>
       {userId ? (
         <div>
           <p>{`ID: ${userId}`}</p>
@@ -43,12 +42,13 @@ const LoginToggle: React.FC = () => {
       ) : (
         <div>
           <p style={{ color: 'white', background: 'red' }}>로그인이 필요합니다.</p>
-          <button onClick={() => handleLogin('adroot')}>adroot로 로그인</button>
-          <button onClick={() => handleLogin('root')}>root로 로그인</button>
-          {/* 다른 사용자로 로그인 버튼들 추가 */}
+          <div className="Btn-login">
+            <button onClick={() => handleLogin('adroot')}>관리자</button>
+            <button onClick={() => handleLogin('root')}>사용자</button>
+          </div>
         </div>
       )}
-    </div>
+    </a>
   );
 };
 

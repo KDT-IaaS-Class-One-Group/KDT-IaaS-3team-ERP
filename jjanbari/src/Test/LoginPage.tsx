@@ -2,13 +2,15 @@
 
 import React from 'react';
 
+import './LoginPage.css';
+
 interface LoginProps {
   isAdmin: boolean;
   userId: string | null;
   onLogin: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ isAdmin, userId, onLogin }) => {
+const LoginPage: React.FC<LoginProps> = ({ isAdmin, userId, onLogin }) => {
   return (
     <div>
       <div style={{ backgroundColor: userId ? 'green' : 'transparent', padding: '10px' }}>
@@ -30,4 +32,4 @@ const Login: React.FC<LoginProps> = ({ isAdmin, userId, onLogin }) => {
   );
 };
 
-export default Login;
+export default LoginPage;
