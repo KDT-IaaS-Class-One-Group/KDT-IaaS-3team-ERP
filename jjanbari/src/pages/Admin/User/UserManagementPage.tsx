@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
+
 const UserManagementPage = () => {
   return (
     <div id="container">
-      <h1>회원 관리 페이지</h1>
+      <Link to="/orderHistory">
+        <h1>주문 내역 확인</h1>
+      </Link>
     </div>
   );
 };
