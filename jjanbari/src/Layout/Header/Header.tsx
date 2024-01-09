@@ -8,10 +8,10 @@ const Header = () => {
   const location = useLocation();
   const [header, setHeader] = useState(<UserHeader />);
 
-  const adminPaths = ['/admin', '/productManagaement', '/productUpload', '/productRemove', '/userManagement', '/orderHistory', 'statics']
+  const adminPaths = ['/admin', '/productManagement', '/productUpload', '/productRemove', '/userManagement', '/orderHistory', '/statics']
 
   useEffect(() => {
-    if (location.pathname === '/admin') {
+    if (adminPaths.includes(location.pathname)) {
       setHeader(<AdminHeader />);
     } else {
       setHeader(<UserHeader />);
