@@ -42,12 +42,12 @@ const LoginForm: React.FC = () => {
       </label>
       <br />
       <div>
-        <button type="submit">로그인</button>
         <div className="signup">
           <Link to="/signup" className='sign'>
             회원가입
           </Link>
         </div>
+        <button type="submit">로그인</button>
       </div>
     </form>
   );
