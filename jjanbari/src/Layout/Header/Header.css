@@ -1,6 +1,6 @@
 /* src/Component/Header/Header.css */
 
-a {
+.header {
   padding: 3rem;
   border: 1px solid #000;
   background-color: #4caf50;
@@ -12,6 +12,6 @@ a {
   transition: background-color 0.3s ease;
   text-decoration-line: none;
 }
-a:hover {
+.header:hover {
   background-color: #45a049;
 }
