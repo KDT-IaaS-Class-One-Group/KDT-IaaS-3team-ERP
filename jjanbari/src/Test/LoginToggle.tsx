@@ -42,7 +42,7 @@ const LoginToggle: React.FC = () => {
         </div>
       ) : (
         <div>
-          <p>로그인이 필요합니다.</p>
+          <p style={{ color: 'white', background: 'red' }}>로그인이 필요합니다.</p>
           <button onClick={() => handleLogin('adroot')}>adroot로 로그인</button>
           <button onClick={() => handleLogin('root')}>root로 로그인</button>
           {/* 다른 사용자로 로그인 버튼들 추가 */}
