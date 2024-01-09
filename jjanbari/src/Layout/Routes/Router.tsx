@@ -10,10 +10,10 @@ import MainPage from "../../pages/Main/MainPage";
 
 import "./Router.css";
 
-import CartPage from "../../pages/Mypage/Cart/Cart";
-import DeliveryPage from "../../pages/Mypage/Delivery/Delivery";
-import LikePage from "../../pages/Mypage/Like/Like";
-import OrderPage from "../../pages/Mypage/Order/Order";
+import CartPage from "../../pages/Mypage/Cart/CartPage";
+import DeliveryPage from "../../pages/Mypage/Delivery/DeliveryPage";
+import LikePage from "../../pages/Mypage/Like/LikePage";
+import OrderPage from "../../pages/Mypage/Order/OrderPage";
 import RecentPage from "../../pages/Mypage/Recent/Recent";
 import WithdrawPage from "../../pages/Mypage/Withdraw/WithdrawPage";
 
