@@ -1,9 +1,9 @@
-const OrderHistory = () => {
+const Statics = () => {
   return (
     <div id="container">
-      <h1>주문 내역</h1>
+      <h1>통계</h1>
     </div>
   );
 };
 
-export default OrderHistory;
+export default Statics;
