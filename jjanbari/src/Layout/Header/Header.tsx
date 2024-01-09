@@ -8,9 +8,10 @@ const Header = () => {
   const location = useLocation();
   const [header, setHeader] = useState(<UserHeader />);
 
-  const adminPaths = ['/admin', '/productManagement', '/productUpload', '/productRemove', '/userManagement', '/orderHistory', '/statics']
-
   useEffect(() => {
+    // 관리자페이지 경로 설정
+    const adminPaths = ['/admin', '/productManagement', '/productUpload', '/productRemove', '/userManagement', '/orderHistory', '/statics']
+
     if (adminPaths.includes(location.pathname)) {
       setHeader(<AdminHeader />);
     } else {
