@@ -16,8 +16,7 @@ const LoginToggle: React.FC = () => {
       <button onClick={handleToggle}>
         {isLoggedIn ? '로그아웃' : '로그인'}
       </button>
-      {/* 'isAdmin' prop을 전달 */}
-      <Login isAdmin={isLoggedIn} />
+      {isLoggedIn && <Login isAdmin={isLoggedIn} />}
     </div>
   );
 };

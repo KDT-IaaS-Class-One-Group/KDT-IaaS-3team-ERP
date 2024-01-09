@@ -11,16 +11,11 @@ const Login: React.FC<LoginProps> = ({ isAdmin }) => {
     sessionStorage.setItem('isAdmin', 'true');
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('isAdmin');
-  };
-
   return (
     <div>
       {isAdmin ? (
         <div>
           <p>안녕하세요! 관리자로 로그인되었습니다.</p>
-          <button onClick={handleLogout}>로그아웃</button>
         </div>
       ) : (
         <div>
