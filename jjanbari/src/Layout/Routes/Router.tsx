@@ -42,6 +42,14 @@ const Router = () => {
       <Route path="/order" element={<OrderPage />}></Route>
       <Route path="/recent" element={<RecentPage />}></Route>
       <Route path="/withdraw" element={<WithdrawPage />}></Route>
+
+      {/* 관리자 페이지 내부 */}
+      <Route path="/productManagement" element={<ProductManagementPage />}></Route>
+      <Route path="/productRemove" element={<ProductRemovePage />}></Route>
+      <Route path="/productUpload" element={<ProductUploadPage />}></Route>
+      <Route path="/userManagement" element={<UserManagementPage />}></Route>
+      <Route path="/orderHistory" element={<OrderHistoryPage />}></Route>
+      <Route path="/statics" element={<StaticsPage />}></Route>
     </Routes>
   );
 };
