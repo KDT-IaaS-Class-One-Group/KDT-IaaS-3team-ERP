@@ -13,16 +13,16 @@ const Login: React.FC<LoginProps> = ({ isAdmin }) => {
 
   return (
     <div>
-      {isAdmin ? (
-        <div>
-          <p>안녕하세요! 관리자로 로그인되었습니다.</p>
-        </div>
-      ) : (
-        <div>
-          <p>로그인이 필요합니다.</p>
-          <button onClick={handleLogin}>로그인</button>
-        </div>
-      )}
+      <div style={{ backgroundColor: isAdmin ? 'green' : 'transparent', padding: '10px' }}>
+        {isAdmin ? (
+          <p style={{ color: 'white' }}>안녕하세요! 관리자로 로그인되었습니다.</p>
+        ) : (
+          <div>
+            <p>로그인이 필요합니다.</p>
+            <button onClick={handleLogin}>로그인</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
