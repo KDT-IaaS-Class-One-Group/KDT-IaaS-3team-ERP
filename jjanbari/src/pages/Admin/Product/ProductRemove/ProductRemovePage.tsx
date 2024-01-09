@@ -1,4 +1,4 @@
-const ProductRemove = () => {
+const ProductRemovePage = () => {
   return (
     <div id="container">
       <h1>장바구니</h1>
@@ -6,4 +6,4 @@ const ProductRemove = () => {
   );
 };
 
-export default ProductRemove;
+export default ProductRemovePage;

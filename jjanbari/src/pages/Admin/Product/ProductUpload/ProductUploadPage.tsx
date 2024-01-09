@@ -1,4 +1,4 @@
-const ProductUpload = () => {
+const ProductUploadPage = () => {
   return (
     <div id="container">
       <h1>상품 등록</h1>
@@ -6,4 +6,4 @@ const ProductUpload = () => {
   );
 };
 
-export default ProductUpload;
+export default ProductUploadPage;

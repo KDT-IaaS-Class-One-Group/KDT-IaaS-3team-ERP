@@ -1,4 +1,4 @@
-const ProductManagement = () => {
+const ProductManagementPage = () => {
   return (
     <div id="container">
       <h1>상품 관리</h1>
@@ -6,4 +6,4 @@ const ProductManagement = () => {
   );
 };
 
-export default ProductManagement;
+export default ProductManagementPage;

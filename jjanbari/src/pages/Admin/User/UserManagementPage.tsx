@@ -1,4 +1,4 @@
-const UserManagement = () => {
+const UserManagementPage = () => {
   return (
     <div id="container">
       <h1>회원 관리 페이지</h1>
@@ -6,4 +6,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default UserManagementPage;

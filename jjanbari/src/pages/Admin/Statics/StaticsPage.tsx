@@ -1,4 +1,4 @@
-const Statics = () => {
+const StaticsPage = () => {
   return (
     <div id="container">
       <h1>통계</h1>
@@ -6,4 +6,4 @@ const Statics = () => {
   );
 };
 
-export default Statics;
+export default StaticsPage;

@@ -1,4 +1,4 @@
-const OrderHistory = () => {
+const OrderHistoryPage = () => {
   return (
     <div id="container">
       <h1>주문 내역</h1>
@@ -6,4 +6,4 @@ const OrderHistory = () => {
   );
 };
 
-export default OrderHistory;
+export default OrderHistoryPage;
