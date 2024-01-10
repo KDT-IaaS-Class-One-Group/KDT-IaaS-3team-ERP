@@ -1,7 +1,6 @@
-// src/Test/LoginToggle.tsx
-
 import React, { useState, useEffect } from 'react';
 import Login from './Login';
+import { isLoggedIn } from './isLoggedIn';
 
 const LoginToggle: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -32,7 +31,7 @@ const LoginToggle: React.FC = () => {
 
   return (
     <a href='/login' className='loginStatus'>
-      {userId ? (
+      {isLoggedIn() ? (
         <div>
           <p>{`ID: ${userId}`}</p>
           <button onClick={handleLogout}>로그아웃</button>
