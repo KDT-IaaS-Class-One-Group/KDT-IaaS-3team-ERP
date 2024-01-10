@@ -43,7 +43,7 @@ connection.connect((error) => {
       if (tableError) {
         console.error(`${tableName} TABLE 생성 실패: `, tableError.message);
       } else {
-        console.log(`[${databaseName}].${tableName} 초기화 완료`);
+        console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableName}`);
       }
 
       // 연결 종료
