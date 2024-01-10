@@ -28,7 +28,8 @@ const PaymentPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/login')
+    // 로그인한 사용자의 정보를 가져옵니다.
+    fetch('http://localhost:3001/userInfo') // 수정
       .then((response) => response.json())
       .then((data: User) => setUser(data));
 
@@ -46,10 +47,9 @@ const PaymentPage = () => {
   };
 
   const handleBuy = (product: Product) => {
-    // 수정
     if (isLoggedIn()) {
       handlePurchase(products, setProducts)(product.name, product.quantity);
-      navigate('/');
+      navigate('/main');
     } else {
       navigate('/login');
     }
