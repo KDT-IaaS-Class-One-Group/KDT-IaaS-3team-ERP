@@ -4,7 +4,7 @@ type UserProfiles = {
   id: number;
   userID: string;
   userPW: string;
-  userName: string;
+  userNAME: string;
 };
 
 const UserProfilesPage = () => {
@@ -37,8 +37,8 @@ const UserProfilesPage = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>User ID</th>
-            <th>User Name</th>
+            <th>UserID</th>
+            <th>UserName</th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@ const UserProfilesPage = () => {
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.userID}</td>
-              <td>{user.userName}</td>
+              <td>{user.userNAME}</td>
             </tr>
           ))}
         </tbody>
