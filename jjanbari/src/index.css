@@ -27,7 +27,7 @@
 #userHeader,
 #adminHeader {
   width: 100vw;
-  height: 10vh;
+  height: 20vh;
   background-color: #333;
   color: #fff;
   padding: 1rem;
@@ -38,7 +38,7 @@
 
 #container {
   width: 100vw;
-  height: 80vh;
+  height: 75vh;
 
   display: flex;
   align-items: center;
@@ -61,7 +61,7 @@ h2 {
 
 #footer {
   width: 100vw;
-  height: 10vh;
+  height: 5vh;
 
   background-color: #333;
   color: #fff;
