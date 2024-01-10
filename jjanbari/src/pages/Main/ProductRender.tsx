@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import handlePurchase from './function/HandlePurchase';
 
 type Product = {
-  id: string;
+  id: number;
   name: string;
   price: number;
   quantity: number;

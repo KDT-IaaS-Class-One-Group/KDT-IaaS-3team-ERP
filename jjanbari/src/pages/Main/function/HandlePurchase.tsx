@@ -1,6 +1,6 @@
 // src/pages/Main/function/HandlePurchase.tsx
 
-const handlePurchase = (products: any, setProducts: any) => async (id: string, quantity: number) => {
+const handlePurchase = (products: any, setProducts: any) => async (id: number, quantity: number) => {
   if (!id) {
     alert('상품 ID가 없습니다');
     return;
