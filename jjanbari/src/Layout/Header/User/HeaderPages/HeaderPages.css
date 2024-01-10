@@ -1,0 +1,25 @@
+.headerPages {
+  /* 상단에 오도록 설정 */
+  display: flex;
+  justify-content: space-evenly;
+  width: 100vw;
+  height: 5vh;
+  border: 1px solid lightgray;
+}
+
+.pages > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  border: none;
+  padding: 0;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration-line: none;
+}
+
+.pages > a:hover {
+  font-weight: bold;
+}

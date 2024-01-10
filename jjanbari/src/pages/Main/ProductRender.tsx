@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import handlePurchase from './function/HandlePurchase';
-import { isLoggedIn } from '../../Layout/Header/User/LoginStatus/isLoggedIn';
+import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 
 type Product = {
   id: string;
