@@ -49,7 +49,7 @@ const PaymentPage = () => {
   const handleBuy = (product: Product) => {
     if (isLoggedIn()) {
       handlePurchase(products, setProducts)(product.name, product.quantity);
-      navigate('/main');
+      navigate('/');
     } else {
       navigate('/login');
     }
