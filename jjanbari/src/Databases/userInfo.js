@@ -2,12 +2,23 @@
 
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const databaseName = 'userInfo';
+const tableName = 'users';
+
+
+
+let pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '1234',
-  database: 'userInfo'
+  database: databaseName
 })
+
+
+
+
+
+
 
 // 데이터베이스를 생성하는 쿼리문
 const createDatabaseQuery = 'CREATE DATABASE IF NOT EXISTS userInfo';
