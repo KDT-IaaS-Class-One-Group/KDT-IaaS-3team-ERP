@@ -27,12 +27,14 @@ const PaymentPage = () => {
 
   useEffect(() => {
     // 로그인한 사용자의 정보를 가져옵니다.
-    fetch('http://localhost:3001/userInfo/users')
+    // fetch('http://localhost:3001/userInfo/users') // 수정 전
+    fetch('http://localhost:3001/login') // 수정 후
       .then((response) => response.json())
       .then((data: User) => setUser(data)); // 수정
 
     // 결제 상품 정보를 가져옵니다.
-    fetch('http://localhost:3001/productInfo/products')
+    // fetch('http://localhost:3001/productInfo/products') // 수정 전
+    fetch('http://localhost:3001/products') // 수정 후
       .then((response) => response.json())
       .then((data: Product[]) => {
         // 수정
@@ -50,7 +52,7 @@ const PaymentPage = () => {
   const handlePayment = () => {
     // 여기에 결제 로직을 추가하세요.
     // 예를 들어, 결제가 성공하면 다음 페이지로 이동합니다.
-    navigate('/main');
+    navigate('/');
   };
 
   return (
