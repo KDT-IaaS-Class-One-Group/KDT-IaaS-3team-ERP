@@ -27,8 +27,8 @@ app.post("/signup", async (req, res) => {
     console.log("회원 가입 정보 저장 성공:", req.body);
     res.sendStatus(200);
   } catch (error) {
-    console.error("회원 가입 실패:", error);
-    res.status(500).send("회원 가입에 실패했습니다. 다시 시도해주세요.");
+    console.error('회원 가입 실패:', error);
+    res.status(500).send('회원 가입에 실패했습니다. 다시 시도해주세요.');
   }
 });
 
