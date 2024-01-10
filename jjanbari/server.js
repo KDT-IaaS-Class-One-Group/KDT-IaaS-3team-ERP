@@ -125,15 +125,51 @@ app.get('/products', async (req, res) => {
   }
 });
 
-app.put('/products/:name', async (req, res) => {
-  const { name } = req.params;
+app.put('/products/:id', async (req, res) => {
+  const { id } = req.params;
   const { quantity } = req.body;
 
   try {
-    await query('UPDATE products SET quantity = quantity - ? WHERE name = ?', [quantity, name]);
+    await query('UPDATE products SET quantity = quantity - ? WHERE id = ?', [quantity, id]);
     res.json({ success: true });
   } catch (error) {
     console.error('Error during updating product:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+// 관리자 페이지 상품 관리
+app.get('/admin/products', async (req, res) => {
+  try {
+    const products = await query('SELECT * FROM products');
+    res.json(products);
+  } catch (error) {
+    console.error('Error during fetching products:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+app.put('/admin/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, price, quantity } = req.body;
+
+  try {
+    await query('UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ?', [name, price, quantity, id]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error during updating product:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+app.delete('/admin/products/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await query('DELETE FROM products WHERE id = ?', [id]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error during deleting product:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });

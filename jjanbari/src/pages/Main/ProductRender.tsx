@@ -27,8 +27,8 @@ const ProductRender = () => {
             <h2>{product.name}</h2>
             <p>가격: {product.price}</p>
             <p>수량: {product.quantity}</p>
-            <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
-            <button onClick={() => handlePurchase(products, setProducts)(product.name, Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value))}>구매</button>
+            <input type="number" id={`quantity-${product.id}`} min="1" max={product.quantity} />
+            <button onClick={() => handlePurchase(products, setProducts)(product.id, Number((document.getElementById(`quantity-${product.id}`) as HTMLInputElement).value))}>구매</button>
           </div>
         ))}
     </div>
