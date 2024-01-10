@@ -34,26 +34,27 @@ const PaymentPage = () => {
     // 결제 상품 정보를 가져옵니다.
     fetch('http://localhost:3001/productInfo/products')
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: Product[]) => {
+        // 수정
         setProducts(data);
-        setTotalPrice(data.reduce((sum, product) => sum + product.price * product.quantity, 0)); // 추가
+        setTotalPrice(data.reduce((sum: number, product: Product) => sum + product.price * product.quantity, 0)); // 수정
       });
   }, []);
 
   const handleQuantityChange = (productName: string, quantity: number) => {
     // 추가
     setProducts(products.map((product) => (product.name === productName ? { ...product, quantity } : product)));
-    setTotalPrice(products.reduce((sum, product) => sum + product.price * (product.name === productName ? quantity : product.quantity), 0)); // 추가
+    setTotalPrice(products.reduce((sum: number, product: Product) => sum + product.price * (product.name === productName ? quantity : product.quantity), 0)); // 수정
   };
 
   const handlePayment = () => {
     // 여기에 결제 로직을 추가하세요.
     // 예를 들어, 결제가 성공하면 다음 페이지로 이동합니다.
-    navigate('/success');
+    navigate('/main');
   };
 
   return (
-    <div>
+    <div id="container">
       <h1>결제 페이지</h1>
       <div>
         <h2>받는 사람: {user?.userName}</h2>
