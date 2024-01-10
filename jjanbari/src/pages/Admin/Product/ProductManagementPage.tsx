@@ -6,8 +6,8 @@ const ProductManagementPage = () => {
       <Link to="/productUpload">
         <h1>상품 등록</h1>
       </Link>
-      <Link to="/productRemove">
-        <h1>상품 제거</h1>
+      <Link to="/productUpdate">
+        <h1>상품 수정</h1>
       </Link>
     </div>
   );

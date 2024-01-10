@@ -33,7 +33,7 @@ const ProductRender = () => {
 
   return (
     <div className="product-container">
-      {products.length > 0 &&
+       {products.length > 0 &&
         products.map((product) => (
           <div key={product.id}>
             <h2>{product.name}</h2>
