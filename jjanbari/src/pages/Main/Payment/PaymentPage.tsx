@@ -29,7 +29,7 @@ const PaymentPage = () => {
     // 로그인한 사용자의 정보를 가져옵니다.
     fetch('http://localhost:3001/userInfo/users')
       .then((response) => response.json())
-      .then((data) => setUser(data));
+      .then((data: User) => setUser(data)); // 수정
 
     // 결제 상품 정보를 가져옵니다.
     fetch('http://localhost:3001/productInfo/products')
