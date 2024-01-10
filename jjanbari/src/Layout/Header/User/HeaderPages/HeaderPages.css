@@ -1,11 +1,13 @@
 .headerPages {
   /* 상단에 오도록 설정 */
+  display: flex;
+  justify-content: space-evenly;
   width: 100vw;
   height: 5vh;
   border: 1px solid lightgray;
 }
 
-.headerPages > a {
+.pages > a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +20,6 @@
   text-decoration-line: none;
 }
 
-.headerPages > a:hover {
+.pages > a:hover {
   font-weight: bold;
 }
