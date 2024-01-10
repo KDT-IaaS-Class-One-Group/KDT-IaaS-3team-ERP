@@ -1,9 +1,11 @@
-const mysql = require('mysql2');
+// src/Databases/productInfo.js
+
+const mysql = require('mysql2/promise');
 
 const databaseName = 'productInfo';
 const tableName = 'products';
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '1234',
@@ -23,33 +25,23 @@ const createTableQuery = `
   );
 `;
 
-// MariaDB 서버에 연결
-connection.connect((error) => {
-  if (error) {
-    console.error(`${databaseName} DB 연결 실패: `, error.message);
-    return;
-  }
-
-  // 데이터베이스 생성 쿼리 실행
-  connection.query(createDatabaseQuery, (dbError) => {
-    if (dbError) {
-      console.error(`${databaseName} DB 생성 실패: `, dbError.message);
-      connection.end(); // 에러 발생 시 연결 종료
-      return;
-    }
+// 데이터베이스 초기화 함수
+async function initializeDatabase() {
+  try {
+    // 데이터베이스 생성 쿼리 실행
+    await pool.query(createDatabaseQuery);
 
     // 테이블 생성 쿼리 실행
-    connection.query(createTableQuery, (tableError) => {
-      if (tableError) {
-        console.error(`${tableName} TABLE 생성 실패: `, tableError.message);
-      } else {
-        console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableName}`);
-      }
+    await pool.query(createTableQuery);
 
-      // 연결 종료
-      connection.end();
-    });
-  });
-});
+    console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableName}`);
+  } catch (error) {
+    console.error('초기화 실패: ', error.message);
+  } finally {
+    // 풀 연결 해제
+    pool.end();
+  }
+}
 
-module.exports = connection;
+// 데이터베이스 초기화 함수 호출
+initializeDatabase();
