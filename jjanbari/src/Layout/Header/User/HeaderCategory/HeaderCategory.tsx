@@ -5,8 +5,8 @@ import './HeaderCategory.css'
 const HeaderCategory = () => {
   return (
     <div className="headerCategory">
-      <a href='/dog'>고양이</a>
-      <a href='/cat'>강아지</a>
+      <a href='/cat'>고양이</a>
+      <a href='/dog'>강아지</a>
     </div>
   );
 };
