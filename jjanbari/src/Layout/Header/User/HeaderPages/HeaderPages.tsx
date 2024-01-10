@@ -1,4 +1,4 @@
-import LoginToggle from '../LoginStatus/LoginToggle';
+import LoginToggle from './LoginStatus/LoginToggle';
 
 const HeaderPages = () => {
   return (
