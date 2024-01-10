@@ -21,7 +21,7 @@ import WithdrawPage from "../../pages/Mypage/Withdraw/WithdrawPage";
 // 관리자페이지 하위 컴포넌트 import
 import ProductManagementPage from "../../pages/Admin/Product/ProductManagementPage";
 import ProductUploadPage from "../../pages/Admin/Product/ProductUpload/ProductUploadPage";
-import ProductRemovePage from "../../pages/Admin/Product/ProductRemove/ProductRemovePage";
+import ProductUpdatePage from "../../pages/Admin/Product/ProductUpdate/ProductUpdatePage";
 import UserManagementPage from "../../pages/Admin/User/UserManagementPage";
 import OrderHistoryPage from "../../pages/Admin/User/OrderHistory/OrderHistoryPage";
 import StatisticsPage from "../../pages/Admin/Statistics/StatisticsPage";
@@ -45,7 +45,7 @@ const Router = () => {
 
       {/* 관리자 페이지 내부 */}
       <Route path="/productManagement" element={<ProductManagementPage />}></Route>
-      <Route path="/productRemove" element={<ProductRemovePage />}></Route>
+      <Route path="/productUpdate" element={<ProductUpdatePage />}></Route>
       <Route path="/productUpload" element={<ProductUploadPage />}></Route>
       <Route path="/userManagement" element={<UserManagementPage />}></Route>
       <Route path="/orderHistory" element={<OrderHistoryPage />}></Route>
