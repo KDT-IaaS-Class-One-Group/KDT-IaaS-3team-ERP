@@ -174,6 +174,17 @@ app.delete('/admin/products/:id', async (req, res) => {
   }
 });
 
+// 관리자 페이지 회원 정보 관리
+app.get('/admin/userprofiles', async (req, res) => {
+  try {
+    const userprofiles = await connection.query('SELECT * FROM users');
+    res.json(userprofiles);
+  } catch (error) {
+    console.error('Error during fetching users:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port}`);
 });
