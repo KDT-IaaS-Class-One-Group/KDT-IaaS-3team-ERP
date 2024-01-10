@@ -22,9 +22,8 @@ const ProductRender = () => {
       .then((data) => setProducts(data));
   }, []);
 
-  const handleBuy = (productName: string, quantity: number) => {
+  const handleBuy = (product: Product, quantity: number) => { // 수정
     if (isLoggedIn()) {
-      handlePurchase(products, setProducts)(productName, quantity);
       navigate('/payment');
     } else {
       navigate('/login');
@@ -48,7 +47,7 @@ const ProductRender = () => {
             <button
               onClick={() =>
                 handleBuy(
-                  product.name,
+                  product,
                   Number((document.getElementById(
                     `quantity-${product.name}`
                   ) as HTMLInputElement).value)

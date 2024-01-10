@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const connection = require('./src/Databases/userInfo');
-const {query} = require('./src/Databases/productInfo');
+const { query } = require('./src/Databases/productInfo');
 
 const app = express();
 const port = 3001;
@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // 회원 가입 라우트
-app.post("/signup", (req, res) => {
+app.post('/signup', (req, res) => {
   try {
     const { userID, userPW, userNAME } = req.body;
 
@@ -25,24 +25,18 @@ app.post("/signup", (req, res) => {
       VALUES (?, ?, ?);
     `;
 
-    connection.query(
-      insertDataQuery,
-      [userID, userPW, userNAME],
-      (error, results) => {
-        if (error) {
-          console.error("회원 가입 실패:", error);
-          res
-            .status(500)
-            .send("회원 가입에 실패했습니다. 다시 시도해주세요.");
-        } else {
-          console.log("회원 가입 정보 저장 성공:", req.body);
-          res.sendStatus(200);
-        }
+    connection.query(insertDataQuery, [userID, userPW, userNAME], (error, results) => {
+      if (error) {
+        console.error('회원 가입 실패:', error);
+        res.status(500).send('회원 가입에 실패했습니다. 다시 시도해주세요.');
+      } else {
+        console.log('회원 가입 정보 저장 성공:', req.body);
+        res.sendStatus(200);
       }
-    );
+    });
   } catch (error) {
-    console.error("회원 가입 실패:", error);
-    res.status(500).send("회원 가입에 실패했습니다. 다시 시도해주세요.");
+    console.error('회원 가입 실패:', error);
+    res.status(500).send('회원 가입에 실패했습니다. 다시 시도해주세요.');
   }
 });
 
@@ -50,7 +44,7 @@ app.post("/signup", (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     const { userID, userPW } = req.body;
-    
+
     // 아이디로 사용자 조회
     connection.query('SELECT * FROM users WHERE userID = ?', [userID], async (error, results) => {
       if (error) {
@@ -86,6 +80,19 @@ app.post('/login', async (req, res) => {
     console.error('로그인 실패:', error);
     res.status(500).send('로그인에 실패했습니다. 다시 시도해주세요.');
   }
+});
+
+//결제시 로그인 정보 확인
+app.get('/userInfo', (req, res) => {
+  // 추가
+  connection.query('SELECT * FROM users', (error, results) => {
+    if (error) {
+      console.error('사용자 정보 조회 실패:', error);
+      res.status(500).send('사용자 정보 조회에 실패했습니다. 다시 시도해주세요.');
+    } else {
+      res.json(results);
+    }
+  });
 });
 
 // 관리자 페이지 라우트
