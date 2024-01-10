@@ -39,7 +39,7 @@ async function initializeDatabase() {
 initializeDatabase();
 
 // query 함수 정의
-async function query(sql, params) {
+async function productQuery(sql, params) {
   // 쿼리 실행 전에 연결 상태 체크
   if (pool._closed) {
     console.error('Pool is closed. Reconnecting...');
@@ -57,4 +57,4 @@ async function query(sql, params) {
 }
 
 // query 함수 내보내기
-module.exports = { query };
+module.exports = { productQuery };
