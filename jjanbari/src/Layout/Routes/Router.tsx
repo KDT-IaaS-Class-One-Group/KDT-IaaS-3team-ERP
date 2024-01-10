@@ -22,7 +22,7 @@ import WithdrawPage from '../../pages/Mypage/Withdraw/WithdrawPage';
 import ProductManagementPage from '../../pages/Admin/Product/ProductManagementPage';
 import ProductUploadPage from '../../pages/Admin/Product/ProductUpload/ProductUploadPage';
 import ProductUpdatePage from '../../pages/Admin/Product/ProductUpdate/ProductUpdatePage';
-import UserManagementPage from '../../pages/Admin/User/UserProfilesPage';
+// import UserManagementPage from '../../pages/Admin/User/UserProfilesPage';
 import StatisticsPage from '../../pages/Admin/Statistics/StatisticsPage';
 import PaymentPage from '../../pages/Main/Payment/PaymentPage';
 
@@ -50,7 +50,7 @@ const Router = () => {
       <Route path="/productManagement" element={<ProductManagementPage />}></Route>
       <Route path="/productUpdate" element={<ProductUpdatePage />}></Route>
       <Route path="/productUpload" element={<ProductUploadPage />}></Route>
-      <Route path="/userManagement" element={<UserManagementPage />}></Route>
+      {/* <Route path="/userManagement" element={<UserManagementPage />}></Route> */}
       <Route path="/statistics" element={<StatisticsPage />}></Route>
     </Routes>
   );
