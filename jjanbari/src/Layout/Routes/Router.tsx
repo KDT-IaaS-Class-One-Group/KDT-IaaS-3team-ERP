@@ -1,30 +1,31 @@
 // src/Component/Routes/Router.tsx
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 
-import AdminPage from "../../pages/Admin/AdminPage";
-import LoginPage from "../../pages/Login/LoginPage";
-import SignupPage from "../../pages/Signup/SignupPage";
-import Mypage from "../../pages/Mypage/Mypage";
-import MainPage from "../../pages/Main/MainPage";
+import AdminPage from '../../pages/Admin/AdminPage';
+import LoginPage from '../../pages/Login/LoginPage';
+import SignupPage from '../../pages/Signup/SignupPage';
+import Mypage from '../../pages/Mypage/Mypage';
+import MainPage from '../../pages/Main/MainPage';
 
-import "./Router.css";
+import './Router.css';
 
 // 마이페이지 하위 컴포넌트 import
-import CartPage from "../../pages/Mypage/Cart/CartPage";
-import DeliveryPage from "../../pages/Mypage/Delivery/DeliveryPage";
-import LikePage from "../../pages/Mypage/Like/LikePage";
-import OrderPage from "../../pages/Mypage/Order/OrderPage";
-import RecentPage from "../../pages/Mypage/Recent/RecentPage";
-import WithdrawPage from "../../pages/Mypage/Withdraw/WithdrawPage";
+import CartPage from '../../pages/Mypage/Cart/CartPage';
+import DeliveryPage from '../../pages/Mypage/Delivery/DeliveryPage';
+import LikePage from '../../pages/Mypage/Like/LikePage';
+import OrderPage from '../../pages/Mypage/Order/OrderPage';
+import RecentPage from '../../pages/Mypage/Recent/RecentPage';
+import WithdrawPage from '../../pages/Mypage/Withdraw/WithdrawPage';
 
 // 관리자페이지 하위 컴포넌트 import
-import ProductManagementPage from "../../pages/Admin/Product/ProductManagementPage";
-import ProductUploadPage from "../../pages/Admin/Product/ProductUpload/ProductUploadPage";
-import ProductUpdatePage from "../../pages/Admin/Product/ProductUpdate/ProductUpdatePage";
-import UserManagementPage from "../../pages/Admin/User/UserManagementPage";
-import OrderHistoryPage from "../../pages/Admin/User/OrderHistory/OrderHistoryPage";
-import StatisticsPage from "../../pages/Admin/Statistics/StatisticsPage";
+import ProductManagementPage from '../../pages/Admin/Product/ProductManagementPage';
+import ProductUploadPage from '../../pages/Admin/Product/ProductUpload/ProductUploadPage';
+import ProductUpdatePage from '../../pages/Admin/Product/ProductUpdate/ProductUpdatePage';
+import UserManagementPage from '../../pages/Admin/User/UserManagementPage';
+import OrderHistoryPage from '../../pages/Admin/User/OrderHistory/OrderHistoryPage';
+import StatisticsPage from '../../pages/Admin/Statistics/StatisticsPage';
+import PaymentPage from '../../pages/Main/Payment/PaymentPage';
 
 const Router = () => {
   return (
@@ -34,6 +35,9 @@ const Router = () => {
       <Route path="/signup" element={<SignupPage />}></Route>
       <Route path="/mypage" element={<Mypage />}></Route>
       <Route path="/" element={<MainPage />}></Route>
+
+      {/* 결제페이지 */}
+      <Route path="/payment" element={<PaymentPage />}></Route>
 
       {/* 마이 페이지 내부 */}
       <Route path="/cart" element={<CartPage />}></Route>

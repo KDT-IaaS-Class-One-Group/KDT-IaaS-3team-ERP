@@ -1,7 +1,9 @@
 // src/pages/Main/ProductRender.tsx
 
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import handlePurchase from './function/HandlePurchase';
+import { isLoggedIn } from '../../Layout/Header/User/LoginStatus/isLoggedIn';
 
 type Product = {
   id: number;
@@ -12,12 +14,22 @@ type Product = {
 
 const ProductRender = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:3001/products')
       .then((response) => response.json())
       .then((data) => setProducts(data));
   }, []);
+
+  const handleBuy = (productName: string, quantity: number) => {
+    if (isLoggedIn()) {
+      handlePurchase(products, setProducts)(productName, quantity);
+      navigate('/payment');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <div className="product-container">
