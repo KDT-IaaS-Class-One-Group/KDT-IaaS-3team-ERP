@@ -1,20 +1,5 @@
 /* src/Component/Header/Header.css */
 
-#userHeader > a {
-  padding: 3rem;
-  border: 1px solid #000;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  margin-left: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration-line: none;
-}
-#userHeader> a:hover {
-  font-weight: bold;
-}
-
 #userHeader {
   display: flex;
   flex-direction: column; /* 수직 정렬 */
