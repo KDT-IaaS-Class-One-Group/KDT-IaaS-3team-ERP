@@ -1,3 +1,5 @@
+import './HeaderLogo.css'
+
 const HeaderLogo = () => {
   return (
     <div className="headerLogo">

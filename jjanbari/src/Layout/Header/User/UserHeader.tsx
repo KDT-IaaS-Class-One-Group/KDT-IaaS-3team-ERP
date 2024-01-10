@@ -9,8 +9,8 @@ import HeaderCategory from './HeaderCategory/HeaderCategory';
 const UserHeader = () => {
   return (
     <header id="userHeader">
-      <HeaderLogo />
       <HeaderPages />
+      <HeaderLogo />
       <HeaderCategory />
     </header>
   );
