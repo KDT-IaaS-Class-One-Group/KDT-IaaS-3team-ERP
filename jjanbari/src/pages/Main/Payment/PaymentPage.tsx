@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import handlePurchase from '../function/HandlePurchase';
+import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 
 type User = {
   userID: string;
@@ -26,33 +28,31 @@ const PaymentPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 로그인한 사용자의 정보를 가져옵니다.
-    // fetch('http://localhost:3001/userInfo/users') // 수정 전
-    fetch('http://localhost:3001/login') // 수정 후
+    fetch('http://localhost:3001/login')
       .then((response) => response.json())
-      .then((data: User) => setUser(data)); // 수정
+      .then((data: User) => setUser(data));
 
-    // 결제 상품 정보를 가져옵니다.
-    // fetch('http://localhost:3001/productInfo/products') // 수정 전
-    fetch('http://localhost:3001/products') // 수정 후
+    fetch('http://localhost:3001/products')
       .then((response) => response.json())
       .then((data: Product[]) => {
-        // 수정
         setProducts(data);
-        setTotalPrice(data.reduce((sum: number, product: Product) => sum + product.price * product.quantity, 0)); // 수정
+        setTotalPrice(data.reduce((sum: number, product: Product) => sum + product.price * product.quantity, 0));
       });
   }, []);
 
   const handleQuantityChange = (productName: string, quantity: number) => {
-    // 추가
     setProducts(products.map((product) => (product.name === productName ? { ...product, quantity } : product)));
-    setTotalPrice(products.reduce((sum: number, product: Product) => sum + product.price * (product.name === productName ? quantity : product.quantity), 0)); // 수정
+    setTotalPrice(products.reduce((sum: number, product: Product) => sum + product.price * (product.name === productName ? quantity : product.quantity), 0));
   };
 
-  const handlePayment = () => {
-    // 여기에 결제 로직을 추가하세요.
-    // 예를 들어, 결제가 성공하면 다음 페이지로 이동합니다.
-    navigate('/');
+  const handleBuy = (product: Product) => {
+    // 수정
+    if (isLoggedIn()) {
+      handlePurchase(products, setProducts)(product.name, product.quantity);
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -85,15 +85,14 @@ const PaymentPage = () => {
             <p>가격: {product.price}</p>
             <p>
               수량: <input type="number" value={product.quantity} onChange={(e) => handleQuantityChange(product.name, Number(e.target.value))} />
-            </p>{' '}
-            {/* 수정 */}
+            </p>
+            <button onClick={() => handleBuy(product)}>구매하기</button> {/* 수정 */}
           </div>
         ))}
       </div>
       <div>
-        <h2>총 가격: {totalPrice}</h2> {/* 추가 */}
+        <h2>총 가격: {totalPrice}</h2>
       </div>
-      <button onClick={handlePayment}>결제하기</button>
     </div>
   );
 };
