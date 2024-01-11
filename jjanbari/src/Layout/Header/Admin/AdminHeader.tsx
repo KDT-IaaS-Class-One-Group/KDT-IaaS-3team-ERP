@@ -1,15 +1,15 @@
 // src/Component/Header/Admin/AdminHeader.tsx
-
+import HeaderPages from '../User/HeaderPages/HeaderPages';
+import HeaderLogo from '../User/HeaderLogo/HeaderLogo';
+import HeaderCategory from '../User/HeaderCategory/HeaderCategory';
 import './AdminHeader.css';
 
 const AdminHeader = () => {
   return (
-    <div id="adminHeader">
-      <a href="/productManagement">상품 관리</a>
-      <a href="/userManagement">회원 관리</a>
-      <a href="/statistics">통계 처리</a>
-      <a href="/admin">관리자 페이지 로고</a>
-    </div>
+    <header id="AdminHeader">
+      <HeaderLogo />
+      <HeaderCategory />
+    </header>
   );
 };
 
