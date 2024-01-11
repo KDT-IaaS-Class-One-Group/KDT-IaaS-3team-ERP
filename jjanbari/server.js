@@ -107,19 +107,6 @@ app.get('/products', async (req, res) => {
   }
 });
 
-app.put('/products/:name', async (req, res) => {
-  const { name } = req.params;
-  const { quantity } = req.body;
-
-  try {
-    await productQuery('UPDATE products SET quantity = quantity - ? WHERE name = ?', [quantity, name]);
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error during updating product:', error.message);
-    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
-  }
-});
-
 // 관리자 페이지 상품 관리
 app.get('/admin/products', async (req, res) => {
   try {
@@ -131,16 +118,28 @@ app.get('/admin/products', async (req, res) => {
   }
 });
 
-app.put('/admin/products/:id', async (req, res) => {
+app.put('/products/purchase/:id', async (req, res) => {
   const { id } = req.params;
-  const { name, price, quantity } = req.body;
+  const { quantity } = req.body; // 구매할 수량
 
   try {
-    await productQuery('UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ?', [name, price, quantity, id]);
-    res.json({ success: true });
+    // 상품 정보를 먼저 조회
+    const product = await productQuery('SELECT quantity FROM products WHERE id = ?', [id]);
+    if (product.length === 0) {
+      return res.status(404).json({ success: false, error: '상품을 찾을 수 없습니다.' });
+    }
+
+    const currentQuantity = product[0].quantity;
+    if (quantity > currentQuantity) {
+      return res.status(400).json({ success: false, error: '재고가 부족합니다.' });
+    }
+
+    // 상품 수량 업데이트
+    await productQuery('UPDATE products SET quantity = quantity - ? WHERE id = ?', [quantity, id]);
+    res.json({ success: true, message: '구매가 완료되었습니다.' });
   } catch (error) {
-    console.error('Error during updating product:', error.message);
-    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+    console.error('Error during purchase:', error.message);
+    res.status(500).json({ success: false, error: '구매 처리 중 오류가 발생했습니다.' });
   }
 });
 
@@ -164,6 +163,22 @@ app.get('/users', async (req, res) => {
   } catch (error) {
     console.error('Error during fetching users:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+//결제 버튼 클릭시 post 요청으로 구매한 날짜 구매한 상품 보내기
+
+app.post('/payment', async (req, res) => {
+  const { productId } = req.body; // 클라이언트로부터 받은 상품 ID
+
+  try {
+    // payment 테이블에 기록
+    await productQuery('INSERT INTO payment (sold) VALUES (?)', [productId]);
+
+    res.json({ success: true, message: '결제가 완료되었습니다.' });
+  } catch (error) {
+    console.error('Error during payment processing:', error.message);
+    res.status(500).json({ success: false, error: '결제 처리 중 오류가 발생했습니다.' });
   }
 });
 
