@@ -1,10 +1,5 @@
 /* src/pages/Signup/SignupPage.css */
 
-div {
-  justify-content: center;
-}
-
-
 .SignupForm {
   display: flex;
   flex-direction: column;
