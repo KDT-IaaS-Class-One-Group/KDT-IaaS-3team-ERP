@@ -13,8 +13,17 @@ const LoginToggle: React.FC = () => {
       setUserId(storedUserId);
       setIsAdmin(storedUserId === 'adroot');
     }
+  
+    // 브라우저가 렌더링될 때마다 세션을 조회
+    setInterval(() => {
+      const storedUserId = sessionStorage.getItem('userId');
+      if (storedUserId) {
+        setUserId(storedUserId);
+        setIsAdmin(storedUserId === 'adroot');
+      }
+    }, 1000);
   }, []);
-
+    
   const handleLogin = (id: string) => {
     // 로그인 시 userId와 isAdmin을 sessionStorage에 저장
     setUserId(id);
