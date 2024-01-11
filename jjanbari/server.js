@@ -99,12 +99,12 @@ app.get('/products', async (req, res) => {
   }
 });
 
-app.put('/products/:id', async (req, res) => {
-  const { id } = req.params;
+app.put('/products/:name', async (req, res) => {
+  const { name } = req.params;
   const { quantity } = req.body;
 
   try {
-    await productQuery('UPDATE products SET quantity = quantity - ? WHERE id = ?', [quantity, id]);
+    await productQuery('UPDATE products SET quantity = quantity - ? WHERE name = ?', [quantity, name]);
     res.json({ success: true });
   } catch (error) {
     console.error('Error during updating product:', error.message);
