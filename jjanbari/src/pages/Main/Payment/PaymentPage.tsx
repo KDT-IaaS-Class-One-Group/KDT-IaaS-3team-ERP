@@ -30,11 +30,10 @@ const PaymentPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-     // 로그인한 사용자의 정보를 가져옵니다.
+    // 로그인한 사용자의 정보를 가져옵니다.
     fetch('http://localhost:3001/users')
       .then((response) => response.json())
       .then((data: User) => setUser(data));
-
 
     // 선택된 상품 정보를 가져옵니다.
     const productFromState = location.state?.selectedProduct as Product | undefined;
@@ -47,8 +46,8 @@ const PaymentPage = () => {
     if (isLoggedIn() && selectedProduct) {
       try {
         // 먼저 상품 수량 감소 처리
-        const purchaseResponse = await handlePurchase(selectedProduct, setSelectedProduct);
-        if (purchaseResponse.success) {
+        const purchaseSuccess = await handlePurchase(selectedProduct, setSelectedProduct);
+        if (purchaseSuccess) {
           // 상품 수량 감소에 성공하면, 결제 정보를 서버로 전송
           const paymentResponse = await fetch('http://localhost:3001/payment', {
             method: 'POST',
@@ -57,10 +56,10 @@ const PaymentPage = () => {
             },
             body: JSON.stringify({ productId: selectedProduct.id }),
           });
-  
+
           if (paymentResponse.ok) {
             // 추가 처리 (예: 사용자에게 성공 메시지 표시)
-            navigate('/'); // 상품페이지로이동 
+            navigate('/'); // 주문 목록 페이지로 이동
           } else {
             throw new Error('결제 처리 실패');
           }
@@ -75,7 +74,6 @@ const PaymentPage = () => {
       navigate('/login');
     }
   };
-  
 
   return (
     <div id="container">
