@@ -26,7 +26,7 @@ async function initializeDatabase() {
         name VARCHAR(255) NOT NULL,
         price INT NOT NULL,
         quantity INT NOT NULL,
-        img varchar(255) NOT NULL    
+        img varchar(255) 
       ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
