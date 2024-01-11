@@ -29,7 +29,7 @@ const PaymentPage = () => {
 
   useEffect(() => {
     // 로그인한 사용자의 정보를 가져옵니다.
-    fetch('http://localhost:3001/userInfo') // 수정
+    fetch('http://localhost:3001/users')
       .then((response) => response.json())
       .then((data: User) => setUser(data));
 
