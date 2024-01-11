@@ -36,19 +36,13 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  text-align: center;
   margin-top: 20vh;;
 }
 
 h1 {
   font-size: 2rem;
-  color: green;
 }
 
-h2 {
-  font-size: 1.5rem;
-  color: blue;
-}
 
 #footer {
   width: 100vw;

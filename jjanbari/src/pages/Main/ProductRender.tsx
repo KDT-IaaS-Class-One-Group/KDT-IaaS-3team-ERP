@@ -37,11 +37,14 @@ const ProductRender = () => {
         products.map((product) => (
           <div className="product-item" key={product.id}>
             <img src={product.img} alt={product.name} /> {/* 이미지 렌더링 */}
-            <h2>{product.name}</h2>
-            <p>가격: {product.price}</p>
-            <p>수량: {product.quantity}</p>
-            <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
-            <button onClick={() => handleBuy(product, Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value))}>구매</button>
+            <div className='product-details'>
+              <h3>{product.name}</h3>
+              <br></br>
+              <p>가격: {product.price}</p>
+              <p>수량: {product.quantity}</p>
+              <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
+              <button onClick={() => handleBuy(product, Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value))}>구매</button>
+            </div>
           </div>
         ))}
     </div>
