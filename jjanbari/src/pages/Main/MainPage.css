@@ -52,10 +52,6 @@
   border-top: 1px solid lightgray;
 }
 
-.product-details > h3 {
-  color: #F4A460;
-}
-
 .product-details > input,
 .product-details > button{
   width: 100px;
