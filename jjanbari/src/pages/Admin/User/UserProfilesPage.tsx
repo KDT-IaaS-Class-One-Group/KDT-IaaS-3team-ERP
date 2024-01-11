@@ -31,7 +31,7 @@ const UserProfilesPage = () => {
   }, []);
 
   return (
-    <div>
+    <div id = "container">
       <h2>User Table</h2>
       <table>
         <thead>

@@ -4,9 +4,9 @@ const AdminHeaderPages = () => {
 
   return (
     <div className="adminHeaderPages">
-      <a href="/cart">장바구니</a>
-      <a href="/like">좋아요</a>
-      <a href="/mypage">마이페이지</a>      
+      <a href="/productManagement">상품 관리</a>
+      <a href="/userManagement">유저 관리</a>
+      <a href="/statistics">통계 처리</a>      
     </div>
   );
 };
