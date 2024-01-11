@@ -15,7 +15,7 @@ const LoginForm: React.FC = () => {
     userID: '',
     userPW: '',
   });
-  const [loginError, setLoginError] = useState<boolean>(false);
+  const loginError = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleLogin = (id: string) => {
