@@ -107,7 +107,6 @@ app.get('/products', async (req, res) => {
   }
 });
 
-
 // 관리자 페이지 상품 관리
 app.get('/admin/products', async (req, res) => {
   try {
@@ -164,6 +163,22 @@ app.get('/users', async (req, res) => {
   } catch (error) {
     console.error('Error during fetching users:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+//결제 버튼 클릭시 post 요청으로 구매한 날짜 구매한 상품 보내기
+
+app.post('/payment', async (req, res) => {
+  const { productId } = req.body; // 클라이언트로부터 받은 상품 ID
+
+  try {
+    // payment 테이블에 기록
+    await productQuery('INSERT INTO payment (sold) VALUES (?)', [productId]);
+
+    res.json({ success: true, message: '결제가 완료되었습니다.' });
+  } catch (error) {
+    console.error('Error during payment processing:', error.message);
+    res.status(500).json({ success: false, error: '결제 처리 중 오류가 발생했습니다.' });
   }
 });
 
