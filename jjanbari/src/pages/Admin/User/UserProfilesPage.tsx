@@ -13,7 +13,7 @@ const UserProfilesPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3001/admin/userprofiles');
+        const response = await fetch('http://localhost:3001/users');
         const data = await response.json();
         // data가 배열인지 확인 후 상태 업데이트
         if (Array.isArray(data)) {
