@@ -48,12 +48,11 @@ const ProductRender = () => {
               <p>가격: {product.price}</p>
               <p>수량: {product.quantity}</p>
               <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
-              <button onClick={() => handleBuy(product, Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value))}>구매</button>
+              <button onClick={() => handleBuy(product)}>구매</button>
             </div>
           </div>
         ))}
     </div>
   );
-};
-
+}
 export default ProductRender;
