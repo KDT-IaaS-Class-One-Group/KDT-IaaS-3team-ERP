@@ -15,12 +15,15 @@
 }
 
 .product-item {
+  width: 230px;
   margin-bottom: 16px;
   padding: 16px;
+  margin: 5px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
 }
 
 .product-name {
