@@ -1,3 +1,5 @@
+// src/pages/Payment/PaymentPage.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
@@ -10,7 +12,7 @@ type User = {
 };
 
 type Product = {
-  id: string; // id 속성 추가
+  id: string;
   name: string;
   price: number;
   quantity: number;
@@ -22,16 +24,17 @@ const PaymentPage = () => {
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined); // 이 줄을 여기로 이동
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // 로그인한 사용자의 정보를 가져옵니다.
+     // 로그인한 사용자의 정보를 가져옵니다.
     fetch('http://localhost:3001/users')
       .then((response) => response.json())
       .then((data: User) => setUser(data));
+
 
     // 선택된 상품 정보를 가져옵니다.
     const productFromState = location.state?.selectedProduct as Product | undefined;
@@ -42,10 +45,14 @@ const PaymentPage = () => {
 
   const handleBuy = async () => {
     if (isLoggedIn() && selectedProduct) {
-      await handlePurchase([selectedProduct], setSelectedProduct)(selectedProduct.id, selectedProduct.quantity);
-      navigate('/');
+      const success = await handlePurchase(selectedProduct, setSelectedProduct);
+      if (success) {
+        navigate('/'); // 성공적인 구매 후 메인 페이지로 이동
+      } else {
+        alert('구매되지 않았습니다.');
+      }
     } else {
-      navigate('/login');
+      navigate('/login'); // 로그인하지 않은 경우 로그인 페이지로 이동
     }
   };
 
