@@ -6,6 +6,10 @@ const cors = require('cors');
 const { userQuery } = require('./src/Databases/userInfo');
 const { productQuery } = require('./src/Databases/productInfo');
 
+//이미지 업로드를 위해 multer를 추가함
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 const app = express();
 const port = 3001;
 
@@ -13,7 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // 회원 가입 라우트
-app.post("/signup", async (req, res) => {
+app.post('/signup', async (req, res) => {
   try {
     const { userID, userPW, userNAME } = req.body;
 
@@ -24,7 +28,7 @@ app.post("/signup", async (req, res) => {
 
     await userQuery(insertDataQuery, [userID, userPW, userNAME]);
 
-    console.log("회원 가입 정보 저장 성공:", req.body);
+    console.log('회원 가입 정보 저장 성공:', req.body);
     res.sendStatus(200);
   } catch (error) {
     console.error('회원 가입 실패:', error);
@@ -157,6 +161,18 @@ app.get('/users', async (req, res) => {
     console.error('Error during fetching users:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
+});
+
+app.use('/uploads', express.static('uploads'));
+//이미지 저장
+app.post('/addProductWithImage', upload.single('image'), (req, res) => {
+  const { name, price, quantity } = req.body;
+  const img = req.file.path; // 업로드된 이미지 경로
+
+  // DB에 name, price, quantity, img 정보 저장
+  // 예: DB에 이미지 정보와 제품 정보 저장
+
+  res.json({ success: true, message: '제품 등록 완료' });
 });
 
 app.listen(port, () => {
