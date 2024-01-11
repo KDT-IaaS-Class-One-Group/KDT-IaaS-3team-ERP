@@ -3,7 +3,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer');
 const { userQuery } = require('./src/Databases/userInfo');
 const { productQuery } = require('./src/Databases/productInfo');
 
@@ -16,9 +15,6 @@ const port = 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
-
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
 // 회원 가입 라우트
 app.post('/signup', async (req, res) => {
@@ -176,6 +172,66 @@ app.get('/users', async (req, res) => {
   }
 });
 
+// 상품 카테고리 별 관리
+// AnimalTypes 가져오기
+app.get('/getAnimalTypes', async (req, res) => {
+  try {
+    const animaltype = await productQuery('SELECT * FROM animalTypes');
+    res.json(animaltype);
+  } catch (error) {
+    console.error('AnimalTypes 가져오기 에러:', error);
+    res.status(500).json({ error: 'AnimalTypes 정보를 가져오는 중 에러가 발생했습니다.' });
+  }
+});
+
+app.get('/getAgeGroups', async (req, res) => {
+  try {
+    const ageGroup = await productQuery('SELECT * FROM ageGroups');
+    res.json(ageGroup);
+  } catch (error) {
+    console.error('AgeGroups 가져오기 에러:', error);
+    res.status(500).json({ error: 'AnimalTypes 정보를 가져오는 중 에러가 발생했습니다.' });
+  }
+});
+
+app.get('/getFunctionalTypes', async (req, res) => {
+  try {
+    const functionalTypes = await productQuery('SELECT * FROM functionalTypes');
+    res.json(functionalTypes);
+  } catch (error) {
+    console.error('FunctionalTypes 가져오기 에러:', error);
+    res.status(500).json({ error: 'AnimalTypes 정보를 가져오는 중 에러가 발생했습니다.' });
+  }
+});
+
+// 추가: 각 카테고리에 해당하는 옵션 가져오기
+app.get('/getOptionsByCategory/:category', async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    let query = '';
+    switch (category) {
+      case 'animal':
+        query = 'SELECT * FROM animalTypes';
+        break;
+      case 'age':
+        query = 'SELECT * FROM ageGroups';
+        break;
+      case 'functional':
+        query = 'SELECT * FROM functionalTypes';
+        break;
+      default:
+        res.status(400).json({ error: '잘못된 카테고리입니다.' });
+        return;
+    }
+
+    const rows = await productQuery(query);
+    res.json(rows);
+  } catch (error) {
+    console.error('옵션 가져오기 에러:', error);
+    res.status(500).json({ error: '옵션 정보를 가져오는 중 에러가 발생했습니다.' });
+  }
+});
 app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port}`);
 });
