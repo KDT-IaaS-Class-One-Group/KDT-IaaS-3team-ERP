@@ -15,6 +15,7 @@ type Product = {
   name: string;
   price: number;
   quantity: number;
+  img: string; // 이미지 URL 필드 추가
 };
 
 const PaymentPage = () => {
@@ -81,12 +82,13 @@ const PaymentPage = () => {
         <h2>결제 상품</h2>
         {products.map((product, index) => (
           <div key={index}>
+            <img src={product.img} alt={product.name} style={{ width: '100px', height: '100px' }} /> {/* 이미지 렌더링 */}
             <h3>{product.name}</h3>
             <p>가격: {product.price}</p>
             <p>
               수량: <input type="number" value={product.quantity} onChange={(e) => handleQuantityChange(product.name, Number(e.target.value))} />
             </p>
-            <button onClick={() => handleBuy(product)}>구매하기</button> {/* 수정 */}
+            <button onClick={() => handleBuy(product)}>구매하기</button>
           </div>
         ))}
       </div>
