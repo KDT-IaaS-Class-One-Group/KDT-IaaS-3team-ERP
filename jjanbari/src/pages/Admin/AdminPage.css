@@ -1,10 +1,5 @@
 /* src/pages/Admin/AdminPage.css */
 
-div {
-  justify-content: center;
-}
-
-
 .ProductForm {
   display: flex;
   flex-direction: column;

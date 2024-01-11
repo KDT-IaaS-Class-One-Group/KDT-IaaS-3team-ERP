@@ -5,12 +5,16 @@
   width: 100vw;
   height: 5vh;
   border: 1px solid lightgray;
+  
+}
+
+
+.pages{
+  display: flex;
+  align-items: center;
 }
 
 .pages > a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: black;
   border: none;
   padding: 0;
@@ -23,3 +27,4 @@
 .pages > a:hover {
   font-weight: bold;
 }
+
