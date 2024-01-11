@@ -7,6 +7,11 @@
   border: 1px solid lightgray;
 }
 
+.adminHeaderPages:hover ~ .adminSideHeaderPages { 
+  height: 5vh;
+  transition: 0.5s ease;
+}
+
 .adminHeaderPages > a {
   color: white;
   border: none;

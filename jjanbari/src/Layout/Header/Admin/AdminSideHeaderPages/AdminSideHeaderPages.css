@@ -1,0 +1,9 @@
+.adminSideHeaderPages {
+  /* 하단에 오도록 설정 */
+  width: 100vw;
+  height: 0;
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}

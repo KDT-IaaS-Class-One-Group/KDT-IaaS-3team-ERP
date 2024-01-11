@@ -1,6 +1,7 @@
 // src/Component/Header/Admin/AdminHeader.tsx
 import HeaderLogo from '../User/HeaderLogo/HeaderLogo';
 import AdminHeaderPages from './AdminHeaderPages/AdminHeaderPages';
+import AdminSideHeaderPages from './AdminSideHeaderPages/AdminSideHeaderPages';
 
 import './AdminHeader.css';
 
@@ -9,6 +10,7 @@ const AdminHeader = () => {
     <header id="AdminHeader">
       <HeaderLogo />
       <AdminHeaderPages />
+      <AdminSideHeaderPages />
     </header>
   );
 };
