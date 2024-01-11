@@ -1,29 +1,67 @@
-// src/pages/Admin/ProductForm.tsx
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import handleSubmit from '../../function/HandleSubmit';
 
 const ProductForm = () => {
   const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState<number>(0); // 가격을 숫자로만 관리
+  const [quantity, setQuantity] = useState<number>(0);
+  const [image, setImage] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!name || price <= 0 || quantity <= 0) {
+      alert('상품명, 가격 및 수량을 채워주세요.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('price', price.toString());
+    formData.append('quantity', quantity.toString());
+
+    // 이미지가 있는 경우에만 formData에 추가
+    if (image) {
+      formData.append('image', image);
+    }
+
+    try {
+      const response = await fetch('http://localhost:3001/addProductWithImage', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('상품이 성공적으로 등록되었습니다.');
+        navigate('/');
+      } else {
+        throw new Error('상품 등록 실패');
+      }
+    } catch (error) {
+      console.error('제품 등록 중 에러 발생:', error);
+      alert('상품 등록 중 에러가 발생했습니다.');
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(name, price, quantity, navigate)}>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="name">상품명:</label>
       <br />
-      <input type="text" id="name" name="NAME" value={name} onChange={(e) => setName(e.target.value)} />
+      <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
       <br />
       <label htmlFor="price">가격:</label>
       <br />
-      <input type="text" id="price" name="PRICE" value={price} onChange={(e) => setPrice(e.target.value)} />
+      <input type="number" id="price" name="price" value={price} onChange={(e) => setPrice(+e.target.value)} />
       <br />
       <label htmlFor="quantity">수량:</label>
       <br />
-      <input type="number" id="quantity" name="QUANTITY" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+      <input type="number" id="quantity" name="quantity" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+      <br />
+      <label htmlFor="image">이미지 (선택 사항):</label> {/* 선택 사항임을 명시 */}
+      <br />
+      <input type="file" id="image" name="image" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} />
       <br />
       <input type="submit" value="상품 등록" />
     </form>
