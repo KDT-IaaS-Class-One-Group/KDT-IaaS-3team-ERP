@@ -12,8 +12,8 @@ const ProductForm = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!name || price <= 0 || quantity <= 0 || !image) {
-      alert('모든 필드를 채워주세요.');
+    if (!name || price <= 0 || quantity <= 0) {
+      alert('상품명, 가격 및 수량을 채워주세요.');
       return;
     }
 
@@ -21,7 +21,11 @@ const ProductForm = () => {
     formData.append('name', name);
     formData.append('price', price.toString());
     formData.append('quantity', quantity.toString());
-    formData.append('image', image);
+
+    // 이미지가 있는 경우에만 formData에 추가
+    if (image) {
+      formData.append('image', image);
+    }
 
     try {
       const response = await fetch('http://localhost:3001/addProductWithImage', {
@@ -31,7 +35,7 @@ const ProductForm = () => {
 
       if (response.ok) {
         alert('상품이 성공적으로 등록되었습니다.');
-        navigate('/main');
+        navigate('/');
       } else {
         throw new Error('상품 등록 실패');
       }
@@ -55,7 +59,7 @@ const ProductForm = () => {
       <br />
       <input type="number" id="quantity" name="quantity" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
       <br />
-      <label htmlFor="image">이미지:</label>
+      <label htmlFor="image">이미지 (선택 사항):</label> {/* 선택 사항임을 명시 */}
       <br />
       <input type="file" id="image" name="image" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} />
       <br />
