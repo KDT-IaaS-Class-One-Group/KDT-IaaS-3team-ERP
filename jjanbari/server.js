@@ -71,10 +71,19 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/addProducts', async (req, res) => {
+app.use('/uploads', express.static('uploads'));
+//이미지 저장
+app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
   const { name, price, quantity } = req.body;
+  const img = req.file ? req.file.path : null;
 
   try {
+    const insertProductQuery = `
+      INSERT INTO products (name, price, quantity, img)
+      VALUES (?, ?, ?, ?);
+    `;
+    await productQuery(insertProductQuery, [name, price, quantity, img]);
+
     // 먼저 동일한 name과 price를 가진 상품이 있는지 확인합니다.
     const products = await productQuery('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
 
@@ -95,7 +104,7 @@ app.post('/addProducts', async (req, res) => {
 
 app.get('/products', async (req, res) => {
   try {
-    const products = await productQuery('SELECT * FROM products');
+    const products = await productQuery('SELECT id, name, price, quantity, img FROM products');
     res.json(products);
   } catch (error) {
     console.error('Error during fetching products:', error.message);
@@ -161,28 +170,6 @@ app.get('/users', async (req, res) => {
     console.error('Error during fetching users:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
-});
-
-app.use('/uploads', express.static('uploads'));
-//이미지 저장
-app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
-  const { name, price, quantity } = req.body;
-  const img = req.file ? req.file.path : null;
-
-  try {
-    const insertProductQuery = `
-      INSERT INTO products (name, price, quantity, img)
-      VALUES (?, ?, ?, ?);
-    `;
-    await productQuery(insertProductQuery, [name, price, quantity, img]);
-
-    res.json({ success: true, message: '제품 등록 완료' });
-  } catch (error) {
-    console.error('제품 등록 실패:', error);
-    res.status(500).send('서버 오류가 발생했습니다.');
-  }
-
-  res.json({ success: true, message: '제품 등록 완료' });
 });
 
 app.listen(port, () => {
