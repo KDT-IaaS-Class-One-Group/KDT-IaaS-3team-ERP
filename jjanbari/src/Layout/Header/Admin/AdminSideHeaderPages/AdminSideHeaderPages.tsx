@@ -4,9 +4,8 @@ const AdminSideHeaderPages = () => {
 
   return (
     <div className="adminSideHeaderPages">
-      <a href="/productManagement">상품 관리</a>
-      <a href="/userManagement">유저 관리</a>
-      <a href="/statistics">통계 처리</a>     
+      <a href="/productUpload">상품 등록</a>
+      <a href="/productUpdate">상품 수정</a>
     </div>
   );
 };

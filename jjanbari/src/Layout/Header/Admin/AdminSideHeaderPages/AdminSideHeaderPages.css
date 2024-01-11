@@ -7,3 +7,14 @@
   background-color: #f4f4f4;
   overflow: hidden;
 }
+
+.adminSideHeaderPages > a {
+  color: black;
+  border: none;
+  padding: 0;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration-line: none;
+}
+
