@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import handlePurchase from './function/HandlePurchase';
+// import handlePurchase from './function/HandlePurchase';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 
 type Product = {
@@ -23,7 +23,8 @@ const ProductRender = () => {
       .then((data) => setProducts(data));
   }, []);
 
-  const handleBuy = (product: Product, quantity: number) => { // 수정
+  const handleBuy = (product: Product, quantity: number) => {
+    // 수정
     if (isLoggedIn()) {
       navigate('/payment');
     } else {
@@ -37,27 +38,11 @@ const ProductRender = () => {
         products.map((product) => (
           <div key={product.id}>
             <h2>{product.name}</h2>
-            <img src={product.img} alt={product.name} style={{ width: '200px', height: '200px' }} />
+            <img src={product.img} alt={product.name} /> {/* 이미지 렌더링 */}
             <p>가격: {product.price}</p>
             <p>수량: {product.quantity}</p>
-            <input
-              type="number"
-              id={`quantity-${product.name}`}
-              min="1"
-              max={product.quantity}
-            />
-            <button
-              onClick={() =>
-                handleBuy(
-                  product,
-                  Number((document.getElementById(
-                    `quantity-${product.name}`
-                  ) as HTMLInputElement).value)
-                )
-              }
-            >
-              구매
-            </button>
+            <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
+            <button onClick={() => handleBuy(product, Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value))}>구매</button>
           </div>
         ))}
     </div>

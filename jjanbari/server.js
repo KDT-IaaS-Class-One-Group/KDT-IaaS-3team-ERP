@@ -7,10 +7,9 @@ const multer = require('multer');
 const { userQuery } = require('./src/Databases/userInfo');
 const { productQuery } = require('./src/Databases/productInfo');
 
-const storage = multer.memoryStorage();
-const upload = multer({
-  storage: storage
-});
+//이미지 업로드를 위해 multer를 추가함
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const app = express();
 const port = 3001;
@@ -76,32 +75,26 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/addProducts', upload.single('image'), async (req, res) => {
+app.use('/uploads', express.static('uploads'));
+//이미지 저장
+app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
   const { name, price, quantity } = req.body;
-  const image = req.file.buffer;
+  const img = req.file ? req.file.path : null;
 
   try {
-    // 먼저 동일한 name과 price를 가진 상품이 있는지 확인합니다.
-    const products = await productQuery('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
+    // 동일한 name과 price를 가진 상품이 있는지 확인
+    const existingProducts = await productQuery('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
 
-    if (products.length > 0) {
-      // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트합니다.
-      await productQuery('UPDATE products SET quantity = quantity + ? WHERE name = ? AND price = ?', [
-        quantity,
-        name,
-        price,
-      ]);
+    if (existingProducts.length > 0) {
+      // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트
+      const existingProduct = existingProducts[0];
+      await productQuery('UPDATE products SET quantity = quantity + ? WHERE id = ?', [quantity, existingProduct.id]);
     } else {
-      // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가합니다.
-      await productQuery('INSERT INTO products (img, name, price, quantity) VALUES (?, ?, ?, ?)', [
-        image,
-        name,
-        price,
-        quantity,
-      ]);
+      // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가
+      await productQuery('INSERT INTO products (name, price, quantity, img) VALUES (?, ?, ?, ?)', [name, price, quantity, img]);
     }
 
-    res.json({ success: true });
+    res.json({ success: true, message: '제품 등록 완료' });
   } catch (error) {
     console.error('Error during product registration:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
@@ -110,7 +103,7 @@ app.post('/addProducts', upload.single('image'), async (req, res) => {
 
 app.get('/products', async (req, res) => {
   try {
-    const products = await productQuery('SELECT * FROM products');
+    const products = await productQuery('SELECT id, name, price, quantity, img FROM products');
     res.json(products);
   } catch (error) {
     console.error('Error during fetching products:', error.message);
