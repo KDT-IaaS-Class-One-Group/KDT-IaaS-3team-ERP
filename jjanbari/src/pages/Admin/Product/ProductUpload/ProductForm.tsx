@@ -3,23 +3,23 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductForm = () => {
   const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState(0);
-  const [image, setImage] = useState<File | null>(null); // 이미지 상태 추가
+  const [price, setPrice] = useState<number>(0); // 가격을 숫자로만 관리
+  const [quantity, setQuantity] = useState<number>(0);
+  const [image, setImage] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!name || !price || quantity <= 0 || !image) {
+    if (!name || price <= 0 || quantity <= 0 || !image) {
       alert('모든 필드를 채워주세요.');
       return;
     }
 
     const formData = new FormData();
     formData.append('name', name);
-    formData.append('price', price);
+    formData.append('price', price.toString());
     formData.append('quantity', quantity.toString());
     formData.append('image', image);
 
@@ -30,12 +30,14 @@ const ProductForm = () => {
       });
 
       if (response.ok) {
-        navigate('/admin'); // 성공 시 이동할 경로
+        alert('상품이 성공적으로 등록되었습니다.');
+        navigate('/main');
       } else {
         throw new Error('상품 등록 실패');
       }
     } catch (error) {
       console.error('제품 등록 중 에러 발생:', error);
+      alert('상품 등록 중 에러가 발생했습니다.');
     }
   };
 
@@ -47,7 +49,7 @@ const ProductForm = () => {
       <br />
       <label htmlFor="price">가격:</label>
       <br />
-      <input type="text" id="price" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+      <input type="number" id="price" name="price" value={price} onChange={(e) => setPrice(+e.target.value)} />
       <br />
       <label htmlFor="quantity">수량:</label>
       <br />
