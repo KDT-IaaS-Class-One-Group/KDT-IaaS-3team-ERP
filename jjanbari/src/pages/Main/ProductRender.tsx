@@ -10,6 +10,7 @@ type Product = {
   name: string;
   price: number;
   quantity: number;
+  img: string;
 };
 
 const ProductRender = () => {
@@ -32,10 +33,11 @@ const ProductRender = () => {
 
   return (
     <div className="product-container">
-       {products.length > 0 &&
+      {products.length > 0 &&
         products.map((product) => (
           <div key={product.id}>
             <h2>{product.name}</h2>
+            <img src={product.img} alt={product.name} style={{ width: '200px', height: '200px' }} />
             <p>가격: {product.price}</p>
             <p>수량: {product.quantity}</p>
             <input

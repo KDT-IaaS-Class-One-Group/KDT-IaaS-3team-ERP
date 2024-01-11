@@ -3,8 +3,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const multer = require('multer');
 const { userQuery } = require('./src/Databases/userInfo');
 const { productQuery } = require('./src/Databases/productInfo');
+
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage
+});
 
 const app = express();
 const port = 3001;
@@ -12,8 +18,11 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+
 // 회원 가입 라우트
-app.post("/signup", async (req, res) => {
+app.post('/signup', async (req, res) => {
   try {
     const { userID, userPW, userNAME } = req.body;
 
@@ -24,7 +33,7 @@ app.post("/signup", async (req, res) => {
 
     await userQuery(insertDataQuery, [userID, userPW, userNAME]);
 
-    console.log("회원 가입 정보 저장 성공:", req.body);
+    console.log('회원 가입 정보 저장 성공:', req.body);
     res.sendStatus(200);
   } catch (error) {
     console.error('회원 가입 실패:', error);
@@ -67,8 +76,9 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/addProducts', async (req, res) => {
+app.post('/addProducts', upload.single('image'), async (req, res) => {
   const { name, price, quantity } = req.body;
+  const image = req.file.buffer;
 
   try {
     // 먼저 동일한 name과 price를 가진 상품이 있는지 확인합니다.
@@ -76,10 +86,19 @@ app.post('/addProducts', async (req, res) => {
 
     if (products.length > 0) {
       // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트합니다.
-      await productQuery('UPDATE products SET quantity = quantity + ? WHERE name = ? AND price = ?', [quantity, name, price]);
+      await productQuery('UPDATE products SET quantity = quantity + ? WHERE name = ? AND price = ?', [
+        quantity,
+        name,
+        price,
+      ]);
     } else {
       // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가합니다.
-      await productQuery('INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)', [name, price, quantity]);
+      await productQuery('INSERT INTO products (img, name, price, quantity) VALUES (?, ?, ?, ?)', [
+        image,
+        name,
+        price,
+        quantity,
+      ]);
     }
 
     res.json({ success: true });
@@ -128,7 +147,12 @@ app.put('/admin/products/:id', async (req, res) => {
   const { name, price, quantity } = req.body;
 
   try {
-    await productQuery('UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ?', [name, price, quantity, id]);
+    await productQuery('UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ?', [
+      name,
+      price,
+      quantity,
+      id,
+    ]);
     res.json({ success: true });
   } catch (error) {
     console.error('Error during updating product:', error.message);
