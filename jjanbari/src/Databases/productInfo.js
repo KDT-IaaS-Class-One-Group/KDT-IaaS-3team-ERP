@@ -26,8 +26,8 @@ async function initializeDatabase() {
         name VARCHAR(255) NOT NULL,
         price INT NOT NULL,
         quantity INT NOT NULL,
-        img VARCHAR(255) NOT NULL       
-      );
+        img varchar(255) NOT NULL    
+      ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
     console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableName}`);
