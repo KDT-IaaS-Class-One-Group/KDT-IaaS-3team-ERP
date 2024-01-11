@@ -25,8 +25,6 @@
 
 #userHeader,
 #adminHeader {
-  width: 100vw;
-  height: 20vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,25 +33,16 @@
 #container {
   width: 100vw;
   height: 75vh;
-
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  text-align: center;
+  margin-top: 20vh;;
 }
 
 h1 {
-  margin-top: 2rem;
   font-size: 2rem;
-  color: green;
 }
 
-h2 {
-  margin-top: 2rem;
-  font-size: 1.5rem;
-  color: blue;
-}
 
 #footer {
   width: 100vw;
