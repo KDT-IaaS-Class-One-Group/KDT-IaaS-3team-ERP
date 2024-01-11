@@ -20,3 +20,8 @@
 .adminHeaderPages > a:hover {
   font-weight: bold;
 }
+
+.main {
+  position:absolute;
+  right: 1rem;
+}
