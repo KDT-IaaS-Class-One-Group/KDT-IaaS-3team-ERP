@@ -1,0 +1,22 @@
+.adminHeaderPages {
+  /* 하단에 오도록 설정 */
+  width: 100vw;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  border: 1px solid lightgray;
+}
+
+.adminHeaderPages > a {
+  color: white;
+  border: none;
+  padding: 0;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration-line: none;
+}
+
+.adminHeaderPages > a:hover {
+  font-weight: bold;
+}

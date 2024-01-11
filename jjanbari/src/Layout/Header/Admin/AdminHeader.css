@@ -7,5 +7,4 @@
   left: 0;
   right: 0;
   flex-direction: column; /* 수직 정렬 */
-  justify-content: pace-between;
 }
