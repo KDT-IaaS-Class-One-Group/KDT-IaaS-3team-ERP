@@ -15,7 +15,6 @@
 }
 
 .product-item {
-  width: 230px;
   margin-bottom: 16px;
   padding: 16px;
   margin: 5px;
@@ -24,6 +23,10 @@
   background-color: #fff;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   display: inline-block;
+}
+
+.product-item > img {
+  width: 100px;
 }
 
 .product-name {

@@ -36,8 +36,8 @@ const ProductRender = () => {
       {products.length > 0 &&
         products.map((product) => (
           <div className="product-item" key={product.id}>
-            <h2>{product.name}</h2>
             <img src={product.img} alt={product.name} /> {/* 이미지 렌더링 */}
+            <h2>{product.name}</h2>
             <p>가격: {product.price}</p>
             <p>수량: {product.quantity}</p>
             <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
