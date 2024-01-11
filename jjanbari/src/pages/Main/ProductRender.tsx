@@ -34,7 +34,7 @@ const ProductRender = () => {
     <div className="product-container">
        {products.length > 0 &&
         products.map((product) => (
-          <div key={product.id}>
+          <div className="products" key={product.id}>
             <h2>{product.name}</h2>
             <p>가격: {product.price}</p>
             <p>수량: {product.quantity}</p>
