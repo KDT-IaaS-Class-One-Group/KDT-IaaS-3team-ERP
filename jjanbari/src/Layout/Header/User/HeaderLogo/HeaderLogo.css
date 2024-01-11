@@ -2,16 +2,9 @@
   /* 로고가 중앙에 오도록 설정 */
   width: 100vw;
   height: 10vh;
+  display: flex;
+  align-items: center;
 
-}
-.headerLogo > a {
-  border: 1px solid #000;
-  color: black;
-  font-size: 3rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration-line: none;
 }
 
 .logoImage {
@@ -19,5 +12,4 @@
   height: 10vh;
   background-size: cover;
   background-image: url('./logo-removebg-preview.png');
-
 }

@@ -3,19 +3,18 @@
   width: 100vw;
   height: 5vh;
   border: 1px solid lightgray;
+  display: flex;
 }
 
 /* 컴포넌트 내부 요소 스타일링 */
 .headerCategory > a {
   display: flex;
-  justify-content: center;
   align-items: center;
   color: black;
   border: none;
   padding: 0;
-  margin-left: 1rem;
+  margin: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   text-decoration-line: none;
   text-align: center;
 }
