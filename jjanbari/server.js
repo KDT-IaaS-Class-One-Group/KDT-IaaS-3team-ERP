@@ -165,12 +165,22 @@ app.get('/users', async (req, res) => {
 
 app.use('/uploads', express.static('uploads'));
 //이미지 저장
-app.post('/addProductWithImage', upload.single('image'), (req, res) => {
+app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
   const { name, price, quantity } = req.body;
-  const img = req.file.path; // 업로드된 이미지 경로
+  const img = req.file ? req.file.path : null;
 
-  // DB에 name, price, quantity, img 정보 저장
-  // 예: DB에 이미지 정보와 제품 정보 저장
+  try {
+    const insertProductQuery = `
+      INSERT INTO products (name, price, quantity, img)
+      VALUES (?, ?, ?, ?);
+    `;
+    await productQuery(insertProductQuery, [name, price, quantity, img]);
+
+    res.json({ success: true, message: '제품 등록 완료' });
+  } catch (error) {
+    console.error('제품 등록 실패:', error);
+    res.status(500).send('서버 오류가 발생했습니다.');
+  }
 
   res.json({ success: true, message: '제품 등록 완료' });
 });
