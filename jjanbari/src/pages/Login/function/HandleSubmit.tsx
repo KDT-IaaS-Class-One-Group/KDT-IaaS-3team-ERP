@@ -2,7 +2,7 @@
 
 import { FormEvent } from 'react';
 
-const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<HTMLFormElement>) => {
+const handleSubmit = (loginFormData: any, handleLoginSuccess: (role: string) => void) => async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   // 필수 필드 확인
@@ -23,14 +23,12 @@ const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<
     if (response.ok) {
       const data = await response.json();
 
-      if (data.role === 'admin') {
-        // 관리자 로그인 성공
-        console.log('관리자로 로그인하였습니다.');
-        navigate('/admin'); // 관리자 페이지로 이동
-      } else if (data.role === 'user') {
-        // 사용자 로그인 성공
-        console.log('사용자로 로그인하였습니다.');
-        navigate('/'); // 메인 페이지로 이동
+      if (data.role === 'admin' || data.role === 'user') {
+        // 로그인 성공
+        handleLoginSuccess(data.role);
+      } else {
+        console.error('잘못된 역할:', data.role);
+        alert('로그인에 실패했습니다. 다시 시도해주세요.');
       }
     } else {
       console.error('로그인 실패:', response.statusText);

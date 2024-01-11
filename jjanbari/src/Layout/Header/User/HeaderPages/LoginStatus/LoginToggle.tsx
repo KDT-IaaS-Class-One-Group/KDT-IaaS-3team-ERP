@@ -41,10 +41,10 @@ const LoginToggle: React.FC = () => {
       ) : (
         <div>
           <p style={{ color: 'white', background: 'red' }}>로그인이 필요합니다.</p>
-          <div className="Btn-login">
+          {/* <div className="Btn-login">
             <button onClick={() => handleLogin('adroot')}>관리자</button>
             <button onClick={() => handleLogin('root')}>사용자</button>
-          </div>
+          </div> */}
         </div>
       )}
     </a>
