@@ -1,9 +1,9 @@
 // src/pages/Payment/PaymentPage.tsx
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import handlePurchase from '../function/HandlePurchase';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
+import handlePurchase from '../function/HandlePurchase';
 
 type User = {
   userID: string;
@@ -12,9 +12,11 @@ type User = {
 };
 
 type Product = {
+  id: string;
   name: string;
   price: number;
   quantity: number;
+  img: string;
 };
 
 const PaymentPage = () => {
@@ -22,77 +24,65 @@ const PaymentPage = () => {
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [totalPrice, setTotalPrice] = useState(0); // 추가
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // 로그인한 사용자의 정보를 가져옵니다.
+     // 로그인한 사용자의 정보를 가져옵니다.
     fetch('http://localhost:3001/users')
       .then((response) => response.json())
       .then((data: User) => setUser(data));
 
-    fetch('http://localhost:3001/products')
-      .then((response) => response.json())
-      .then((data: Product[]) => {
-        setProducts(data);
-        setTotalPrice(data.reduce((sum: number, product: Product) => sum + product.price * product.quantity, 0));
-      });
-  }, []);
 
-  const handleQuantityChange = (productName: string, quantity: number) => {
-    setProducts(products.map((product) => (product.name === productName ? { ...product, quantity } : product)));
-    setTotalPrice(products.reduce((sum: number, product: Product) => sum + product.price * (product.name === productName ? quantity : product.quantity), 0));
-  };
+    // 선택된 상품 정보를 가져옵니다.
+    const productFromState = location.state?.selectedProduct as Product | undefined;
+    if (productFromState) {
+      setSelectedProduct(productFromState);
+    }
+  }, [location.state]);
 
-  const handleBuy = (product: Product) => {
-    if (isLoggedIn()) {
-      handlePurchase(products, setProducts)(product.name, product.quantity);
-      navigate('/');
+  const handleBuy = async () => {
+    if (isLoggedIn() && selectedProduct) {
+      const success = await handlePurchase(selectedProduct, setSelectedProduct);
+      if (success) {
+        navigate('/'); // 성공적인 구매 후 메인 페이지로 이동
+      } else {
+        alert('구매되지 않았습니다.');
+      }
     } else {
-      navigate('/login');
+      navigate('/login'); // 로그인하지 않은 경우 로그인 페이지로 이동
     }
   };
 
   return (
     <div id="container">
       <h1>결제 페이지</h1>
-      <div>
-        <h2>받는 사람: {user?.userName}</h2>
-      </div>
-      <div>
-        <label>
-          주소:
-          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-        </label>
-        <label>
-          상세주소:
-          <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
-        </label>
-      </div>
-      <div>
-        <label>
-          연락처:
-          <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-        </label>
-      </div>
-      <div>
-        <h2>결제 상품</h2>
-        {products.map((product, index) => (
-          <div key={index}>
-            <h3>{product.name}</h3>
-            <p>가격: {product.price}</p>
-            <p>
-              수량: <input type="number" value={product.quantity} onChange={(e) => handleQuantityChange(product.name, Number(e.target.value))} />
-            </p>
-            <button onClick={() => handleBuy(product)}>구매하기</button> {/* 수정 */}
+      {selectedProduct ? (
+        <div>
+          <h2>받는 사람: {user?.userName}</h2>
+          <div>
+            <label>주소: </label>
+            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+            <label>상세주소: </label>
+            <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
+            <label>연락처: </label>
+            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
           </div>
-        ))}
-      </div>
-      <div>
-        <h2>총 가격: {totalPrice}</h2>
-      </div>
+          <div>
+            <h2>결제 상품</h2>
+            <img src={selectedProduct.img} alt={selectedProduct.name} style={{ width: '100px', height: '100px' }} />
+            <h3>{selectedProduct.name}</h3>
+            <p>가격: {selectedProduct.price}</p>
+            <p>수량: {selectedProduct.quantity}</p>
+            <button onClick={handleBuy}>구매하기</button>
+          </div>
+          <h2>총 가격: {selectedProduct.price * selectedProduct.quantity}</h2>
+        </div>
+      ) : (
+        <p>상품이 선택되지 않았습니다.</p>
+      )}
     </div>
   );
 };
