@@ -30,11 +30,10 @@ const PaymentPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-     // 로그인한 사용자의 정보를 가져옵니다.
+    // 로그인한 사용자의 정보를 가져옵니다.
     fetch('http://localhost:3001/users')
       .then((response) => response.json())
       .then((data: User) => setUser(data));
-
 
     // 선택된 상품 정보를 가져옵니다.
     const productFromState = location.state?.selectedProduct as Product | undefined;
@@ -45,14 +44,34 @@ const PaymentPage = () => {
 
   const handleBuy = async () => {
     if (isLoggedIn() && selectedProduct) {
-      const success = await handlePurchase(selectedProduct, setSelectedProduct);
-      if (success) {
-        navigate('/'); // 성공적인 구매 후 메인 페이지로 이동
-      } else {
-        alert('구매되지 않았습니다.');
+      try {
+        // 먼저 상품 수량 감소 처리
+        const purchaseSuccess = await handlePurchase(selectedProduct, setSelectedProduct);
+        if (purchaseSuccess) {
+          // 상품 수량 감소에 성공하면, 결제 정보를 서버로 전송
+          const paymentResponse = await fetch('http://localhost:3001/payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productId: selectedProduct.id }),
+          });
+
+          if (paymentResponse.ok) {
+            // 추가 처리 (예: 사용자에게 성공 메시지 표시)
+            navigate('/'); // 주문 목록 페이지로 이동
+          } else {
+            throw new Error('결제 처리 실패');
+          }
+        } else {
+          throw new Error('상품 수량 감소 실패');
+        }
+      } catch (error) {
+        console.error('Error during payment:', error);
+        // 에러 처리
       }
     } else {
-      navigate('/login'); // 로그인하지 않은 경우 로그인 페이지로 이동
+      navigate('/login');
     }
   };
 
