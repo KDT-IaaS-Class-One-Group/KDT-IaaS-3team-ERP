@@ -10,7 +10,7 @@ let pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '1234',
-  database: databaseName
+  database: databaseName,
 });
 
 // 데이터베이스 초기화 함수
@@ -26,11 +26,22 @@ async function initializeDatabase() {
         name VARCHAR(255) NOT NULL,
         price INT NOT NULL,
         quantity INT NOT NULL,
-        img varchar(255) NOT NULL    
+        img varchar(255) 
       ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
-
     console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableName}`);
+    
+    //payment 테이블 생성 쿼리
+    await pool.query(`
+    CREATE TABLE IF NOT EXISTS payment (
+      id int NOT NULL AUTO_INCREMENT,
+      date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      sold int NOT NULL,
+      PRIMARY KEY (id),
+      FOREIGN KEY (sold) REFERENCES products (id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `);
+    console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: payment`);
   } catch (error) {
     console.error('초기화 실패: ', error.message);
   }
@@ -49,7 +60,7 @@ async function productQuery(sql, params) {
       host: 'localhost',
       user: 'root',
       password: '1234',
-      database: databaseName
+      database: databaseName,
     });
   }
 
