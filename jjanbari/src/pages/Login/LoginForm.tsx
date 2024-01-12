@@ -1,51 +1,16 @@
 // src/pages/Login/LoginForm.tsx
 
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import handleInputChange from './function/HandleInputChange';
-import handleSubmit from './function/HandleSubmit';
-
-interface LoginFormData {
-  userID: string;
-  userPW: string;
-}
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
-  const [loginFormData, setLoginFormData] = useState<LoginFormData>({
-    userID: '',
-    userPW: '',
-  });
-  const loginError = useState<boolean>(false);
-  const navigate = useNavigate();
-
-  const handleLogin = (id: string) => {
-    // 로그인 시 userId와 isAdmin을 sessionStorage에 저장
-    sessionStorage.setItem('userId', id);
-  };
-
-  const handleLoginSuccess = (role: string) => {
-    console.log(`${role}으로 로그인하였습니다.`);
-
-    // 세션 스토리지에 userId 저장
-    sessionStorage.setItem('userId', loginFormData.userID);
-
-    if (role === 'admin') {
-      navigate('/admin'); // 관리자 페이지로 이동
-    } else {
-      navigate('/'); // 메인 페이지로 이동
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit(loginFormData, handleLoginSuccess)} className="LoginForm">
-      {loginError && <p style={{ color: 'white', background: 'red' }}>로그인이 필요합니다.</p>}
+    <form className="LoginForm">
       <label>
         아이디:
         <input
           type="text"
           name="userID"
-          value={loginFormData.userID}
-          onChange={handleInputChange(loginFormData, setLoginFormData)}
           required
         />
       </label>
@@ -55,8 +20,6 @@ const LoginForm: React.FC = () => {
         <input
           type="password"
           name="userPW"
-          value={loginFormData.userPW}
-          onChange={handleInputChange(loginFormData, setLoginFormData)}
           required
         />
       </label>
@@ -67,7 +30,7 @@ const LoginForm: React.FC = () => {
             회원가입
           </Link>
         </div>
-        <button type="submit" onClick={() => handleLogin(loginFormData.userID)}>로그인</button>
+        <button type="submit">로그인</button>
       </div>
     </form>
   );
