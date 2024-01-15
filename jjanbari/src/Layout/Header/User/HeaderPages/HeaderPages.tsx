@@ -1,7 +1,7 @@
 import './HeaderPages.css'
 import React, { useNavigate } from 'react-router-dom';
 
-import LoginToggle from './LoginStatus/LoginToggle';
+// import LoginToggle from './LoginStatus/LoginToggle';
 import { isLoggedIn } from './LoginStatus/isLoggedIn';
 
 const HeaderPages = () => {
@@ -10,7 +10,7 @@ const HeaderPages = () => {
   return (
     <div className="headerPages">
       <div className='loginStatus'>
-        <LoginToggle />
+        {/* <LoginToggle /> */}
       </div>
       <div className='pages'>
         <a href="/cart">장바구니</a>
