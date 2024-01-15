@@ -16,9 +16,9 @@ const LoginForm: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 페이지 로딩 시 로컬 스토리지에서 정보 가져오기
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-    const storedUserRole = localStorage.getItem("userRole");
+    // 페이지 로딩 시 세션 스토리지에서 정보 가져오기
+    const storedIsLoggedIn = sessionStorage.getItem("isLoggedIn");
+    const storedUserRole = sessionStorage.getItem("userRole");
 
     if (storedIsLoggedIn && storedUserRole) {
       setIsLoggedIn(true);
@@ -31,9 +31,9 @@ const LoginForm: React.FC = () => {
     setIsLoggedIn(true);
     setUserRole(role);
 
-    // 로컬 스토리지에 정보 저장
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userRole", role);
+    // 세션 스토리지에 정보 저장
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("userRole", role);
 
     // 역할에 따라 다른 경로로 이동
     if (role === "admin") {
@@ -47,11 +47,12 @@ const LoginForm: React.FC = () => {
     // 로그아웃 버튼 클릭 시 로직
     setIsLoggedIn(false);
     setUserRole("");
-
-    // 로컬 스토리지에서 정보 삭제
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userRole");
+  
+    // 세션 스토리지에서 정보 삭제
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("userRole");
   };
+  
 
   return (
     <form className="LoginForm" onSubmit={handleSubmit(loginFormData, handleLoginSuccess)}>
@@ -83,7 +84,13 @@ const LoginForm: React.FC = () => {
             회원가입
           </Link>
         </div>
-        <button type="submit">로그인</button>
+        {isLoggedIn ? (
+          <button type="button" onClick={handleLogout}>
+            로그아웃
+          </button>
+        ) : (
+          <button type="submit">로그인</button>
+        )}
       </div>
     </form>
   );
