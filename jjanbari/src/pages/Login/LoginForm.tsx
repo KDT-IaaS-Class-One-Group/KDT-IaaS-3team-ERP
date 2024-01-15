@@ -47,12 +47,11 @@ const LoginForm: React.FC = () => {
     // 로그아웃 버튼 클릭 시 로직
     setIsLoggedIn(false);
     setUserRole("");
-  
+
     // 세션 스토리지에서 정보 삭제
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("userRole");
   };
-  
 
   return (
     <form className="LoginForm" onSubmit={handleSubmit(loginFormData, handleLoginSuccess)}>
