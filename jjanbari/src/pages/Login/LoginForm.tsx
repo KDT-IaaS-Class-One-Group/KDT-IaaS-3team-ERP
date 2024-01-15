@@ -1,5 +1,3 @@
-// src/pages/Login/LoginForm.tsx
-
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import handleSubmit from "./function/HandleSubmit";
@@ -24,7 +22,7 @@ const LoginForm: React.FC = () => {
       setIsLoggedIn(true);
       setUserRole(storedUserRole);
     }
-  }, []);
+  });
 
   const handleLoginSuccess = (role: string) => {
     // 로그인 상태와 역할 업데이트
@@ -55,42 +53,42 @@ const LoginForm: React.FC = () => {
 
   return (
     <form className="LoginForm" onSubmit={handleSubmit(loginFormData, handleLoginSuccess)}>
-      <label>
-        아이디:
-        <input
-          type="text"
-          name="userID"
-          required
-          value={loginFormData.userID}
-          onChange={(e) => setLoginFormData({ ...loginFormData, userID: e.target.value })}
-        />
-      </label>
-      <br />
-      <label>
-        비밀번호:
-        <input
-          type="password"
-          name="userPW"
-          required
-          value={loginFormData.userPW}
-          onChange={(e) => setLoginFormData({ ...loginFormData, userPW: e.target.value })}
-        />
-      </label>
-      <br />
-      <div>
-        <div className="signup">
-          <Link to="/signup" className="sign">
-            회원가입
-          </Link>
-        </div>
-        {isLoggedIn ? (
-          <button type="button" onClick={handleLogout}>
-            로그아웃
-          </button>
-        ) : (
-          <button type="submit">로그인</button>
-        )}
-      </div>
+      {isLoggedIn ? (
+        <p>이미 로그인되었습니다. <button><Link to="/logout" onClick={handleLogout}>로그아웃</Link></button></p>
+      ) : (
+        <>
+          <label>
+            아이디:
+            <input
+              type="text"
+              name="userID"
+              required
+              value={loginFormData.userID}
+              onChange={(e) => setLoginFormData({ ...loginFormData, userID: e.target.value })}
+            />
+          </label>
+          <br />
+          <label>
+            비밀번호:
+            <input
+              type="password"
+              name="userPW"
+              required
+              value={loginFormData.userPW}
+              onChange={(e) => setLoginFormData({ ...loginFormData, userPW: e.target.value })}
+            />
+          </label>
+          <br />
+          <div>
+            <div className="signup">
+              <Link to="/signup" className="sign">
+                회원가입
+              </Link>
+            </div>
+            <button type="submit">로그인</button>
+          </div>
+        </>
+      )}
     </form>
   );
 };
