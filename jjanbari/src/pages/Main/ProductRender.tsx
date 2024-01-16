@@ -34,8 +34,20 @@ const ProductRender = () => {
       return;
     }
 
-    const userId = getCurrentUserId();
-    const quantity = Number(document.getElementById(`quantity-${product.id}`)?.value || 0);
+    const userId = getCurrentUserId(); // 로그인한 사용자의 ID 가져오기
+    if (!userId) {
+      alert('사용자 ID를 찾을 수 없습니다.');
+      return;
+    }
+
+    // HTMLInputElement로 타입 단언
+    const quantityInput = document.getElementById(`quantity-${product.id}`) as HTMLInputElement | null;
+    if (!quantityInput) {
+      alert('수량 입력 필드를 찾을 수 없습니다.');
+      return;
+    }
+
+    const quantity = Number(quantityInput.value);
 
     const success = await addCart(product.id, quantity, userId);
     if (!success) {
