@@ -17,7 +17,7 @@ const HeaderPages = () => {
         <a href="/like">좋아요</a>
         <a href="/mypage" onClick={(event) => {
         event.preventDefault();
-        navigate(isLoggedIn() ? '/mypage' : '/login');
+        navigate(isLoggedIn() ? '/login' : '/mypage'); // 로그아웃 상태면 /login으로 이동
       }}>마이페이지</a>      </div>
     </div>
   );
