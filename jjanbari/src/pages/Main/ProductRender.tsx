@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 
 type Product = {
-  id: string;
+  product_id: string;
   name: string;
   price: number;
   quantity: number;
@@ -36,7 +36,7 @@ const ProductRender = () => {
     <div className="product-container">
       {products.length > 0 &&
         products.map((product) => (
-          <div key={product.id}>
+          <div key={product.product_id}>
             <h2>{product.name}</h2>
             <img src={product.img} alt={product.name} /> {/* 이미지 렌더링 */}
             <p>가격: {product.price}</p>

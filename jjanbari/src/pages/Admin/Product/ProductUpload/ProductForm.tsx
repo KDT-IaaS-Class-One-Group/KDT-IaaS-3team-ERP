@@ -1,44 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CategoryOption from '../category/CategoryOption';
+
+interface AnimalCategory {
+  animal_id: number;
+  animal_name: string;
+}
+
+interface AgeCategory {
+  age_id: number;
+  age_name: string;
+}
+
+interface FunctionalCategory {
+  functional_id: number;
+  functional_name: string;
+}
 
 const ProductForm = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState<number>(0); // 가격을 숫자로만 관리
   const [quantity, setQuantity] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [options, setOptions] = useState<{ id: number; name: string }[]>([]);
+
+  const [animalCategories, setAnimalCategories] = useState<AnimalCategory[]>([]);
+  const [ageCategories, setAgeCategories] = useState<AgeCategory[]>([]);
+  const [functionalCategories, setFunctionalCategories] = useState<FunctionalCategory[]>([]);
+
+  const [selectedAnimalCategory, setSelectedAnimalCategory] = useState('');
+  const [selectedAgeCategory, setSelectedAgeCategory] = useState('');
+  const [selectedFunctionalCategory, setSelectedFunctionalCategory] = useState('');
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (selectedCategory) {
-      // 서버에서 선택한 카테고리에 해당하는 옵션 가져오기
-      const fetchOptions = async () => {
-        try {
-          const response = await fetch(`http://localhost:3001/getOptionsByCategory/${selectedCategory}`);
-          if (response.ok) {
-            const data = await response.json();
-            setOptions(data);
-          } else {
-            throw new Error('옵션 정보 가져오기 실패');
-          }
-        } catch (error) {
-          console.error('옵션 정보 가져오기 중 에러 발생:', error);
-          alert('옵션 정보를 가져오는 중 에러가 발생했습니다.');
-        }
-      };
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/categories');
+      const data = await response.json();
 
-      fetchOptions();
+      setAnimalCategories(data.animalCategories);
+      setAgeCategories(data.ageCategories);
+      setFunctionalCategories(data.functionalCategories);
+    } catch (error) {
+      console.error('카테고리 데이터를 불러오는 중 에러 발생:', error);
     }
-  }, [selectedCategory]);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    console.log('name:', name);
+    console.log('price:', price);
+    console.log('quantity:', quantity);
+    console.log('selectedAnimalCategory:', selectedAnimalCategory);
+    console.log('selectedAgeCategory:', selectedAgeCategory);
+    console.log('selectedFunctionalCategory:', selectedFunctionalCategory);
+    console.log('image:', image);
+
     if (!name || price <= 0 || quantity <= 0) {
-      alert('상품명, 가격 및 수량, 카테고리를 모두 채워주세요.');
+      alert('상품명, 가격 및 수량을 채워주세요.');
       return;
     }
 
@@ -46,6 +69,12 @@ const ProductForm = () => {
     formData.append('name', name);
     formData.append('price', price.toString());
     formData.append('quantity', quantity.toString());
+    formData.append('animalCategory', selectedAnimalCategory !== undefined ? String(selectedAnimalCategory) : '');
+    formData.append('ageCategory', selectedAgeCategory !== undefined ? String(selectedAgeCategory) : '');
+    formData.append(
+      'functionalCategory',
+      selectedFunctionalCategory !== undefined ? String(selectedFunctionalCategory) : ''
+    );
 
     // 이미지가 있는 경우에만 formData에 추가
     if (image) {
@@ -90,32 +119,6 @@ const ProductForm = () => {
         onChange={(e) => setQuantity(Number(e.target.value))}
       />
       <br />
-      <label htmlFor="category">카테고리:</label>
-      <br />
-      <select
-        id="category"
-        name="category"
-        onChange={(e) => {
-          setSelectedCategory(e.target.value);
-          setOptions([]); // 카테고리가 변경되면 옵션 초기화
-        }}
-        aria-label="카테고리 선택"
-      >
-        <option value="">카테고리 선택</option>
-        <option value="animal">동물</option>
-        <option value="age">나이</option>
-        <option value="functional">기능</option>
-      </select>
-      <br />
-      <label htmlFor="option">옵션:</label>
-      <br />
-      <select id="option" name="option">
-        <option value={0}>옵션 선택</option>
-        {options.map((option) => (
-          <CategoryOption key={option.id} id={option.id} name={option.name} />
-        ))}
-      </select>
-      <br />
       <label htmlFor="image">이미지 (선택 사항):</label> {/* 선택 사항임을 명시 */}
       <br />
       <input
@@ -124,6 +127,51 @@ const ProductForm = () => {
         name="image"
         onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
       />
+      <br />
+      <label htmlFor="animalCategory">동물 종류:</label>
+      <br />
+      <select
+        id="animalCategory"
+        name="animalCategory"
+        value={selectedAnimalCategory}
+        onChange={(e) => setSelectedAnimalCategory(e.target.value)}
+      >
+        {animalCategories.map((category) => (
+          <option key={category.animal_id} value={category.animal_id}>
+            {category.animal_name}
+          </option>
+        ))}
+      </select>
+      <br />
+      <label htmlFor="ageCategory">나이대:</label>
+      <br />
+      <select
+        id="ageCategory"
+        name="ageCategory"
+        value={selectedAgeCategory}
+        onChange={(e) => setSelectedAgeCategory(e.target.value)}
+      >
+        {ageCategories.map((category) => (
+          <option key={category.age_id} value={category.age_id}>
+            {category.age_name}
+          </option>
+        ))}
+      </select>
+      <br />
+      <label htmlFor="functionalCategory">기능성:</label>
+      <br />
+      <select
+        id="functionalCategory"
+        name="functionalCategory"
+        value={selectedFunctionalCategory}
+        onChange={(e) => setSelectedFunctionalCategory(e.target.value)}
+      >
+        {functionalCategories.map((category) => (
+          <option key={category.functional_id} value={category.functional_id}>
+            {category.functional_name}
+          </option>
+        ))}
+      </select>
       <br />
       <input type="submit" value="상품 등록" />
     </form>
