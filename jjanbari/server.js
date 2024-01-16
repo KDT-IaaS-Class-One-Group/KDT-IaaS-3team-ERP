@@ -72,47 +72,10 @@ app.post('/login', async (req, res) => {
 });
 
 app.use('/uploads', express.static('uploads'));
-
-// 추가: 카테고리 이름으로부터 id를 가져오는 함수
-const getCategoryId = async (tableName, categoryName) => {
-  let columnName;
-  switch (tableName) {
-    case 'animal_categories':
-      columnName = 'animal_id';
-      break;
-    case 'age_categories':
-      columnName = 'age_id';
-      break;
-    case 'functional_categories':
-      columnName = 'functional_id';
-      break;
-    // 다른 카테고리 테이블들도 필요에 따라 추가하세요.
-    default:
-      throw new Error(`Unsupported table name: ${tableName}`);
-  }
-
-  const query = `SELECT ${columnName} FROM ${tableName} WHERE ${tableName}_name = ?`;
-  const result = await productQuery(query, [categoryName]);
-  return result[0][columnName];
-};
-
 //이미지 저장
 app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
   const { name, price, quantity, animalCategory, ageCategory, functionalCategory } = req.body;
   const img = req.file ? req.file.path : null;
-
-  // 카테고리 정보를 연결 테이블에 추가
-  const animalCategoryId = await getCategoryId('animal_categories', animalCategory);
-  const ageCategoryId = await getCategoryId('age_categories', ageCategory);
-  const functionalCategoryId = await getCategoryId('functional_categories', functionalCategory);
-
-  console.log('name:', name);
-  console.log('price:', price);
-  console.log('quantity:', quantity);
-  console.log('animalCategory:', animalCategory);
-  console.log('ageCategory:', ageCategory);
-  console.log('functionalCategory:', functionalCategory);
-  console.log('img:', img);
 
   try {
     // 동일한 name과 price를 가진 상품이 있는지 확인
@@ -121,37 +84,18 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
     if (existingProducts.length > 0) {
       // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트
       const existingProduct = existingProducts[0];
-      await productQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [
-        quantity,
-        existingProduct.id,
-      ]);
+      await productQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.id]);
     } else {
       // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가
-      const result = await productQuery(
-        'INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [name, price, quantity, img, animalCategoryId, ageCategoryId, functionalCategoryId]
-      );
+      const insertProductResult = await productQuery('INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, price, quantity, img, animalCategory, ageCategory, functionalCategory]);
 
-      // 새로 등록된 상품의 ID를 가져옴
-      const newProductId = result.insertId;
+      const productId = insertProductResult.insertId;
 
-      // 동물 종류-상품 연결
-      await productQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [
-        newProductId,
-        animalCategoryId.id || null,
-      ]);
+      // 각각의 연결 테이블에도 데이터 추가
+      await productQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
+      await productQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
+      await productQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
 
-      // 나이대-상품 연결
-      await productQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [
-        newProductId,
-        ageCategoryId.id || null,
-      ]);
-
-      // 기능성-상품 연결
-      await productQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [
-        newProductId,
-        functionalCategoryId.id || null,
-      ]);
     }
 
     res.json({ success: true, message: '제품 등록 완료' });
@@ -161,21 +105,21 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
   }
 });
 
-// 예시: Express.js를 사용하여 동물 종류, 나이대, 기능성 카테고리 데이터를 클라이언트에 제공하는 라우트
+// 서버 코드에 카테고리 목록을 가져오는 API 추가
 app.get('/categories', async (req, res) => {
   try {
-    const animalCategories = await productQuery('SELECT * FROM animal_categories');
-    const ageCategories = await productQuery('SELECT * FROM age_categories');
-    const functionalCategories = await productQuery('SELECT * FROM functional_categories');
+      const animalCategories = await productQuery('SELECT * FROM animal_categories');
+      const ageCategories = await productQuery('SELECT * FROM age_categories');
+      const functionalCategories = await productQuery('SELECT * FROM functional_categories');
 
-    res.status(200).json({
-      animalCategories: animalCategories,
-      ageCategories: ageCategories,
-      functionalCategories: functionalCategories,
-    });
+      res.json({
+          animalCategories,
+          ageCategories,
+          functionalCategories,
+      });
   } catch (error) {
-    console.error('카테고리 데이터를 불러오는 중 에러 발생:', error);
-    res.status(500).json({ error: '카테고리 데이터를 불러오는 중 에러가 발생했습니다.' });
+      console.error('Error during fetching categories:', error.message);
+      res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
 
@@ -214,7 +158,7 @@ app.get('/admin/products', async (req, res) => {
 });
 
 app.put('/admin/products/:id', async (req, res) => {
-  const { product_id } = req.params;
+  const { id } = req.params;
   const { name, price, quantity } = req.body;
 
   try {
@@ -222,7 +166,7 @@ app.put('/admin/products/:id', async (req, res) => {
       name,
       price,
       quantity,
-      product_id,
+      id,
     ]);
     res.json({ success: true });
   } catch (error) {
@@ -232,10 +176,10 @@ app.put('/admin/products/:id', async (req, res) => {
 });
 
 app.delete('/admin/products/:id', async (req, res) => {
-  const { product_id } = req.params;
+  const { id } = req.params;
 
   try {
-    await productQuery('DELETE FROM products WHERE id = ?', [product_id]);
+    await productQuery('DELETE FROM products WHERE product_id = ?', [id]);
     res.json({ success: true });
   } catch (error) {
     console.error('Error during deleting product:', error.message);
@@ -251,39 +195,6 @@ app.get('/users', async (req, res) => {
   } catch (error) {
     console.error('Error during fetching users:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
-  }
-});
-
-// API 엔드포인트: 동물 카테고리 정보 가져오기
-app.get('/animalCategories', async (req, res) => {
-  try {
-    const animal = await productQuery('SELECT * FROM animal_categories');
-    res.json(animal);
-  } catch (error) {
-    console.error('동물 카테고리 정보를 가져오는 중 에러 발생:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// API 엔드포인트: 나이 카테고리 정보 가져오기
-app.get('/ageCategories', async (req, res) => {
-  try {
-    const age = await productQuery('SELECT * FROM age_categories');
-    res.json(age);
-  } catch (error) {
-    console.error('나이 카테고리 정보를 가져오는 중 에러 발생:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// API 엔드포인트: 기능 카테고리 정보 가져오기
-app.get('/functionalCategories', async (req, res) => {
-  try {
-    const functional = await productQuery('SELECT * FROM functional_categories');
-    res.json(functional);
-  } catch (error) {
-    console.error('기능 카테고리 정보를 가져오는 중 에러 발생:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
