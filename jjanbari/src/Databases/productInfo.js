@@ -27,22 +27,6 @@ async function initializeDatabase() {
 
     // 테이블 생성 쿼리 실행
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameP} (
-        product_id INT PRIMARY KEY AUTO_INCREMENT,
-        name VARCHAR(255) NOT NULL,
-        price INT NOT NULL,
-        quantity INT NOT NULL,
-        img VARCHAR(255) NOT NULL,
-        animal_id INT,
-        age_id INT,
-        functional_id INT,
-        FOREIGN KEY (animal_id) REFERENCES animal_categories(animal_id),
-        FOREIGN KEY (age_id) REFERENCES age_categories(age_id),
-        FOREIGN KEY (functional_id) REFERENCES functional_categories(functional_id)   
-      );
-    `);
-
-    await pool.query(`
       CREATE TABLE IF NOT EXISTS ${tableNameAC} (
         animal_id INT PRIMARY KEY AUTO_INCREMENT,
         animal_name VARCHAR(255) NOT NULL
@@ -62,6 +46,22 @@ async function initializeDatabase() {
         functional_name VARCHAR(255) NOT NULL
       );
     `)
+    
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS ${tableNameP} (
+        product_id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        price INT NOT NULL,
+        quantity INT NOT NULL,
+        img VARCHAR(255) NOT NULL,
+        animal_id INT,
+        age_id INT,
+        functional_id INT,
+        FOREIGN KEY (animal_id) REFERENCES animal_categories(animal_id),
+        FOREIGN KEY (age_id) REFERENCES age_categories(age_id),
+        FOREIGN KEY (functional_id) REFERENCES functional_categories(functional_id)   
+      );
+    `);
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS ${tableNameAP} (
@@ -92,6 +92,7 @@ async function initializeDatabase() {
         FOREIGN KEY (functional_id) REFERENCES functional_categories(functional_id)
       );
     `)
+
     console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableNameP}, ${tableNameAC}, ${tableNameAC2}, ${tableNameFC}, ${tableNameAP}, ${tableNameAP2}, ${tableNameFP}`);
   } catch (error) {
     console.error('초기화 실패: ', error.message);
