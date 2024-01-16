@@ -93,6 +93,17 @@ async function initializeDatabase() {
       );
     `)
 
+    //payment 테이블 생성 쿼리
+    await pool.query(`
+    CREATE TABLE IF NOT EXISTS payment (
+      id int NOT NULL AUTO_INCREMENT,
+      date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      sold int NOT NULL,
+      PRIMARY KEY (id),
+      FOREIGN KEY (sold) REFERENCES products (id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `);
+
     console.log(`초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableNameP}, ${tableNameAC}, ${tableNameAC2}, ${tableNameFC}, ${tableNameAP}, ${tableNameAP2}, ${tableNameFP}`);
   } catch (error) {
     console.error('초기화 실패: ', error.message);

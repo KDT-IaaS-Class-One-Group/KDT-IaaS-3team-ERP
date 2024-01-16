@@ -1,16 +1,4 @@
 /* src/pages/Login/LoginPage.css */
-
-#container > div {
-  flex-direction: column;
-}
-
-div {
-  display: flex;
-}
-
-
-
-
 .LoginForm {
   display: flex;
   flex-direction: column;
