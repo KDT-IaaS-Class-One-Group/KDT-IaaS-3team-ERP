@@ -72,6 +72,25 @@ app.post('/login', async (req, res) => {
 });
 
 app.use('/uploads', express.static('uploads'));
+
+// 서버 코드에 카테고리 목록을 가져오는 API 추가
+app.get('/categories', async (req, res) => {
+  try {
+      const animalCategories = await productQuery('SELECT * FROM animal_categories');
+      const ageCategories = await productQuery('SELECT * FROM age_categories');
+      const functionalCategories = await productQuery('SELECT * FROM functional_categories');
+
+      res.json({
+          animalCategories,
+          ageCategories,
+          functionalCategories,
+      });
+  } catch (error) {
+      console.error('Error during fetching categories:', error.message);
+      res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
 //이미지 저장
 app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
   const { name, price, quantity, animalCategory, ageCategory, functionalCategory } = req.body;
@@ -102,24 +121,6 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
   } catch (error) {
     console.error('Error during product registration:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
-  }
-});
-
-// 서버 코드에 카테고리 목록을 가져오는 API 추가
-app.get('/categories', async (req, res) => {
-  try {
-      const animalCategories = await productQuery('SELECT * FROM animal_categories');
-      const ageCategories = await productQuery('SELECT * FROM age_categories');
-      const functionalCategories = await productQuery('SELECT * FROM functional_categories');
-
-      res.json({
-          animalCategories,
-          ageCategories,
-          functionalCategories,
-      });
-  } catch (error) {
-      console.error('Error during fetching categories:', error.message);
-      res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
 
