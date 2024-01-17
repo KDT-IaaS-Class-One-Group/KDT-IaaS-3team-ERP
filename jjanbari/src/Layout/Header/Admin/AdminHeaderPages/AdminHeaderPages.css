@@ -22,6 +22,10 @@
   color: white;
   margin: 1rem;
 }
+
+.adminHeaderPages > ul > li > a:hover {
+  font-weight: bold;
+}
 /* .adminHeaderPages:hover + .adminSideHeaderPages { 
   display: flex;
   height: 5vh;
