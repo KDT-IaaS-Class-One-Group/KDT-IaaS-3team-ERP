@@ -1,4 +1,4 @@
-// src/utils/handleAddToCart.ts
+// src/pages/Main/function/handleAddToCart.tsx
 
 import { NavigateFunction } from 'react-router-dom';
 import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
@@ -34,9 +34,13 @@ const handleAddToCart = async (product: Product, navigate: NavigateFunction) => 
       }
 
       alert('장바구니에 상품이 추가되었습니다.');
+      navigate('/cart'); // 장바구니 페이지로 이동합니다.
     } catch (error) {
       console.error(error);
-      alert((error as Error).message);
+      if (error instanceof Error) {
+        // 타입 가드를 사용하여 error의 타입을 확인합니다.
+        alert(error.message); // error가 Error 타입이라는 것을 TypeScript가 알 수 있습니다.
+      }
     }
   } else {
     navigate('/login');
