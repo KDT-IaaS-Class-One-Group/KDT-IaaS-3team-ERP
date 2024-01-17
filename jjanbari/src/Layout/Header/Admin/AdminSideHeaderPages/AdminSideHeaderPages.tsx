@@ -3,10 +3,14 @@ import './AdminSideHeaderPages.css'
 const AdminSideHeaderPages = () => {
 
   return (
-    <div className="adminSideHeaderPages">
-      <a href="/productUpload">상품 등록</a>
-      <a href="/productUpdate">상품 수정</a>
-    </div>
+    <ul className='productSidebar'>
+      <li>
+        <a href="/productUpload">상품 등록</a>
+      </li>
+      <li>
+        <a href="/productUpdate">상품 수정</a>        
+      </li>
+    </ul>
   );
 };
 

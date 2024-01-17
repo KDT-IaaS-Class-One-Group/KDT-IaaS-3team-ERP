@@ -7,25 +7,26 @@
   border: 1px solid lightgray;
 }
 
-.adminHeaderPages > ul, li {
+.adminHeaderPages ul, li {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.adminHeaderPages a {
+  text-decoration: none;
+  color: white;
+  margin: 1rem;
+}
+
+.adminHeaderPages a:hover {
+  font-weight: bold;
 }
 
 .adminHeaderPages > ul > li {
   float: left;
 }
 
-.adminHeaderPages > ul > li > a {
-  text-decoration: none;
-  color: white;
-  margin: 1rem;
-}
-
-.adminHeaderPages > ul > li > a:hover {
-  font-weight: bold;
-}
 /* .adminHeaderPages:hover + .adminSideHeaderPages { 
   display: flex;
   height: 5vh;
@@ -38,21 +39,11 @@
   transition: 0.5s ease;
 } */
 
-.adminHeaderPages > a {
-  color: white;
-  border: none;
-  padding: 0;
-  margin-left: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration-line: none;
-}
-
 .adminHeaderPages > a:hover {
   font-weight: bold;
 }
 
 .main {
-  position:absolute;
+  position: absolute;
   right: 1rem;
 }

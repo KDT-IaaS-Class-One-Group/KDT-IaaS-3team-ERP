@@ -1,14 +1,13 @@
-.adminSideHeaderPages {
-  /* 하단에 오도록 설정 */
+/* .adminSideHeaderPages {
   width: 100vw;
   height: 0;
   display: flex;
   align-items: center;
   background-color: #f4f4f4;
   overflow: hidden;
-}
+} */
 
-.adminSideHeaderPages > a {
+/* .adminSideHeaderPages > a {
   color: black;
   border: none;
   padding: 0;
@@ -16,5 +15,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   text-decoration-line: none;
-}
+} */
 
+.productSidebar{
+  width: 100vw;
+  height: 0;
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
