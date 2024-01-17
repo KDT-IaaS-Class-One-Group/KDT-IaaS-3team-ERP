@@ -10,7 +10,6 @@ const AdminHeader = () => {
     <header id="AdminHeader">
       <HeaderLogo />
       <AdminHeaderPages />
-      <AdminSideHeaderPages />
     </header>
   );
 };

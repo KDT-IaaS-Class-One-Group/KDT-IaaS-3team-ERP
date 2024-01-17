@@ -7,17 +7,32 @@
   border: 1px solid lightgray;
 }
 
-.adminHeaderPages:hover + .adminSideHeaderPages { 
-  display: flex;
-  height: 5vh;
-  transition: 0.5s ease;
+.adminHeaderPages > ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.adminSideHeaderPages:hover{
+.adminHeaderPages > ul > li {
+  float: left;
+}
+
+.adminHeaderPages > ul > li > a {
+  text-decoration: none;
+  color: white;
+  margin: 1rem;
+}
+/* .adminHeaderPages:hover + .adminSideHeaderPages { 
   display: flex;
   height: 5vh;
   transition: 0.5s ease;
-}
+} */
+
+/* .adminSideHeaderPages:hover{
+  display: flex;
+  height: 5vh;
+  transition: 0.5s ease;
+} */
 
 .adminHeaderPages > a {
   color: white;
