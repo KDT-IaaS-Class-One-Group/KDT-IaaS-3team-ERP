@@ -1,7 +1,7 @@
 // src/pages/Main/function/HandlePurchase.tsx
 
 type Product = {
-  id: string;
+  product_id: string;
   name: string;
   price: number;
   quantity: number;
@@ -9,13 +9,13 @@ type Product = {
 };
 
 const handlePurchase = async (selectedProduct: Product, setSelectedProduct: React.Dispatch<React.SetStateAction<Product | undefined>>): Promise<boolean> => {
-  if (!selectedProduct.id) {
+  if (!selectedProduct.product_id) {
     alert('상품 ID가 없습니다');
     return false;
   }
 
   try {
-    const response = await fetch(`http://localhost:3001/products/purchase/${selectedProduct.id}`, {
+    const response = await fetch(`http://localhost:3001/products/purchase/${selectedProduct.product_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

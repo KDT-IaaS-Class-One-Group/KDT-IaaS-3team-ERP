@@ -12,7 +12,7 @@ type User = {
 };
 
 type Product = {
-  id: string;
+  product_id: string;
   name: string;
   price: number;
   quantity: number;
@@ -54,7 +54,7 @@ const PaymentPage = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productId: selectedProduct.id }),
+            body: JSON.stringify({ productId: selectedProduct.product_id }),
           });
 
           if (paymentResponse.ok) {
