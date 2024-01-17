@@ -1,5 +1,4 @@
 import './AdminHeaderPages.css'
-import AdminSideHeaderPages from '../AdminSideHeaderPages/AdminSideHeaderPages';
 
 const AdminHeaderPages = () => {
 
