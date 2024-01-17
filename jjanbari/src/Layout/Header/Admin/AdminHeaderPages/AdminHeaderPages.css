@@ -26,13 +26,14 @@
   font-weight: bold;
 }
 
-.adminHeaderPages li:hover > ul {
+.adminHeaderPages li:hover > ul,
+.adminHeaderPages li > ul:hover {
   display: flex;
   height: 3vh;
   transition: 0.5s ease;
 }
 
-.adminHeaderPages > ul  li {
+.adminHeaderPages > ul li {
   float: left;
   position: relative;
 }
