@@ -1,27 +1,13 @@
-/* .adminSideHeaderPages {
-  width: 100vw;
-  height: 0;
-  display: flex;
-  align-items: center;
-  background-color: #f4f4f4;
-  overflow: hidden;
-} */
-
-/* .adminSideHeaderPages > a {
-  color: black;
-  border: none;
-  padding: 0;
-  margin-left: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration-line: none;
-} */
-
 .productSidebar{
   width: 100vw;
   height: 0;
-  display: flex;
+  display: none;
   align-items: center;
   background-color: #f4f4f4;
   overflow: hidden;
+}
+
+
+.productSidebar > li > a{
+  color: black;
 }

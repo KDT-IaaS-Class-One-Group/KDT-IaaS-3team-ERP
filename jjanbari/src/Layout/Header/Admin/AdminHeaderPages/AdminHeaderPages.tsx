@@ -8,6 +8,7 @@ const AdminHeaderPages = () => {
       <ul>
         <li>
           <a href="/productManagement" className='productManagement'>상품 관리</a>
+          <AdminSideHeaderPages />
         </li>
         <li>
           <a href="/userManagement">유저 관리</a>

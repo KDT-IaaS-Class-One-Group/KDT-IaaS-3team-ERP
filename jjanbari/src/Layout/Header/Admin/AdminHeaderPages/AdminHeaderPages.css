@@ -15,16 +15,37 @@
 
 .adminHeaderPages a {
   text-decoration: none;
-  color: white;
   margin: 1rem;
 }
 
-.adminHeaderPages a:hover {
+.adminHeaderPages > ul > li > a {
+  color: white;
+}
+
+.adminHeaderPages li:hover > a {
   font-weight: bold;
 }
 
-.adminHeaderPages > ul > li {
+.adminHeaderPages li:hover > ul {
+  display: flex;
+  height: 3vh;
+  transition: 0.5s ease;
+}
+
+.adminHeaderPages > ul  li {
   float: left;
+  position: relative;
+}
+
+.adminHeaderPages > ul > li > ul {
+  position: absolute;
+  top: 3vh;
+  left: 0;
+}
+
+.main {
+  position: absolute;
+  right: 1rem;
 }
 
 /* .adminHeaderPages:hover + .adminSideHeaderPages { 
@@ -38,12 +59,3 @@
   height: 5vh;
   transition: 0.5s ease;
 } */
-
-.adminHeaderPages > a:hover {
-  font-weight: bold;
-}
-
-.main {
-  position: absolute;
-  right: 1rem;
-}
