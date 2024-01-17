@@ -151,7 +151,7 @@ app.put('/products/purchase/:id', async (req, res) => {
 
   try {
     // 상품 정보를 먼저 조회
-    const product = await productQuery('SELECT quantity FROM products WHERE id = ?', [id]);
+    const product = await productQuery('SELECT quantity FROM products WHERE product_id = ?', [id]);
     if (product.length === 0) {
       return res.status(404).json({ success: false, error: '상품을 찾을 수 없습니다.' });
     }
@@ -162,7 +162,7 @@ app.put('/products/purchase/:id', async (req, res) => {
     }
 
     // 상품 수량 업데이트
-    await productQuery('UPDATE products SET quantity = quantity - ? WHERE id = ?', [quantity, id]);
+    await productQuery('UPDATE products SET quantity = quantity - ? WHERE product_id = ?', [quantity, id]);
     res.json({ success: true, message: '구매가 완료되었습니다.' });
   } catch (error) {
     console.error('Error during purchase:', error.message);
