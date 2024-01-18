@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { jjanbariQuery } = require('./src/Databases/jjanbariERP');
+const { jjanbariQuery } = require('./src/Database/jjanbariERP');
 
 //이미지 업로드를 위해 multer를 추가함
 const multer = require('multer');
