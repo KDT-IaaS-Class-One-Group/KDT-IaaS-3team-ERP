@@ -1,5 +1,5 @@
 import './AdminHeaderPages.css'
-import AdminSideHeaderPages from '../AdminSideHeaderPages/AdminSideHeaderPages';
+import AdminSideHeaderPages from './AdminSideHeaderPages/ProductSidebar';
 
 const AdminHeaderPages = () => {
 

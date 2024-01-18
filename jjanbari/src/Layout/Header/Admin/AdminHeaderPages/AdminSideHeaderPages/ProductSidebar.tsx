@@ -1,4 +1,4 @@
-import './AdminSideHeaderPages.css'
+import './ProductSidebar.css'
 
 const AdminSideHeaderPages = () => {
 
