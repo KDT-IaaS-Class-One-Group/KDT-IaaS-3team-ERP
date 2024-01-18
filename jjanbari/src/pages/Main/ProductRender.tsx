@@ -10,7 +10,7 @@ const ProductRender = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/products')
+    fetch('/products')
       .then((response) => response.json())
       .then((data) => setProducts(data));
   }, []);

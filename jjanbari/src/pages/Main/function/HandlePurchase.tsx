@@ -8,7 +8,7 @@ const handlePurchase = async (selectedProduct: Product, setSelectedProduct: Reac
   }
 
   try {
-    const response = await fetch(`http://localhost:3001/products/purchase/${selectedProduct.product_id}`, {
+    const response = await fetch(`/products/purchase/${selectedProduct.product_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
