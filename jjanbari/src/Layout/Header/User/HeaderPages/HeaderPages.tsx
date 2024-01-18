@@ -1,5 +1,5 @@
-import './HeaderPages.css'
-import React, { useNavigate } from 'react-router-dom';
+import './HeaderPages.css';
+import React, { Link, useNavigate } from 'react-router-dom';
 
 import LoginToggle from './LoginStatus/LoginToggle';
 import { isLoggedIn } from './LoginStatus/isLoggedIn';
@@ -9,16 +9,22 @@ const HeaderPages = () => {
 
   return (
     <div className="headerPages">
-      <div className='loginStatus'>
+      <div className="loginStatus">
         <LoginToggle />
       </div>
-      <div className='pages'>
-        <a href="/cart">장바구니</a>
-        <a href="/like">좋아요</a>
-        <a href="/mypage" onClick={(event) => {
-        event.preventDefault();
-        navigate(isLoggedIn() ? '/mypage' : '/login');
-      }}>마이페이지</a>      </div>
+      <div className="pages">
+        <Link to="/cart">장바구니</Link>
+        <Link to="/like">좋아요</Link>
+        <Link
+          to="/mypage"
+          onClick={(event) => {
+            event.preventDefault();
+            navigate(isLoggedIn() ? '/mypage' : '/login');
+          }}
+        >
+          마이페이지
+        </Link>{' '}
+      </div>
     </div>
   );
 };

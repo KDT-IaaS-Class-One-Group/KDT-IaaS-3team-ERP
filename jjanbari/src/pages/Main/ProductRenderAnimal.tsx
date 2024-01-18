@@ -1,5 +1,3 @@
-// src/pages/Main/ProductRender.tsx
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
@@ -12,21 +10,18 @@ type Product = {
   img: string;
 };
 
-const ProductRender = () => {
+const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/products')
+    fetch(`http://localhost:3001/products/${category}`)
       .then((response) => response.json())
       .then((data) => setProducts(data));
-  }, []);
+  }, [category]);
 
   const handleBuy = (product: Product) => {
-    // 선택한 수량을 가져옵니다.
     const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
-
-    // 선택한 수량을 포함한 새로운 상품 객체를 생성합니다.
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
     if (isLoggedIn()) {
@@ -41,7 +36,7 @@ const ProductRender = () => {
       {products.length > 0 &&
         products.map((product) => (
           <div className="product-item" key={product.product_id}>
-            <img src={product.img} alt={product.name} /> {/* 이미지 렌더링 */}
+            <img src={product.img} alt={product.name} />
             <div className='product-details'>
               <h3>{product.name}</h3>
               <br></br>
@@ -55,4 +50,5 @@ const ProductRender = () => {
     </div>
   );
 }
-export default ProductRender;
+
+export default ProductRenderAnimal;
