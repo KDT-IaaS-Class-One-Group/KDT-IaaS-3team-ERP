@@ -50,6 +50,8 @@
 .main {
   position: absolute;
   right: 1rem;
+  text-decoration: none;
+  color: #f4a460
 }
 
 /* .adminHeaderPages:hover + .adminSideHeaderPages { 
