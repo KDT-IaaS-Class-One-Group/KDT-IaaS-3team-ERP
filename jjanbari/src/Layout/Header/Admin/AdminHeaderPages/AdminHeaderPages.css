@@ -33,7 +33,10 @@
   transition: 0.5s ease;
 }
 
-.adminHeaderPages > ul li {
+.adminHeaderPages > ul > li {
+  display: flex;
+  height: 5vh;
+  justify-content: center;
   float: left;
   position: relative;
 }
