@@ -3,8 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { userQuery } = require('./src/Databases/userInfo');
-const { productQuery } = require('./src/Databases/productInfo');
+const { jjanbariQuery } = require('./src/Databases/jjanbariERP');
 
 //이미지 업로드를 위해 multer를 추가함
 const multer = require('multer');
@@ -22,11 +21,11 @@ app.post('/signup', async (req, res) => {
     const { userID, userPW, userNAME } = req.body;
 
     const insertDataQuery = `
-      INSERT INTO users (userID, userPW, userNAME)
+      INSERT INTO users (user_id, user_pw, user_name)
       VALUES (?, ?, ?);
     `;
 
-    await userQuery(insertDataQuery, [userID, userPW, userNAME]);
+    await jjanbariQuery(insertDataQuery, [userID, userPW, userNAME]);
 
     console.log('회원 가입 정보 저장 성공:', req.body);
     res.sendStatus(200);
@@ -41,7 +40,7 @@ app.post('/login', async (req, res) => {
   try {
     const { userID, userPW } = req.body;
 
-    const results = await userQuery('SELECT * FROM users WHERE userID = ?', [userID]);
+    const results = await jjanbariQuery('SELECT * FROM users WHERE user_id = ?', [userID]);
 
     if (results.length > 0) {
       const user = results[0];
@@ -76,9 +75,9 @@ app.use('/uploads', express.static('uploads'));
 // 서버 코드에 카테고리 목록을 가져오는 API 추가
 app.get('/categories', async (req, res) => {
   try {
-      const animalCategories = await productQuery('SELECT * FROM animal_categories');
-      const ageCategories = await productQuery('SELECT * FROM age_categories');
-      const functionalCategories = await productQuery('SELECT * FROM functional_categories');
+      const animalCategories = await jjanbariQuery('SELECT * FROM animal_categories');
+      const ageCategories = await jjanbariQuery('SELECT * FROM age_categories');
+      const functionalCategories = await jjanbariQuery('SELECT * FROM functional_categories');
 
       res.json({
           animalCategories,
@@ -98,22 +97,22 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
 
   try {
     // 동일한 name과 price를 가진 상품이 있는지 확인
-    const existingProducts = await productQuery('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
+    const existingProducts = await jjanbariQuery('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
 
     if (existingProducts.length > 0) {
       // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트
       const existingProduct = existingProducts[0];
-      await productQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.id]);
+      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.id]);
     } else {
       // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가
-      const insertProductResult = await productQuery('INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, price, quantity, img, animalCategory, ageCategory, functionalCategory]);
+      const insertProductResult = await jjanbariQuery('INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, price, quantity, img, animalCategory, ageCategory, functionalCategory]);
 
       const productId = insertProductResult.insertId;
 
       // 각각의 연결 테이블에도 데이터 추가
-      await productQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
-      await productQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
-      await productQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
+      await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
+      await jjanbariQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
+      await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
 
     }
 
@@ -126,7 +125,7 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
 
 app.get('/products', async (req, res) => {
   try {
-    const products = await productQuery('SELECT product_id, name, price, quantity, img FROM products');
+    const products = await jjanbariQuery('SELECT product_id, name, price, quantity, img FROM products');
     res.json(products);
   } catch (error) {
     console.error('Error during fetching products:', error.message);
@@ -147,7 +146,7 @@ app.get('/products/:category', async (req, res) => {
       query += 'INNER JOIN animal_products ON products.product_id = animal_products.product_id WHERE animal_products.animal_id = ?';
       params.push(2); // 예시로 고양이 카테고리 ID를 2로 가정
     }
-    const products = await productQuery(query, params);
+    const products = await jjanbariQuery(query, params);
     res.json(products);
   } catch (error) {
     console.error('Error during fetching products:', error.message);
@@ -159,7 +158,7 @@ app.get('/products/:category', async (req, res) => {
 // 관리자 페이지 상품 관리
 app.get('/admin/products', async (req, res) => {
   try {
-    const products = await productQuery('SELECT * FROM products');
+    const products = await jjanbariQuery('SELECT * FROM products');
     res.json(products);
   } catch (error) {
     console.error('Error during fetching products:', error.message);
@@ -173,7 +172,7 @@ app.put('/products/purchase/:id', async (req, res) => {
 
   try {
     // 상품 정보를 먼저 조회
-    const product = await productQuery('SELECT quantity FROM products WHERE product_id = ?', [id]);
+    const product = await jjanbariQuery('SELECT quantity FROM products WHERE product_id = ?', [id]);
     if (product.length === 0) {
       return res.status(404).json({ success: false, error: '상품을 찾을 수 없습니다.' });
     }
@@ -184,7 +183,7 @@ app.put('/products/purchase/:id', async (req, res) => {
     }
 
     // 상품 수량 업데이트
-    await productQuery('UPDATE products SET quantity = quantity - ? WHERE product_id = ?', [quantity, id]);
+    await jjanbariQuery('UPDATE products SET quantity = quantity - ? WHERE product_id = ?', [quantity, id]);
     res.json({ success: true, message: '구매가 완료되었습니다.' });
   } catch (error) {
     console.error('Error during purchase:', error.message);
@@ -197,7 +196,7 @@ app.put('/admin/products/:id', async (req, res) => {
   const { name, price, quantity } = req.body;
 
   try {
-    await productQuery('UPDATE products SET name = ?, price = ?, quantity = ? WHERE product_id = ?', [
+    await jjanbariQuery('UPDATE products SET name = ?, price = ?, quantity = ? WHERE product_id = ?', [
       name,
       price,
       quantity,
@@ -214,7 +213,7 @@ app.delete('/admin/products/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    await productQuery('DELETE FROM products WHERE product_id = ?', [id]);
+    await jjanbariQuery('DELETE FROM products WHERE product_id = ?', [id]);
     res.json({ success: true });
   } catch (error) {
     console.error('Error during deleting product:', error.message);
@@ -225,7 +224,7 @@ app.delete('/admin/products/:id', async (req, res) => {
 // 관리자 페이지 회원 정보 관리
 app.get('/users', async (req, res) => {
   try {
-    const userProfiles = await userQuery('SELECT * FROM users');
+    const userProfiles = await jjanbariQuery('SELECT * FROM users');
     res.json(userProfiles);
   } catch (error) {
     console.error('Error during fetching users:', error.message);
@@ -240,7 +239,7 @@ app.post('/payment', async (req, res) => {
 
   try {
     // payment 테이블에 기록
-    await productQuery('INSERT INTO payment (sold) VALUES (?)', [productId]);
+    await jjanbariQuery('INSERT INTO payment (sold) VALUES (?)', [productId]);
 
     res.json({ success: true, message: '결제가 완료되었습니다.' });
   } catch (error) {

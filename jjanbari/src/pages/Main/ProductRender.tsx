@@ -3,14 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
-
-type Product = {
-  product_id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  img: string;
-};
+import { Product } from '../interface/interface';
 
 const ProductRender = () => {
   const [products, setProducts] = useState<Product[]>([]);

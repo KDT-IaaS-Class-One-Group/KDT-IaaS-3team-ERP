@@ -1,12 +1,5 @@
 // src/pages/Main/function/HandlePurchase.tsx
-
-type Product = {
-  product_id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  img: string;
-};
+import { Product } from "../../interface/interface";
 
 const handlePurchase = async (selectedProduct: Product, setSelectedProduct: React.Dispatch<React.SetStateAction<Product | undefined>>): Promise<boolean> => {
   if (!selectedProduct.product_id) {
