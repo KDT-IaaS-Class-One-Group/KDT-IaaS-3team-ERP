@@ -4,20 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import handlePurchase from '../function/HandlePurchase';
+import { User, Product } from '../../interface/interface';
 
-type User = {
-  userID: string;
-  userName: string;
-  userPW: string;
-};
 
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  img: string;
-};
+
 
 const PaymentPage = () => {
   const [address, setAddress] = useState('');
@@ -54,7 +44,7 @@ const PaymentPage = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productId: selectedProduct.id }),
+            body: JSON.stringify({ productId: selectedProduct.product_id }),
           });
 
           if (paymentResponse.ok) {
@@ -80,7 +70,7 @@ const PaymentPage = () => {
       <h1>결제 페이지</h1>
       {selectedProduct ? (
         <div>
-          <h2>받는 사람: {user?.userName}</h2>
+          <h2>받는 사람: {user?.user_name}</h2>
           <div>
             <label>주소: </label>
             <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
