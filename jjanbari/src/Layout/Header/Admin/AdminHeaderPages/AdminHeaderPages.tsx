@@ -1,23 +1,27 @@
-import './AdminHeaderPages.css'
-import AdminSideHeaderPages from './AdminSideHeaderPages/ProductSidebar';
+import { Link } from "react-router-dom";
+import "./AdminHeaderPages.css";
+import AdminSideHeaderPages from "./AdminSideHeaderPages/ProductSidebar";
 
 const AdminHeaderPages = () => {
-
   return (
     <div className="adminHeaderPages">
       <ul>
         <li>
-          <a href="/productManagement" className='productManagement'>상품 관리</a>
+          <Link to="/productManagement" className="productManagement">
+            상품 관리
+          </Link>
           <AdminSideHeaderPages />
         </li>
         <li>
-          <a href="/userManagement">유저 관리</a>
+          <Link to="/userManagement">유저 관리</Link>
         </li>
         <li>
-          <a href="/statistics">통계 처리</a>       
+          <Link to="/statistics">통계 처리</Link>
         </li>
       </ul>
-      <a href="/" className='main'>메인 페이지로</a> 
+      <Link to="/" className="main">
+        메인 페이지로
+      </Link>
     </div>
   );
 };
