@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface AnimalCategory {
-  animal_id: number;
-  animal_name: string;
-}
-
-interface AgeCategory {
-  age_id: number;
-  age_name: string;
-}
-
-interface FunctionalCategory {
-  functional_id: number;
-  functional_name: string;
-}
+import { AnimalCategory, AgeCategory, FunctionalCategory } from '../../../interface/interface';
 
 const ProductForm = () => {
   const [name, setName] = useState('');

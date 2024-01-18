@@ -1,8 +1,8 @@
 // src/pages/Signup/function/HandleSubmit.tsx
 
-const handleSubmit = (formData: any, navigate: any) => async (event: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = (User: any, navigate: any) => async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
-  if (!formData.userID || !formData.userPW || !formData.userNAME) {
+  if (!User.user_id || !User.user_pw || !User.user_name) {
     alert('모든 필수 항목을 입력해주세요.');
     return;
   }
@@ -14,9 +14,9 @@ const handleSubmit = (formData: any, navigate: any) => async (event: React.FormE
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userID: formData.userID,
-        userPW: formData.userPW,
-        userNAME: formData.userNAME,
+        userID: User.user_id,
+        userPW: User.user_pw,
+        userNAME: User.user_name,
       }),
     });
 
