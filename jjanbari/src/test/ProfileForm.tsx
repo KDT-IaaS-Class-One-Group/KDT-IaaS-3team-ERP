@@ -12,7 +12,7 @@ const ProfileForm: React.FC = () => {
 
     // 데이터를 서버로 보냄
     try {
-      const response = await fetch("/addProfile", {
+      const response = await fetch("http://localhost:5000/addProfile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

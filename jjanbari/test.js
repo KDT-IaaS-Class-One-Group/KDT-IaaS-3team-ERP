@@ -30,6 +30,10 @@ db.query(`CREATE TABLE IF NOT EXISTS TEST (
 
 // Express 서버 라우트 설정
 app.get('/', (req, res) => {
+  console.log('메인 페이지 서빙 완료');
+})
+
+app.get('/test', (req, res) => {
   // MariaDB에서 데이터 가져오기 예제
   db.query('SELECT * FROM TEST', (error, results) => {
     if (error) throw error;
@@ -68,7 +72,6 @@ app.get('/', (req, res) => {
           <h3>프로필 입력 폼</h3>
           <div id="profileFormContainer"></div>  <!-- React로 구성된 컴포넌트를 삽입할 컨테이너 -->
         </body>
-        <script src="/static/js/bundle.js"></script>  <!-- React 컴포넌트 번들링된 파일을 추가 -->
       </html>
     `;
 
@@ -77,7 +80,7 @@ app.get('/', (req, res) => {
 });
 
 // 프로필을 추가하는 라우트
-app.post('/addProfile', (req, res) => {
+app.post('http://localhost:5000/addProfile', (req, res) => {
   const newProfile = {
     name: req.body.name,
     age: req.body.age,
@@ -92,7 +95,7 @@ app.post('/addProfile', (req, res) => {
 });
 
 // 서버 실행
-const PORT = 3000;
+const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
