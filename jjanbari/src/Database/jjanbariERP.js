@@ -1,4 +1,4 @@
-// src/Databases/productInfo.js
+// src/Databases/jjanbariERP.js
 
 const mysql = require("mysql2/promise");
 
