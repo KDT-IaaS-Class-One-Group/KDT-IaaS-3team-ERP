@@ -24,8 +24,8 @@ let pool = mysql.createPool({
 // 데이터베이스 초기화 함수
 async function initializeDatabase() {
   try {
-    // 데이터베이스 생성 쿼리 실행
-    await pool.query(`CREATE DATABASE IF NOT EXISTS ${databaseName}`);
+    // jjanbariERP 데이터베이스로 진입
+    await pool.query(`USE ${databaseName}`);
 
     // 테이블 생성 쿼리 실행
     await pool.query(`
