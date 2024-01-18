@@ -1,12 +1,9 @@
 import './HeaderPages.css';
-import React, { Link, useNavigate } from 'react-router-dom';
+import React, { Link } from 'react-router-dom';
 
 import LoginToggle from './LoginStatus/LoginToggle';
-import { isLoggedIn } from './LoginStatus/isLoggedIn';
 
 const HeaderPages = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="headerPages">
       <div className="loginStatus">
@@ -19,7 +16,6 @@ const HeaderPages = () => {
           to="/mypage"
           onClick={(event) => {
             event.preventDefault();
-            navigate(isLoggedIn() ? '/mypage' : '/login');
           }}
         >
           마이페이지
