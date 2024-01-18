@@ -58,6 +58,18 @@ app.get('/', (req, res) => {
               </tr>
             `).join('')}
           </table>
+
+          <!-- 데이터 추가 폼 -->
+          <h2>Add New Data</h2>
+          <form action="/add" method="post">
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required><br>
+            <label for="age">나이:</label>
+            <input type="number" id="age" name="age" required><br>
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required><br>
+            <button type="submit">프로필 추가</button>
+          </form>
         </body>
       </html>
     `;
@@ -66,16 +78,19 @@ app.get('/', (req, res) => {
   });
 });
 
-// 내 정보를 추가
-const myProfile = {
-  name: 'BHN',
-  age: 26,
-  email: 'dev.honing@gmail.com',
-};
+// 내 정보를 추가하는 라우트
+app.post('/add', (req, res) => {
+  const newData = {
+    name: req.body.name,
+    age: req.body.age,
+    email: req.body.email,
+  };
 
-db.query('INSERT INTO TEST SET ?', myProfile, (error, result) => {
-  if (error) throw error;
-  console.log('New data added:', result);
+  db.query('INSERT INTO TEST SET ?', newData, (error, result) => {
+    if (error) throw error;
+    console.log('New data added:', result);
+    res.redirect('/'); // 추가 후 다시 홈페이지로 리다이렉트
+  });
 });
 
 // 서버 실행
