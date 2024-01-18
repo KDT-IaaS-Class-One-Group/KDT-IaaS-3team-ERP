@@ -2,8 +2,13 @@
 
 const express = require('express');
 const mysql = require('mysql2');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+// body-parser 미들웨어 추가
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // MariaDB 연결 설정
 const db = mysql.createConnection({
@@ -61,7 +66,7 @@ app.get('/', (req, res) => {
 
           <!-- 데이터 추가 폼 -->
           <h3>프로필 입력 폼</h3>
-          <form action="/addProfile" method="post">
+          <form action="/addProfile" method="post" accept-charset="UTF-8">
             <label for="name">이름:</label>
             <input type="text" id="name" name="name" required><br>
             <label for="age">나이:</label>
