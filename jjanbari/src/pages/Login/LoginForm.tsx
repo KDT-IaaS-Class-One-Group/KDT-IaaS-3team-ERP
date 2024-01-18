@@ -11,30 +11,39 @@ const LoginForm: React.FC = () => {
     user_id: '',
     user_pw: '',
   });
-  const loginError = useState<boolean>(false);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState("");
+
   const navigate = useNavigate();
 
-  const handleLogin = (id: string) => {
-    // 로그인 시 userId와 isAdmin을 sessionStorage에 저장
-    sessionStorage.setItem('userId', id);
-  };
-
   const handleLoginSuccess = (role: string) => {
-    console.log(`${role}으로 로그인하였습니다.`);
+    // 로그인 성공 시 수행할 로직
+    console.log(`로그인 성공! 역할: ${role}`);
+    // 예: 다음 페이지로 이동 등
 
-    // 세션 스토리지에 userId 저장
-    sessionStorage.setItem('userId', loginFormData.userID);
+    // 로그인 상태와 역할 업데이트
+    setIsLoggedIn(true);
+    setUserRole(role);
 
-    if (role === 'admin') {
-      navigate('/admin'); // 관리자 페이지로 이동
+    // 역할에 따라 다른 경로로 이동
+    if (role === "admin") {
+      navigate("/admin");
     } else {
-      navigate('/'); // 메인 페이지로 이동
+      navigate("/");
     }
   };
 
+  const handleLogout = () => {
+    // 로그아웃 버튼 클릭 시 로직
+    setIsLoggedIn(false);
+    setUserRole("");
+    // 예: 로그아웃 성공 시 로직 추가
+  };
+
+
   return (
-    <form onSubmit={handleSubmit(loginFormData, handleLoginSuccess)} className="LoginForm">
-      {loginError && <p style={{ color: 'white', background: 'red' }}>로그인이 필요합니다.</p>}
+    <form className="LoginForm" onSubmit={handleSubmit(loginFormData, handleLoginSuccess)}>
       <label>
         아이디:
         <input
@@ -59,11 +68,13 @@ const LoginForm: React.FC = () => {
       <br />
       <div>
         <div className="signup">
-          <Link to="/signup" className='sign'>
+          <Link to="/signup" className="sign">
             회원가입
           </Link>
         </div>
-        <button type="submit" onClick={() => handleLogin(loginFormData.userID)}>로그인</button>
+        <button type="submit">로그인</button>
+        {/* 로그인 중인 경우 메시지 표시 */}
+        {isLoggedIn && <p>로그인 중입니다.</p>}
       </div>
     </form>
   );

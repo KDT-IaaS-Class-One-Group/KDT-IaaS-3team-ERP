@@ -1,4 +1,10 @@
-// src/pages/Login/function/HandleSubmit.tsx
+// src/pages/Login/function/handleSubmit.tsx
+
+/* 
+  handleSubmit 함수는 로그인 폼을 제출하면 수행되는 로직을 정의합니다.
+  필수 필드가 입력되었는지 확인하고, 서버에 로그인 요청을 보내고 응답을 처리합니다.
+  로그인에 성공하면 handleLoginSuccess 함수를 호출해 로그인 상태와 역할을 업데이트하고, 페이지를 이동합니다.
+*/
 
 import { FormEvent } from 'react';
 

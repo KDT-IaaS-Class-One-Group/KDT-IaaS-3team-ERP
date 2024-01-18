@@ -14,17 +14,18 @@ const tableFunctionalProducts = "functional_products";
 
 // 데이터베이스 연결 풀 생성
 let pool = mysql.createPool({
-  host: "localhost",
+  host: "forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com",
+  port: 3306,
   user: "root",
-  password: "1234",
+  password: "qwer1234",
   database: databaseName,
 });
 
 // 데이터베이스 초기화 함수
 async function initializeDatabase() {
   try {
-    // 데이터베이스 생성 쿼리 실행
-    await pool.query(`CREATE DATABASE IF NOT EXISTS ${databaseName}`);
+    // jjanbariERP 데이터베이스로 진입
+    await pool.query(`USE ${databaseName}`);
 
     // 테이블 생성 쿼리 실행
     await pool.query(`
@@ -132,9 +133,10 @@ async function jjanbariQuery(sql, params) {
     console.error("Pool is closed. Reconnecting...");
     // 연결이 닫혔다면 새로운 연결 생성
     pool = mysql.createPool({
-      host: "localhost",
+      host: "forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com",
+      port: 3306,
       user: "root",
-      password: "1234",
+      password: "qwer1234",
       database: databaseName,
     });
   }
