@@ -12,7 +12,7 @@ const handleSubmit = (loginFormData: any, handleLoginSuccess: (role: string) => 
   e.preventDefault();
 
   // 필수 필드 확인
-  if (!loginFormData.userID || !loginFormData.userPW) {
+  if (!loginFormData.user_id || !loginFormData.user_pw) {
     alert('아이디와 비밀번호를 입력해주세요.');
     return;
   }
@@ -23,7 +23,10 @@ const handleSubmit = (loginFormData: any, handleLoginSuccess: (role: string) => 
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(loginFormData),
+      body: JSON.stringify({
+        userID: loginFormData.user_id,
+        userPW: loginFormData.user_pw,
+      }),
     });
 
     if (response.ok) {
