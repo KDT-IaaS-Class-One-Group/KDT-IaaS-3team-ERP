@@ -1,15 +1,17 @@
 // src/Component/Header/Admin/AdminHeader.tsx
+import HeaderLogo from '../User/HeaderLogo/HeaderLogo';
+import AdminHeaderPages from './AdminHeaderPages/AdminHeaderPages';
+// import AdminSideHeaderPages from './AdminHeaderPages/AdminSideHeaderPages/ProductSidebar';
 
+// import { Link } from 'react-router-dom';
 import './AdminHeader.css';
 
 const AdminHeader = () => {
   return (
-    <div id="adminHeader">
-      <a href="/productManagement">상품 관리</a>
-      <a href="/userManagement">회원 관리</a>
-      <a href="/statistics">통계 처리</a>
-      <a href="/admin">관리자 페이지 로고</a>
-    </div>
+    <header id="AdminHeader">
+      <HeaderLogo />
+      <AdminHeaderPages />
+    </header>
   );
 };
 

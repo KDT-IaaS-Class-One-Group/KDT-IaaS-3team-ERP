@@ -1,0 +1,13 @@
+.productSidebar{
+  width: 100vw;
+  height: 0;
+  display: none;
+  align-items: center;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
+
+
+.productSidebar > li > a{
+  color: black;
+}

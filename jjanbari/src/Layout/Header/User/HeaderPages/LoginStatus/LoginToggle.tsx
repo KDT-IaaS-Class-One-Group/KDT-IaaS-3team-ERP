@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Login from './Login';
 import { isLoggedIn } from './isLoggedIn';
+import { Link } from 'react-router-dom';
 
 const LoginToggle: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -30,7 +31,7 @@ const LoginToggle: React.FC = () => {
   };
 
   return (
-    <a href='/login' className='loginStatus'>
+    <Link to="/login" className="loginStatus">
       {isLoggedIn() ? (
         <div>
           <p>{`ID: ${userId}`}</p>
@@ -47,7 +48,7 @@ const LoginToggle: React.FC = () => {
           </div>
         </div>
       )}
-    </a>
+    </Link>
   );
 };
 
