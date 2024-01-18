@@ -22,7 +22,7 @@ const ProductForm = () => {
     // 페이지가 로드될 때 카테고리 목록을 불러오는 API 호출
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:3001/categories');
+        const response = await fetch('/categories');
         const data = await response.json();
 
         setAnimalCategories(data.animalCategories);

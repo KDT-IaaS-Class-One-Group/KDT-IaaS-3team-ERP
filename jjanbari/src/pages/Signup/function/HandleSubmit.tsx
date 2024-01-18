@@ -8,7 +8,7 @@ const handleSubmit = (User: any, navigate: any) => async (event: React.FormEvent
   }
   try {
     // 서버로 회원 가입 정보 전송
-    const response = await fetch('http://localhost:3001/signup', {
+    const response = await fetch('/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
