@@ -46,8 +46,8 @@ app.post('/login', async (req, res) => {
       const user = results[0];
 
       // 비밀번호 비교
-      if (user.userPW === userPW) {
-        if (user.userID === 'adroot') {
+      if (user.user_pw === userPW) {
+        if (user.user_id === 'adroot') {
           // 관리자 로그인 성공
           console.log('관리자로 로그인하였습니다.');
           res.status(201).json({ role: 'admin' });
