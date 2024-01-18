@@ -28,6 +28,9 @@ import UserManagementPage from '../../pages/Admin/User/UserProfilesPage';
 import StatisticsPage from '../../pages/Admin/Statistics/StatisticsPage';
 import PaymentPage from '../../pages/Main/Payment/PaymentPage';
 
+// 테스트 페이지 import
+import TestPage from '../../pages/Test/TestPage';
+
 const Router = () => {
   return (
     <Routes>
@@ -56,6 +59,9 @@ const Router = () => {
       <Route path="/productUpload" element={<ProductUploadPage />}></Route>
       <Route path="/userManagement" element={<UserManagementPage />}></Route>
       <Route path="/statistics" element={<StatisticsPage />}></Route>
+
+      {/* 테스트 페이지 */}
+      <Route path="/test" element={<TestPage />}></Route>
     </Routes>
   );
 };

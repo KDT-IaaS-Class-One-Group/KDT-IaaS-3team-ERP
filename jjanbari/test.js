@@ -26,7 +26,7 @@ db.query(`CREATE TABLE IF NOT EXISTS TEST (
   email VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-`)
+`);
 
 // Express 서버 라우트 설정
 app.get('/', (req, res) => {
@@ -66,16 +66,9 @@ app.get('/', (req, res) => {
 
           <!-- 데이터 추가 폼 -->
           <h3>프로필 입력 폼</h3>
-          <form action="/addProfile" method="post" accept-charset="UTF-8">
-            <label for="name">이름:</label>
-            <input type="text" id="name" name="name" required><br>
-            <label for="age">나이:</label>
-            <input type="number" id="age" name="age" required><br>
-            <label for="email">이메일:</label>
-            <input type="email" id="email" name="email" required><br>
-            <button type="submit">프로필 추가</button>
-          </form>
+          <div id="profileFormContainer"></div>  <!-- React로 구성된 컴포넌트를 삽입할 컨테이너 -->
         </body>
+        <script src="/static/js/bundle.js"></script>  <!-- React 컴포넌트 번들링된 파일을 추가 -->
       </html>
     `;
 
