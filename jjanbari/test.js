@@ -60,8 +60,8 @@ app.get('/', (req, res) => {
           </table>
 
           <!-- 데이터 추가 폼 -->
-          <h2>Add New Data</h2>
-          <form action="/add" method="post">
+          <h3>프로필 입력 폼</h3>
+          <form action="/addProfile" method="post">
             <label for="name">이름:</label>
             <input type="text" id="name" name="name" required><br>
             <label for="age">나이:</label>
@@ -78,15 +78,15 @@ app.get('/', (req, res) => {
   });
 });
 
-// 내 정보를 추가하는 라우트
-app.post('/add', (req, res) => {
-  const newData = {
+// 프로필을 추가하는 라우트
+app.post('/addProfile', (req, res) => {
+  const newProfile = {
     name: req.body.name,
     age: req.body.age,
     email: req.body.email,
   };
 
-  db.query('INSERT INTO TEST SET ?', newData, (error, result) => {
+  db.query('INSERT INTO TEST SET ?', newProfile, (error, result) => {
     if (error) throw error;
     console.log('New data added:', result);
     res.redirect('/'); // 추가 후 다시 홈페이지로 리다이렉트
