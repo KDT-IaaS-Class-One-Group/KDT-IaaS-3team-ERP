@@ -14,9 +14,9 @@ const tableFunctionalProducts = "functional_products";
 
 // 데이터베이스 연결 풀 생성
 let pool = mysql.createPool({
-  host: "forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com",
+  host: "localhost",
   user: "root",
-  password: "qwer1234",
+  password: "1234",
   database: databaseName,
 });
 
