@@ -1,0 +1,65 @@
+.adminHeaderPages {
+  /* 하단에 오도록 설정 */
+  width: 100vw;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  border: 1px solid lightgray;
+}
+
+.adminHeaderPages ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.adminHeaderPages a {
+  text-decoration: none;
+  margin: 1rem;
+}
+
+.adminHeaderPages > ul > li > a {
+  color: white;
+}
+
+.adminHeaderPages li:hover > a {
+  font-weight: bold;
+}
+
+.adminHeaderPages li:hover > ul,
+.adminHeaderPages li > ul:hover {
+  display: flex;
+  height: 3vh;
+  transition: 0.5s ease;
+}
+
+.adminHeaderPages > ul > li {
+  display: flex;
+  height: 5vh;
+  justify-content: center;
+  float: left;
+  position: relative;
+}
+
+.adminHeaderPages > ul > li > ul {
+  position: absolute;
+  top: 5vh;
+  left: 0;
+}
+
+.main {
+  position: absolute;
+  right: 1rem;
+}
+
+/* .adminHeaderPages:hover + .adminSideHeaderPages { 
+  display: flex;
+  height: 5vh;
+  transition: 0.5s ease;
+} */
+
+/* .adminSideHeaderPages:hover{
+  display: flex;
+  height: 5vh;
+  transition: 0.5s ease;
+} */

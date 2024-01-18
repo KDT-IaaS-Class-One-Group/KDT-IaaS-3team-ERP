@@ -4,11 +4,6 @@
   height: 5vh;
   border: 1px solid lightgray;
   display: flex;
-}
-
-/* 컴포넌트 내부 요소 스타일링 */
-.headerCategory{
-  display: flex;
   justify-content: center;
 }
 

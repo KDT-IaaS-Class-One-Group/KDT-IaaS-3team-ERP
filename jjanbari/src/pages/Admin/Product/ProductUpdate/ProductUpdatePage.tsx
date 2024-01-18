@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // 상품의 타입 정의
 type Product = {
-  id: number;
+  product_id: number;
   name: string;
   price: number;
   quantity: number;
@@ -31,11 +31,11 @@ const ProductUpdatePage = () => {
     fetchData();
   }, []);
 
-  const handleUpdate = async (id: number) => {
+  const handleUpdate = async (product_id: number) => {
     // 해당 상품을 수정할 때는 해당 상품의 id를 state에 저장하고,
     // 폼에서 사용할 수정할 정보를 초기화합니다.
-    setEditingProductId(id);
-    setUpdatedProduct({ id, name: '', price: 0, quantity: 0 });
+    setEditingProductId(product_id);
+    setUpdatedProduct({ product_id, name: '', price: 0, quantity: 0 });
   };
 
   const handleUpdateSubmit = async () => {
@@ -45,7 +45,7 @@ const ProductUpdatePage = () => {
       }
 
       // Send a PUT request to the server to update the product
-      const response = await fetch(`http://localhost:3001/admin/products/${updatedProduct.id}`, {
+      const response = await fetch(`http://localhost:3001/admin/products/${updatedProduct.product_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const ProductUpdatePage = () => {
       if (response.ok) {
         // If the update is successful, update the local state
         setProducts((prevProducts) =>
-          prevProducts.map((product) => (product.id === updatedProduct.id ? updatedProduct : product))
+          prevProducts.map((product) => (product.product_id === updatedProduct.product_id ? updatedProduct : product))
         );
         // Reset editing state
         setEditingProductId(null);
@@ -81,7 +81,7 @@ const ProductUpdatePage = () => {
 
       if (response.ok) {
         // If the deletion is successful, update the local state
-        setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
+        setProducts((prevProducts) => prevProducts.filter((product) => product.product_id !== id));
       } else {
         console.error('Failed to delete the product');
       }
@@ -106,10 +106,10 @@ const ProductUpdatePage = () => {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
+            <tr key={product.product_id}>
+              <td>{product.product_id}</td>
               <td>
-                {editingProductId === product.id ? (
+                {editingProductId === product.product_id ? (
                   <input
                     value={updatedProduct?.name || ''}
                     onChange={(e) => setUpdatedProduct((prev) => {
@@ -125,7 +125,7 @@ const ProductUpdatePage = () => {
                 )}
               </td>
               <td>
-                {editingProductId === product.id ? (
+                {editingProductId === product.product_id ? (
                   <input
                     value={updatedProduct?.price?.toString() || ''}
                     onChange={(e) => setUpdatedProduct((prev) => {
@@ -141,7 +141,7 @@ const ProductUpdatePage = () => {
                 )}
               </td>
               <td>
-                {editingProductId === product.id ? (
+                {editingProductId === product.product_id ? (
                   <input
                     value={updatedProduct?.quantity?.toString() || ''}
                     onChange={(e) => setUpdatedProduct((prev) => {
@@ -157,14 +157,14 @@ const ProductUpdatePage = () => {
                 )}
               </td>
               <td>
-                {editingProductId === product.id ? (
+                {editingProductId === product.product_id ? (
                   <button onClick={handleUpdateSubmit}>확인</button>
                 ) : (
-                  <button onClick={() => handleUpdate(product.id)}>수정</button>
+                  <button onClick={() => handleUpdate(product.product_id)}>수정</button>
                 )}
               </td>
               <td>
-                <button onClick={() => handleDelete(product.id)}>삭제</button>
+                <button onClick={() => handleDelete(product.product_id)}>삭제</button>
               </td>
             </tr>
           ))}
