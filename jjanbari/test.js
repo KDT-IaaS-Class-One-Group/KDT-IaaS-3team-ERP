@@ -32,7 +32,37 @@ app.get('/', (req, res) => {
     // 테이블 형태로 결과 콘솔에 출력
     console.table(results);
 
-    res.json(results);
+    // HTML 페이지 렌더링
+    const html = `
+      <html>
+        <head>
+          <title>TEST Table Data</title>
+        </head>
+        <body>
+          <h1>TEST Table Data</h1>
+          <table border="1">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Email</th>
+              <th>Created At</th>
+            </tr>
+            ${results.map(row => `
+              <tr>
+                <td>${row.id}</td>
+                <td>${row.name}</td>
+                <td>${row.age}</td>
+                <td>${row.email}</td>
+                <td>${row.created_at}</td>
+              </tr>
+            `).join('')}
+          </table>
+        </body>
+      </html>
+    `;
+
+    res.send(html);
   });
 });
 
