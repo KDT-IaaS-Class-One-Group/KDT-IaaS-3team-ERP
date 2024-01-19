@@ -2,20 +2,21 @@
 
 const mysql = require("mysql2/promise");
 
-const databaseName = "productInfo";
-const tableNameP = "products";
-const tableNameAC = "animal_categories";
-const tableNameAC2 = "age_categories";
-const tableNameFC = "functional_categories";
-const tableNameAP = "animal_products";
-const tableNameAP2 = "age_products";
-const tableNameFP = "functional_products";
+const databaseName = "jjanbariERP";
+const tableUser = 'users';
+const tableproducts = "products";
+const tableAnimalCategories = "animal_categories";
+const tableAgeCategories = "age_categories";
+const tableFunctionalCategories = "functional_categories";
+const tableAnimalProducts = "animal_products";
+const tableAgeProducts = "age_products";
+const tableFunctionalProducts = "functional_products";
 
 // 데이터베이스 연결 풀 생성
 let pool = mysql.createPool({
-  host: "localhost",
+  host: "forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com",
   user: "root",
-  password: "1234",
+  password: "qwer1234",
   database: databaseName,
 });
 
@@ -27,28 +28,37 @@ async function initializeDatabase() {
 
     // 테이블 생성 쿼리 실행
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameAC} (
+      CREATE TABLE IF NOT EXISTS ${tableUser} (
+        user_num INT AUTO_INCREMENT PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        user_pw VARCHAR(255) NOT NULL,
+        user_name VARCHAR(255) NOT NULL
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS ${tableAnimalCategories} (
         animal_id INT PRIMARY KEY AUTO_INCREMENT,
         animal_name VARCHAR(255) NOT NULL
       );
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameAC2} (
+      CREATE TABLE IF NOT EXISTS ${tableAgeCategories} (
         age_id INT PRIMARY KEY AUTO_INCREMENT,
         age_name VARCHAR(255) NOT NULL
       );
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameFC} (
+      CREATE TABLE IF NOT EXISTS ${tableFunctionalCategories} (
         functional_id INT PRIMARY KEY AUTO_INCREMENT,
         functional_name VARCHAR(255) NOT NULL
       );
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameP} (
+      CREATE TABLE IF NOT EXISTS ${tableproducts} (
         product_id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL,
         price INT NOT NULL,
@@ -64,7 +74,7 @@ async function initializeDatabase() {
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameAP} (
+      CREATE TABLE IF NOT EXISTS ${tableAnimalProducts} (
         product_id INT,
         animal_id INT,
         PRIMARY KEY (product_id, animal_id),
@@ -74,7 +84,7 @@ async function initializeDatabase() {
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameAP2} (
+      CREATE TABLE IF NOT EXISTS ${tableAgeProducts} (
         product_id INT,
         age_id INT,
         PRIMARY KEY (product_id, age_id),
@@ -84,7 +94,7 @@ async function initializeDatabase() {
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableNameFP} (
+      CREATE TABLE IF NOT EXISTS ${tableFunctionalProducts} (
         product_id INT,
         functional_id INT,
         PRIMARY KEY (product_id, functional_id),
@@ -105,7 +115,7 @@ async function initializeDatabase() {
   `);
 
     console.log(
-      `초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableNameP}, ${tableNameAC}, ${tableNameAC2}, ${tableNameFC}, ${tableNameAP}, ${tableNameAP2}, ${tableNameFP}`
+      `초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableUser}, ${tableproducts}, ${tableAnimalCategories}, ${tableAgeCategories}, ${tableFunctionalCategories}, ${tableAnimalProducts}, ${tableAgeProducts}, ${tableFunctionalProducts}`
     );
   } catch (error) {
     console.error("초기화 실패: ", error.message);
@@ -116,15 +126,15 @@ async function initializeDatabase() {
 initializeDatabase();
 
 // productQuery 함수 정의
-async function productQuery(sql, params) {
+async function jjanbariQuery(sql, params) {
   // 쿼리 실행 전에 연결 상태 체크
   if (pool._closed) {
     console.error("Pool is closed. Reconnecting...");
     // 연결이 닫혔다면 새로운 연결 생성
     pool = mysql.createPool({
-      host: "localhost",
+      host: "forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com",
       user: "root",
-      password: "1234",
+      password: "qwer1234",
       database: databaseName,
     });
   }
@@ -134,4 +144,4 @@ async function productQuery(sql, params) {
 }
 
 // query 함수 내보내기
-module.exports = { productQuery };
+module.exports = { jjanbariQuery };

@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './UserProfilesPage.css'
+import { UserProfiles } from '../../interface/interface';
 
-type UserProfiles = {
-  id: number;
-  userID: string;
-  userPW: string;
-  userNAME: string;
-};
 
 const UserProfilesPage = () => {
   const [users, setUsers] = useState<UserProfiles[]>([]);
@@ -44,10 +38,10 @@ const UserProfilesPage = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.userID}</td>
-              <td>{user.userNAME}</td>
+            <tr key={user.user_num}>
+              <td>{user.user_num}</td>
+              <td>{user.user_id}</td>
+              <td>{user.user_name}</td>
             </tr>
           ))}
         </tbody>

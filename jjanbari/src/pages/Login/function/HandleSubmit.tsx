@@ -6,18 +6,21 @@ const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<
   e.preventDefault();
 
   // 필수 필드 확인
-  if (!loginFormData.userID || !loginFormData.userPW) {
+  if (!loginFormData.user_id || !loginFormData.user_pw) {
     alert('아이디와 비밀번호를 입력해주세요.');
     return;
   }
 
   try {
-    const response = await fetch('http://localhost:3001/login', {
+    const response = await fetch('/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(loginFormData),
+      body: JSON.stringify({
+        userID: loginFormData.user_id,
+        userPW: loginFormData.user_pw,
+      }),
     });
 
     if (response.ok) {

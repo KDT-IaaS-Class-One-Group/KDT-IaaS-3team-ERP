@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-// 상품의 타입 정의
-type Product = {
-  product_id: number;
-  name: string;
-  price: number;
-  quantity: number;
-};
+import { Product } from '../../../interface/interface';
 
 const ProductUpdatePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,7 +9,7 @@ const ProductUpdatePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/admin/products');
+        const response = await fetch('/admin/products');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -35,7 +28,7 @@ const ProductUpdatePage = () => {
     // 해당 상품을 수정할 때는 해당 상품의 id를 state에 저장하고,
     // 폼에서 사용할 수정할 정보를 초기화합니다.
     setEditingProductId(product_id);
-    setUpdatedProduct({ product_id, name: '', price: 0, quantity: 0 });
+    setUpdatedProduct({ product_id, name: '', price: 0, quantity: 0 } as Product);
   };
 
   const handleUpdateSubmit = async () => {

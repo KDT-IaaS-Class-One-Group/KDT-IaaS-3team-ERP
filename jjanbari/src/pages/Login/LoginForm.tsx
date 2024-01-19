@@ -4,16 +4,12 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import handleInputChange from './function/HandleInputChange';
 import handleSubmit from './function/HandleSubmit';
-
-interface LoginFormData {
-  userID: string;
-  userPW: string;
-}
+import { LoginFormData } from '../interface/interface';
 
 const LoginForm: React.FC = () => {
   const [loginFormData, setLoginFormData] = useState<LoginFormData>({
-    userID: '',
-    userPW: '',
+    user_id: '',
+    user_pw: '',
   });
   const navigate = useNavigate();
 
@@ -23,8 +19,8 @@ const LoginForm: React.FC = () => {
         아이디:
         <input
           type="text"
-          name="userID"
-          value={loginFormData.userID}
+          name="user_id"
+          value={loginFormData.user_id}
           onChange={handleInputChange(loginFormData, setLoginFormData)}
           required
         />
@@ -34,8 +30,8 @@ const LoginForm: React.FC = () => {
         비밀번호:
         <input
           type="password"
-          name="userPW"
-          value={loginFormData.userPW}
+          name="user_pw"
+          value={loginFormData.user_pw}
           onChange={handleInputChange(loginFormData, setLoginFormData)}
           required
         />
