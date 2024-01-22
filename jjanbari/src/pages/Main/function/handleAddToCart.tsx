@@ -2,15 +2,7 @@
 
 import { NavigateFunction } from 'react-router-dom';
 import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
-
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  img: string;
-};
-
+import { Product } from '../../interface/interface';
 const handleAddToCart = async (product: Product, navigate: NavigateFunction) => {
   // 선택한 수량을 가져옵니다.
   const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
