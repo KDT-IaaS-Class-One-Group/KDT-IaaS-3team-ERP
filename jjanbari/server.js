@@ -49,7 +49,7 @@ app.post('/login', async (req, res) => {
       // 비밀번호 비교
       if (user.user_pw === userPW) {
         // 로그인 성공
-        console.log('사용자로 로그인하였습니다.');
+        console.log('로그인 성공!');
 
         // 클라이언트에 응답 전송
         res.status(200).json({ success: true });
