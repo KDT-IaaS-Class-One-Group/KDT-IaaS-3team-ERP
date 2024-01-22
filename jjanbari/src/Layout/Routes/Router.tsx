@@ -39,8 +39,6 @@ const Router = () => {
       <Route path="/dog" element={<DogPage />}></Route>
       <Route path="/cat" element={<CatPage />}></Route>
 
-      {/* 장바구니 페이지 */}
-      <Route path="/cart" element={<CartPage />}></Route>
       {/* 결제페이지 */}
       <Route path="/payment" element={<PaymentPage />}></Route>
 

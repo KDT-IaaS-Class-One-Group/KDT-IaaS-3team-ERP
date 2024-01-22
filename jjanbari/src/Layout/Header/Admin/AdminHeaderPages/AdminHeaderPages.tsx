@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import "./AdminHeaderPages.css";
-import AdminSideHeaderPages from "./AdminSideHeaderPages/ProductSidebar";
+import { Link } from 'react-router-dom';
+import './AdminHeaderPages.css';
+import AdminSideHeaderPages from './AdminSideHeaderPages/ProductSidebar';
 
 const AdminHeaderPages = () => {
   return (
