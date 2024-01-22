@@ -5,8 +5,8 @@ import { Product, Category } from '../interface/interface';
 
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [ageFilter, setAgeFilter] = useState<string | null>(null);
-  const [functionalFilter, setFunctionalFilter] = useState<string | null>(null);
+  const [selectedAges, setSelectedAges] = useState<number[]>([]);
+  const [selectedFunctionals, setSelectedFunctionals] = useState<number[]>([]);
   const [ageCategories, setAgeCategories] = useState<Category[]>([]);
   const [functionalCategories, setFunctionalCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
@@ -22,15 +22,34 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   }, []);
 
   useEffect(() => {
-    // ageFilter와 functionalFilter를 쿼리 파라미터로 추가하여 서버에 전송합니다.
-    const queryParams = new URLSearchParams();
-    if (ageFilter) queryParams.append('age', ageFilter);
-    if (functionalFilter) queryParams.append('functional', functionalFilter);
-
-    fetch(`/products/${category}?${queryParams.toString()}`)
+    // Checkbox에서 선택한 카테고리에 대한 필터링을 수행
+    fetch(`/products/${category}?ages=${selectedAges.join(',')}&functionals=${selectedFunctionals.join(',')}`)
       .then((response) => response.json())
       .then((data) => setProducts(data));
-  }, [category, ageFilter, functionalFilter]);
+  }, [category, selectedAges, selectedFunctionals]);
+
+  const handleAgeCheckboxChange = (ageId: number) => {
+    setSelectedAges((prevSelectedAges) => {
+      if (prevSelectedAges.includes(ageId)) {
+        return prevSelectedAges.filter((selectedAge) => selectedAge !== ageId);
+      } else {
+        return [...prevSelectedAges, ageId];
+      }
+    });
+  };
+
+  const handleFunctionalCheckboxChange = (functionalId: number) => {
+    setSelectedFunctionals((prevSelectedFunctionals) => {
+      if (prevSelectedFunctionals.includes(functionalId)) {
+        return prevSelectedFunctionals.filter((selectedFunctional) => selectedFunctional !== functionalId);
+      } else {
+        return [...prevSelectedFunctionals, functionalId];
+      }
+    });
+  };
+  
+  console.log(handleAgeCheckboxChange);
+  console.log(handleFunctionalCheckboxChange);
 
   const handleBuy = (product: Product) => {
     const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
@@ -46,35 +65,40 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   return (
     <div className="product-container">
       <div>
-        <label>나이:</label>
-        <select onChange={(e) => setAgeFilter(e.target.value)}>
-          <option value="">전체</option>
-          {/* 나이 카테고리 옵션을 동적으로 생성합니다. */}
-          {ageCategories.map((age) => (
-            <option key={age.age_id} value={age.age_id}>
-              {age.age_name}
-            </option>
-          ))}
-        </select>
+        <h4>나이 필터:</h4>
+        {ageCategories.map((age) => (
+          <div key={age.age_id}>
+            <input
+              type="checkbox"
+              id={`age-${age.age_id}`}
+              checked={selectedAges.includes(age.age_id)}
+              onChange={() => handleAgeCheckboxChange(age.age_id)}
+            />
+            <label htmlFor={`age-${age.age_id}`}>{age.age_name}</label>
+          </div>
+        ))}
       </div>
 
       <div>
-        <label>기능:</label>
-        <select onChange={(e) => setFunctionalFilter(e.target.value)}>
-          <option value="">전체</option>
-          {/* 기능 카테고리 옵션을 동적으로 생성합니다. */}
-          {functionalCategories.map((functional) => (
-            <option key={functional.functional_id} value={functional.functional_id}>
-              {functional.functional_name}
-            </option>
-          ))}
-        </select>
+        <h4>기능 필터:</h4>
+        {functionalCategories.map((functional) => (
+          <div key={functional.functional_id}>
+            <input
+              type="checkbox"
+              id={`functional-${functional.functional_id}`}
+              checked={selectedFunctionals.includes(functional.functional_id)}
+              onChange={() => handleFunctionalCheckboxChange(functional.functional_id)}
+            />
+            <label htmlFor={`functional-${functional.functional_id}`}>{functional.functional_name}</label>
+          </div>
+        ))}
       </div>
+
       {products.length > 0 &&
         products.map((product) => (
           <div className="product-item" key={product.product_id}>
             <img src={product.img} alt={product.name} />
-            <div className='product-details'>
+            <div className="product-details">
               <h3>{product.name}</h3>
               <br></br>
               <p>가격: {product.price}</p>
@@ -86,6 +110,6 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
         ))}
     </div>
   );
-}
+};
 
 export default ProductRenderAnimal;
