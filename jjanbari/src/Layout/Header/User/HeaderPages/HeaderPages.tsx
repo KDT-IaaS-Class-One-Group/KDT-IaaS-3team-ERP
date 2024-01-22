@@ -23,7 +23,7 @@ const HeaderPages = () => {
           <button onClick={handleLogout}>로그아웃</button>
         ) : (
           // 로그아웃 상태인 경우
-          <Link to="/login">로그인</Link>
+          <button onClick={() => navigate("/login")}>로그인</button>
         )}
       </div>
 
