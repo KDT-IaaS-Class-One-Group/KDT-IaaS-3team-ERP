@@ -15,7 +15,7 @@ const CartPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/cart')
+    fetch('http://localhost:3001/cart/root')
       .then((response) => response.json())
       .then((data) => {
         // 데이터가 배열 형식인지 확인
