@@ -11,6 +11,7 @@ const tableFunctionalCategories = "functional_categories";
 const tableAnimalProducts = "animal_products";
 const tableAgeProducts = "age_products";
 const tableFunctionalProducts = "functional_products";
+const tableCart="cart";
 
 // 데이터베이스 연결 풀 생성
 let pool = mysql.createPool({
@@ -113,6 +114,15 @@ async function initializeDatabase() {
       FOREIGN KEY (sold) REFERENCES products (product_id)
     );
   `);
+
+  //cart 테이블 생성 쿼리
+  await pool.query(`CREATE TABLE IF ExISTS cart (
+    cart_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(255),
+  product_id INT,
+  cart_quantity INT,
+  cart_price DECIMAL(10, 2) 
+  )`)
 
     console.log(
       `초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableUser}, ${tableproducts}, ${tableAnimalCategories}, ${tableAgeCategories}, ${tableFunctionalCategories}, ${tableAnimalProducts}, ${tableAgeProducts}, ${tableFunctionalProducts}`
