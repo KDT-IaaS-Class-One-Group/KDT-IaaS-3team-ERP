@@ -116,13 +116,14 @@ async function initializeDatabase() {
   `);
 
     //cart 테이블 생성 쿼리
-    await pool.query(`CREATE TABLE IF EXISTS cart (
+    await pool.query(`CREATE TABLE IF NOT EXISTS cart (
     cart_id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id VARCHAR(255),
-  product_id INT,
-  cart_quantity INT,
-  cart_price DECIMAL(10, 2) 
-  )`);
+    user_id VARCHAR(255),
+    product_id INT,
+    cart_quantity INT,
+    cart_price DECIMAL(10, 2) 
+  )
+  `);
 
     console.log(
       `초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableUser}, ${tableproducts}, ${tableAnimalCategories}, ${tableAgeCategories}, ${tableFunctionalCategories}, ${tableAnimalProducts}, ${tableAgeProducts}, ${tableFunctionalProducts},${tableCart}`
