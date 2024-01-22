@@ -8,14 +8,19 @@ import { useAuth } from "../../../../Auth/AuthContext";
 
 const HeaderPages = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout(); // 로그아웃 함수 호출
+    navigate("/login"); // 로그아웃 후 로그인 페이지로 이동
+  };
 
   return (
     <div className="headerPages">
       <div className="loginStatus">
         {isLoggedIn ? (
           // 로그인 상태인 경우
-          <span onClick={() => navigate("/logout")}>로그아웃</span>
+          <button onClick={handleLogout}>로그아웃</button>
         ) : (
           // 로그아웃 상태인 경우
           <Link to="/login">로그인</Link>
