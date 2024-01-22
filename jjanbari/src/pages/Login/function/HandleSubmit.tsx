@@ -27,8 +27,9 @@ const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<
       // 로그인 성공
       console.log('로그인 성공.');
 
-      // 세션 스토리지에 user_id 저장
+      // 세션 스토리지에 user_id와 isLoggedIn 저장
       sessionStorage.setItem('user_id', loginFormData.user_id);
+      sessionStorage.setItem('isLoggedIn', 'true');
 
       // user_id가 'adroot'이면 /admin으로 이동, 그 외에는 /으로 이동
       navigate(loginFormData.user_id === 'adroot' ? '/admin' : '/');
