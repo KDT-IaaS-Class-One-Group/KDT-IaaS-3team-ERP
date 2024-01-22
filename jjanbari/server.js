@@ -251,64 +251,23 @@ app.post('/payment', async (req, res) => {
 
 //cartPage API
 
-// 장바구니에 상품 추가 또는 수량 업데이트
-app.post('/cart', async (req, res) => {
-  const { user_id, product_id, quantity } = req.body;
-  try {
-    // 먼저 장바구니에 동일한 상품이 있는지 확인
-    const existingItem = await jjanbariQuery('SELECT * FROM cart WHERE user_id = ? AND product_id = ?', [user_id, product_id]);
-
-    if (existingItem.length > 0) {
-      // 장바구니에 동일한 상품이 이미 있으면 수량 업데이트
-      const newQuantity = existingItem[0].quantity + quantity;
-      await jjanbariQuery('UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?', [newQuantity, user_id, product_id]);
-    } else {
-      // 장바구니에 동일한 상품이 없으면 새로 추가
-      await jjanbariQuery('INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)', [user_id, product_id, quantity]);
-    }
-
-    res.status(201).json({ success: true, message: '장바구니가 업데이트되었습니다.' });
-  } catch (error) {
-    console.error('Error adding to cart:', error.message);
-    res.status(500).json({ success: false, error: '장바구니에 추가하는데 실패했습니다.' });
-  }
-});
-
 // 장바구니 목록 조회
-app.get('/cart', async (req, res) => {
-  const user_id = req.query.user_id;
-  try {
-    const cartItems = await jjanbariQuery('SELECT * FROM cart WHERE user_id = ?', [user_id]);
-    res.json(cartItems);
-  } catch (error) {
-    console.error('Error fetching cart items:', error.message);
-    res.status(500).json({ success: false, error: '장바구니 정보를 가져오는데 실패했습니다.' });
-  }
+app.get('/cart/:userId', async (req, res) => {
+  const { userId } = req.params;
+  // 로직: 특정 사용자의 장바구니 목록을 DB에서 조회하여 반환
 });
 
 // 장바구니 상품 수량 변경
-app.put('/cart/:cartId', async (req, res) => {
-  const { cartId } = req.params;
-  const { quantity } = req.body;
-  try {
-    await jjanbariQuery('UPDATE cart SET quantity = ? WHERE cart_id = ?', [quantity, cartId]);
-    res.json({ success: true, message: '장바구니가 업데이트되었습니다.' });
-  } catch (error) {
-    console.error('Error updating cart:', error.message);
-    res.status(500).json({ success: false, error: '장바구니 업데이트에 실패했습니다.' });
-  }
+app.put('/cart/:userId/:productId', async (req, res) => {
+  const { userId, productId } = req.params;
+  const { cart_quantity } = req.body;
+  // 로직: 특정 사용자의 특정 상품의 수량을 변경
 });
 
 // 장바구니 상품 삭제
-app.delete('/cart/:cartId', async (req, res) => {
-  const { cartId } = req.params;
-  try {
-    await jjanbariQuery('DELETE FROM cart WHERE cart_id = ?', [cartId]);
-    res.json({ success: true, message: '장바구니에서 상품이 삭제되었습니다.' });
-  } catch (error) {
-    console.error('Error deleting item from cart:', error.message);
-    res.status(500).json({ success: false, error: '장바구니에서 상품을 삭제하는데 실패했습니다.' });
-  }
+app.delete('/cart/:userId/:productId', async (req, res) => {
+  const { userId, productId } = req.params;
+  // 로직: 특정 사용자의 특정 상품을 장바구니에서 삭제
 });
 
 app.listen(port, () => {
