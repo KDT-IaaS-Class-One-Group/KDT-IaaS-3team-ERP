@@ -16,12 +16,12 @@ const LoginForm: React.FC = () => {
   const { isLoggedIn, login, logout } = useAuth(); 
 
   const handleLogin = () => {
-    // 로그인 로직 처리 후
+    // 로그인 로직 처리
     login();
   };
 
   const handleLogout = () => {
-    // 로그아웃 로직 처리 후
+    // 로그아웃 로직 처리
     logout();
   };
 
@@ -62,7 +62,7 @@ const LoginForm: React.FC = () => {
                 회원가입
               </Link>
             </div>
-            <button type="submit" onClick={handleLogin}>로그인</button>
+            <button type="submit">로그인</button>
           </div>
         </form>
       )}
