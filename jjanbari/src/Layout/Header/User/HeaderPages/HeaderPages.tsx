@@ -2,14 +2,12 @@ import "./HeaderPages.css";
 import React, { Link, useNavigate } from "react-router-dom";
 
 import { isLoggedIn } from "./LoginStatus/isLoggedIn";
-import LoginToggle from "./LoginStatus/LoginToggle";
 
 const HeaderPages = () => {
   const navigate = useNavigate();
   return (
     <div className="headerPages">
       <div className="loginStatus">
-        <LoginToggle />
       </div>
       <div className="pages">
         <Link
