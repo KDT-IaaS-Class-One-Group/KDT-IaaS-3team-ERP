@@ -125,7 +125,7 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
 
 app.get('/products', async (req, res) => {
   try {
-    const products = await jjanbariQuery('SELECT product_id, name, price, quantity, img FROM products');
+    const products = await jjanbariQuery('SELECT product_id, name, price, quantity, img, LPAD(SUBSTRING_INDEX(img, "\\\\", -1), 4, "") AS last_four_chars FROM products');
     res.json(products);
   } catch (error) {
     console.error('Error during fetching products:', error.message);
