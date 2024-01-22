@@ -24,17 +24,15 @@ const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<
     });
 
     if (response.ok) {
-      const data = await response.json();
+      // 로그인 성공
+      console.log('로그인 성공.');
 
-      if (data.role === 'admin') {
-        // 관리자 로그인 성공
-        console.log('관리자로 로그인하였습니다.');
-        navigate('/admin'); // 관리자 페이지로 이동
-      } else if (data.role === 'user') {
-        // 사용자 로그인 성공
-        console.log('사용자로 로그인하였습니다.');
-        navigate('/'); // 메인 페이지로 이동
-      }
+      // 세션 스토리지에 user_id와 isLoggedIn 저장
+      sessionStorage.setItem('user_id', loginFormData.user_id);
+      sessionStorage.setItem('isLoggedIn', 'true');
+
+      // user_id가 'adroot'이면 /admin으로 이동, 그 외에는 /으로 이동
+      navigate(loginFormData.user_id === 'adroot' ? '/admin' : '/');
     } else {
       console.error('로그인 실패:', response.statusText);
       alert('로그인에 실패했습니다. 다시 시도해주세요.');

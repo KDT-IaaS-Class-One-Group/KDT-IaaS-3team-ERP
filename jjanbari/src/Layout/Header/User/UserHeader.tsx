@@ -2,9 +2,7 @@
 
 import React from 'react-router-dom';
 
-
 import './UserHeader.css'
-// import LoginToggle from './LoginStatus/LoginToggle';
 import HeaderLogo from './HeaderLogo/HeaderLogo';
 import HeaderPages from './HeaderPages/HeaderPages';
 import HeaderCategory from './HeaderCategory/HeaderCategory';
