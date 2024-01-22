@@ -3,14 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
-
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  img: string;
-};
+import { Product } from '../../interface/interface';
 
 type CartItem = {
   product: Product;
@@ -47,7 +40,7 @@ const CartPage = () => {
     }
 
     // 장바구니에 상품의 수량을 업데이트하는 API를 호출합니다.
-    fetch(`http://localhost:3001/cart/${product.id}`, {
+    fetch(`http://localhost:3001/cart/${product.product_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -57,20 +50,20 @@ const CartPage = () => {
       .then((response) => response.json())
       .then((data) => {
         // 장바구니 상태를 업데이트합니다.
-        setCartItems(cartItems.map((item) => (item.product.id === product.id ? { ...item, cart_qty: data.cart_qty } : item)));
+        setCartItems(cartItems.map((item) => (item.product.product_id === product.product_id ? { ...item, cart_qty: data.cart_qty } : item)));
       });
   };
 
   const handleDeleteClick = (product: Product) => {
     // 장바구니에서 상품을 삭제합니다.
     // 장바구니에서 상품을 삭제하는 API를 호출합니다.
-    fetch(`http://localhost:3001/cart/${product.id}`, {
+    fetch(`http://localhost:3001/cart/${product.product_id}`, {
       method: 'DELETE',
     })
       .then((response) => response.json())
       .then((data) => {
         // 장바구니 상태를 업데이트합니다.
-        setCartItems(cartItems.filter((item) => item.product.id !== product.id));
+        setCartItems(cartItems.filter((item) => item.product.product_id !== product.product_id));
       });
   };
 
@@ -86,7 +79,7 @@ const CartPage = () => {
       <div className="cart-list">
         {cartItems.length > 0 ? (
           cartItems.map((item) => (
-            <div className="cart-item" key={item.product.id}>
+            <div className="cart-item" key={item.product.product_id}>
               <img src={item.product.img} alt={item.product.name} />
               <div className="cart-item-details">
                 <h3>{item.product.name}</h3>
