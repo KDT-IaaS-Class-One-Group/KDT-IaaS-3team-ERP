@@ -4,39 +4,45 @@ import { NavigateFunction } from 'react-router-dom';
 import { Product } from '../../interface/interface';
 
 const handleAddToCart = async (product: Product, navigate: NavigateFunction) => {
-  const quantityInput = document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement;
-  const selectedQuantity = quantityInput ? Number(quantityInput.value) : 0;
+  const quantityInput = document.getElementById(`quantity-${product.name}`) as HTMLInputElement;
 
-  // 테스트를 위해 userID를 'root'로 설정
-  const userId = 'root';
+  if (!quantityInput) {
+    alert('수량을 입력하는 필드를 찾을 수 없습니다.');
+    return;
+  }
 
-  if (selectedQuantity > 0) {
-    try {
-      const response = await fetch('http://localhost:3001/cart', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          productId: product.product_id,
-          quantity: selectedQuantity,
-          price: product.price, // 상품 가격도 보내야 함
-        }),
-      });
+  const selectedQuantity = Number(quantityInput.value);
 
-      if (!response.ok) {
-        throw new Error('장바구니에 상품을 추가하는데 실패했습니다.');
-      }
+  if (isNaN(selectedQuantity) || selectedQuantity <= 0) {
+    alert('유효한 수량을 입력해주세요.');
+    return;
+  }
 
-      alert('장바구니에 상품이 추가되었습니다.');
-      navigate('/cart');
-    } catch (error) {
-      console.error(error);
-      alert('장바구니에 상품을 추가하는데 실패했습니다.');
+  const userId = 'root'; // 테스트를 위해 'root' 사용자 ID 설정
+
+  try {
+    const response = await fetch('http://localhost:3001/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId,
+        productId: product.product_id,
+        quantity: selectedQuantity,
+        price: product.price,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('장바구니에 상품을 추가하는데 실패했습니다.');
     }
-  } else {
-    alert('수량을 선택해주세요.');
+
+    alert('장바구니에 상품이 추가되었습니다.');
+    navigate('/cart');
+  } catch (error) {
+    console.error(error);
+    alert('장바구니에 상품을 추가하는데 실패했습니다.');
   }
 };
 
