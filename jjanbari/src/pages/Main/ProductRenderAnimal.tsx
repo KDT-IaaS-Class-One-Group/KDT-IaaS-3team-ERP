@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
-
-type Product = {
-  product_id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  img: string;
-};
+import { Product } from '../interface/interface';
 
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:3001/products/${category}`)
+    fetch(`/products/${category}`)
       .then((response) => response.json())
       .then((data) => setProducts(data));
   }, [category]);
