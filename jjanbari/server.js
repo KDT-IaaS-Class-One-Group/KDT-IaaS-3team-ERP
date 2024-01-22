@@ -40,6 +40,7 @@ app.post('/login', async (req, res) => {
   try {
     const { userID, userPW } = req.body;
 
+    // 기존 코드: users 테이블에서 user_id를 조회하여 로그인 처리
     const results = await jjanbariQuery('SELECT * FROM users WHERE user_id = ?', [userID]);
 
     if (results.length > 0) {
@@ -47,28 +48,25 @@ app.post('/login', async (req, res) => {
 
       // 비밀번호 비교
       if (user.user_pw === userPW) {
-        if (user.user_id === 'adroot') {
-          // 관리자 로그인 성공
-          console.log('관리자로 로그인하였습니다.');
-          res.status(201).json({ role: 'admin' });
-        } else {
-          // 사용자 로그인 성공
-          console.log('사용자로 로그인하였습니다.');
-          res.status(200).json({ role: 'user' });
-        }
+        // 로그인 성공
+        console.log('로그인 성공!');
+
+        // 클라이언트에 응답 전송
+        res.status(200).json({ success: true });
       } else {
         console.error('로그인 실패: 비밀번호가 일치하지 않습니다.');
-        res.status(401).send('비밀번호가 일치하지 않습니다.');
+        res.status(401).json({ success: false, error: '비밀번호가 일치하지 않습니다.' });
       }
     } else {
       console.error('로그인 실패: 해당 ID가 존재하지 않습니다.');
-      res.status(401).send('해당 ID가 존재하지 않습니다.');
+      res.status(401).json({ success: false, error: '해당 ID가 존재하지 않습니다.' });
     }
   } catch (error) {
     console.error('로그인 실패:', error);
-    res.status(500).send('로그인에 실패했습니다. 다시 시도해주세요.');
+    res.status(500).json({ success: false, error: '로그인에 실패했습니다. 다시 시도해주세요.' });
   }
 });
+
 
 app.use('/uploads', express.static('uploads'));
 
