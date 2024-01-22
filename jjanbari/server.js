@@ -145,27 +145,45 @@ app.get('/products', async (req, res) => {
 });
 
 // 서버 코드에 강아지와 고양이 카테고리에 해당하는 상품 가져오는 API 추가
-app.get('/products/:category/:ageId/:functionalId', async (req, res) => {
-  const { category, ageId, functionalId } = req.params;
+app.get('/products/:category', async (req, res) => {
+  const { category } = req.params;
+
+  try {
+    let query =
+      'SELECT products.product_id, products.name, products.price, products.quantity, products.img FROM products ';
+    let params = [];
+
+    if (category === 'dog' || category === 'cat') {
+      query +=
+        'INNER JOIN animal_products ON products.product_id = animal_products.product_id WHERE animal_products.animal_id = ?';
+      params.push(category === 'dog' ? 1 : 2); // 강아지는 1, 고양이는 2로 가정
+    }
+
+    const products = await jjanbariQuery(query, params);
+    res.json(products);
+  } catch (error) {
+    console.error('Error during fetching products:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+app.get('/age/:ageId/:functionalId', async (req, res) => {
+  const { ageId, functionalId } = req.params;
 
   try {
     let query = 'SELECT products.product_id, products.name, products.price, products.quantity, products.img FROM products ';
     let params = [];
-
-    if (category === 'dog' || category === 'cat') {
-      query += 'INNER JOIN animal_products ON products.product_id = animal_products.product_id WHERE animal_products.animal_id = ?';
-      params.push(category === 'dog' ? 1 : 2); // 강아지는 1, 고양이는 2로 가정
-    }
-
     // 나이 카테고리 필터링
     if (ageId) {
-      query += ' INNER JOIN age_products ON products.product_id = age_products.product_id WHERE age_products.age_id = ?';
+      query +=
+        ' INNER JOIN age_products ON products.product_id = age_products.product_id WHERE age_products.age_id = ?';
       params.push(Number(ageId));
     }
 
     // 기능성 카테고리 필터링
     if (functionalId) {
-      query += ' INNER JOIN functional_products ON products.product_id = functional_products.product_id WHERE functional_products.functional_id = ?';
+      query +=
+        ' INNER JOIN functional_products ON products.product_id = functional_products.product_id WHERE functional_products.functional_id = ?';
       params.push(Number(functionalId));
     }
 
@@ -176,7 +194,6 @@ app.get('/products/:category/:ageId/:functionalId', async (req, res) => {
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
-
 
 // 관리자 페이지 상품 관리
 app.get('/admin/products', async (req, res) => {

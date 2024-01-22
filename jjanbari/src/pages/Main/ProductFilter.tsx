@@ -1,57 +1,92 @@
 import React, { useState } from 'react';
+type OnFilterChange = (ageId: number[] | null, functionalId: number[] | null) => void;
 
-const ProductFilter = ({ onFilterChange }: { onFilterChange: (ageId: number[], functionalId: number[]) => void }) => {
-  const [ageChecked, setAgeChecked] = useState<number[]>([]);
-  const [categoryChecked, setCategoryChecked] = useState<number[]>([]);
+const ProductFilter = ({onFilterChange}: {onFilterChange: OnFilterChange}) => {
+  const [ageChecked, setAgeChecked] = useState<number[] | null>(null);
+  const [functionalChecked, setFunctionalChecked] = useState<number[] | null>(null);
 
   const handleAgeChange = (ageId: number) => {
-    if (ageChecked.includes(ageId)) {
-      setAgeChecked(ageChecked.filter((id) => id !== ageId));
-    } else {
-      setAgeChecked([...ageChecked, ageId]);
-    }
+    setAgeChecked((prevAgeChecked) => {
+      if (prevAgeChecked === null) {
+        // 이 부분에서 초기화되었을 때 배열로 만듭니다.
+        return [ageId];
+      }
+
+      if (prevAgeChecked.includes(ageId)) {
+        return prevAgeChecked.filter((id) => id !== ageId);
+      } else {
+        return [...prevAgeChecked, ageId];
+      }
+    });
   };
 
-  const handleCategoryChange = (functionalId: number) => {
-    if (categoryChecked.includes(functionalId)) {
-      setCategoryChecked(categoryChecked.filter((id) => id !== functionalId));
-    } else {
-      setCategoryChecked([...categoryChecked, functionalId]);
-    }
+  const handleFunctionalChange = (functionalId: number) => {
+    setFunctionalChecked((prevFunctionalChecked) => {
+      if (prevFunctionalChecked === null) {
+        // 이 부분에서 초기화되었을 때 배열로 만듭니다.
+        return [functionalId];
+      }
+
+      if (prevFunctionalChecked.includes(functionalId)) {
+        return prevFunctionalChecked.filter((id) => id !== functionalId);
+      } else {
+        return [...prevFunctionalChecked, functionalId];
+      }
+    });
   };
 
   const applyFilters = () => {
-    // 사용자가 선택한 조건을 전달하여 필터링된 상품을 요청
-    onFilterChange(ageChecked, categoryChecked);
-  };
+    if (ageChecked !== null && functionalChecked !== null) {
+        // 배열 형태의 값이 필요한 경우
+        onFilterChange(ageChecked, functionalChecked);
+    } else {
+      onFilterChange(null, null);
+    }
+};
 
   return (
     <div>
       <h3>나이 필터</h3>
       <label>
-        <input type="checkbox" checked={ageChecked.includes(1)} onChange={() => handleAgeChange(1)} />
+        <input
+          type="checkbox"
+          checked={ageChecked !== null && ageChecked.includes(1)}
+          onChange={() => handleAgeChange(1)}
+        />
         퍼피
       </label>
       <label>
-        <input type="checkbox" checked={ageChecked.includes(2)} onChange={() => handleAgeChange(2)} />
+      <input
+          type="checkbox"
+          checked={ageChecked !== null && ageChecked.includes(2)}
+          onChange={() => handleAgeChange(2)}
+        />
         어덜트(강아지)
       </label>
       <label>
-        <input type="checkbox" checked={ageChecked.includes(3)} onChange={() => handleAgeChange(3)} />
+      <input
+          type="checkbox"
+          checked={ageChecked !== null && ageChecked.includes(3)}
+          onChange={() => handleAgeChange(3)}
+        />
         키튼
       </label>
       <label>
-        <input type="checkbox" checked={ageChecked.includes(4)} onChange={() => handleAgeChange(4)} />
+      <input
+          type="checkbox"
+          checked={ageChecked !== null && ageChecked.includes(4)}
+          onChange={() => handleAgeChange(4)}
+        />
         어덜트(고양이)
       </label>
 
       <h3>기능 필터</h3>
       <label>
-        <input type="checkbox" checked={categoryChecked.includes(1)} onChange={() => handleCategoryChange(1)} />
+        <input type="checkbox" checked={functionalChecked !== null && functionalChecked.includes(1)} onChange={() => handleFunctionalChange(1)} />
         종합
       </label>
       <label>
-        <input type="checkbox" checked={categoryChecked.includes(2)} onChange={() => handleCategoryChange(2)} />
+        <input type="checkbox" checked={functionalChecked !== null && functionalChecked.includes(2)} onChange={() => handleFunctionalChange(2)} />
         기능성
       </label>
 

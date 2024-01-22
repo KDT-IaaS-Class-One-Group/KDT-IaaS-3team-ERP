@@ -5,20 +5,26 @@ import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isL
 import ProductFilter from './ProductFilter';
 import { Product } from '../interface/interface';
 
+type OnFilterChange = (ageIds: number[] | null, functionalIds: number[] | null) => void;
+
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
-  const fetchFilteredProducts = (ageChecked: number[], functionalChecked: number[]) => {
-    fetch(`/products/${category}/${ageChecked.join(',')}/${functionalChecked.join(',')}`)
+  const fetchFilteredProducts: OnFilterChange = (ageId, functionalId) => {
+    let url = `/products/${category}`;
+    if (ageId !== null && functionalId !== null) {
+      url += `/${ageId}/${functionalId}`;
+    }
+    
+    // 사용자가 선택한 조건을 이용하여 상품 필터링
+    fetch(url)
       .then((response) => response.json())
       .then((data) => setProducts(data));
   };
 
   useEffect(() => {
-    fetch(`/products/${category}`)
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
+    fetchFilteredProducts(null, null); // 초기 로딩 시에는 필터 없이 전체 상품을 가져옴
   }, [category]);
 
   const handleBuy = (product: Product) => {

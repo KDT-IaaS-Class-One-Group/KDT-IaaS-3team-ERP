@@ -58,7 +58,7 @@ const ProductForm = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/addProductWithImage', {
+      const response = await fetch('/addProductWithImage', {
         method: 'POST',
         body: formData,
       });
