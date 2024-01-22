@@ -85,8 +85,8 @@ const CartPage = () => {
       <div className="cart-list">
         {cartItems.length > 0 ? (
           cartItems.map((item) => (
-            <div className="cart-item" key={item.product.product_id}>
-              <img src={item.product.img} alt={item.product.name} />
+            <div className="cart-item" key={item.product?.product_id || 'placeholder'}>
+              {item.product?.img ? <img src={item.product.img} alt={item.product.name} /> : null} {/* 이미지가 없으면 아무것도 표시하지 않음 */}
               <div className="cart-item-details">
                 <h3>{item.product.name}</h3>
                 <p>가격: {item.product.price}</p>
