@@ -75,18 +75,18 @@ app.use('/uploads', express.static('uploads'));
 // 서버 코드에 카테고리 목록을 가져오는 API 추가
 app.get('/categories', async (req, res) => {
   try {
-      const animalCategories = await jjanbariQuery('SELECT * FROM animal_categories');
-      const ageCategories = await jjanbariQuery('SELECT * FROM age_categories');
-      const functionalCategories = await jjanbariQuery('SELECT * FROM functional_categories');
+    const animalCategories = await jjanbariQuery('SELECT * FROM animal_categories');
+    const ageCategories = await jjanbariQuery('SELECT * FROM age_categories');
+    const functionalCategories = await jjanbariQuery('SELECT * FROM functional_categories');
 
-      res.json({
-          animalCategories,
-          ageCategories,
-          functionalCategories,
-      });
+    res.json({
+      animalCategories,
+      ageCategories,
+      functionalCategories,
+    });
   } catch (error) {
-      console.error('Error during fetching categories:', error.message);
-      res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+    console.error('Error during fetching categories:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
 
@@ -102,18 +102,29 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
     if (existingProducts.length > 0) {
       // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트
       const existingProduct = existingProducts[0];
-      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.id]);
+      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [
+        quantity,
+        existingProduct.id,
+      ]);
     } else {
       // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가
-      const insertProductResult = await jjanbariQuery('INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, price, quantity, img, animalCategory, ageCategory, functionalCategory]);
+      const insertProductResult = await jjanbariQuery(
+        'INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [name, price, quantity, img, animalCategory, ageCategory, functionalCategory]
+      );
 
       const productId = insertProductResult.insertId;
 
       // 각각의 연결 테이블에도 데이터 추가
-      await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
+      await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [
+        productId,
+        animalCategory,
+      ]);
       await jjanbariQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
-      await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
-
+      await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [
+        productId,
+        functionalCategory,
+      ]);
     }
 
     res.json({ success: true, message: '제품 등록 완료' });
@@ -134,22 +145,34 @@ app.get('/products', async (req, res) => {
 });
 
 // 서버 코드에 강아지와 고양이 카테고리에 해당하는 상품 가져오는 API 추가
-app.get('/products/:category', async (req, res) => {
-  const category = req.params.category;
+app.get('/products/:category/:ageId/:functionalId', async (req, res) => {
+  const { category, ageId, functionalId } = req.params;
+
   try {
     let query = 'SELECT products.product_id, products.name, products.price, products.quantity, products.img FROM products ';
     let params = [];
-    if (category === 'dog') {
+
+    if (category === 'dog' || category === 'cat') {
       query += 'INNER JOIN animal_products ON products.product_id = animal_products.product_id WHERE animal_products.animal_id = ?';
-      params.push(1); // 예시로 강아지 카테고리 ID를 1로 가정
-    } else if (category === 'cat') {
-      query += 'INNER JOIN animal_products ON products.product_id = animal_products.product_id WHERE animal_products.animal_id = ?';
-      params.push(2); // 예시로 고양이 카테고리 ID를 2로 가정
+      params.push(category === 'dog' ? 1 : 2); // 강아지는 1, 고양이는 2로 가정
     }
+
+    // 나이 카테고리 필터링
+    if (ageId) {
+      query += ' INNER JOIN age_products ON products.product_id = age_products.product_id WHERE age_products.age_id = ?';
+      params.push(Number(ageId));
+    }
+
+    // 기능성 카테고리 필터링
+    if (functionalId) {
+      query += ' INNER JOIN functional_products ON products.product_id = functional_products.product_id WHERE functional_products.functional_id = ?';
+      params.push(Number(functionalId));
+    }
+
     const products = await jjanbariQuery(query, params);
     res.json(products);
   } catch (error) {
-    console.error('Error during fetching products:', error.message);
+    console.error('Error during fetching filtered products:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
