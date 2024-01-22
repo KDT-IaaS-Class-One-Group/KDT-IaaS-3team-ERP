@@ -15,21 +15,23 @@ const CartPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/cart')
-      .then((response) => response.json())
-      .then((data) => {
-        // 데이터가 배열 형식인지 확인
-        if (Array.isArray(data)) {
-          setCartItems(data);
-          calculateTotalPrice(data);
-        } else {
-          // 데이터가 배열이 아닌 경우, 오류 처리나 대체 로직 실행
-          console.error('장바구니 데이터가 배열 형식이 아닙니다:', data);
-        }
-      })
-      .catch((error) => {
-        console.error('장바구니 데이터 로딩 중 오류 발생:', error);
-      });
+    const userId = sessionStorage.getItem('user_id'); // 세션 스토리지에서 user_id 가져오기
+
+    if (userId) {
+      fetch(`http://localhost:3001/cart/${userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setCartItems(data);
+            calculateTotalPrice(data);
+          } else {
+            console.error('장바구니 데이터가 배열 형식이 아닙니다:', data);
+          }
+        })
+        .catch((error) => {
+          console.error('장바구니 데이터 로딩 중 오류 발생:', error);
+        });
+    }
   }, []);
 
   const calculateTotalPrice = (items: CartItem[]) => {
