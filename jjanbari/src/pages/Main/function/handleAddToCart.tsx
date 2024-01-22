@@ -4,7 +4,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { Product } from '../../interface/interface';
 
 const handleAddToCart = async (product: Product, navigate: NavigateFunction) => {
-  const selectedQuantity = Number((document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement).value);
+  const selectedQuantity = Number((document.getElementById(`quantity-${product.quantity}`) as HTMLInputElement).value);
 
   // 테스트를 위해 userID를 'root'로 설정
   const userId = 'root';
