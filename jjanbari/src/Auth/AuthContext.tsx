@@ -17,15 +17,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // useState를 사용하여 isLoggedIn 상태와 login, logout 함수 정의
   const [isLoggedIn, setLoggedIn] = useState<boolean>(() => {
     // 세션 스토리지에서 값 가져오기
-    const storedValue = sessionStorage.getItem('user_id');
-    return storedValue ? true : false;
+    const storedValue = sessionStorage.getItem('isLoggedIn');
+    // 세션 스토리지에 isLoggedIn에 대한 값이 존재하면 파싱한 값을 반환하고, 없으면 false를 리턴
+    return storedValue ? JSON.parse(storedValue) : false;
   });
 
   // 로그인 함수
   const login = () => {
     setLoggedIn(true);
     // 세션 스토리지에 값 저장
-    sessionStorage.setItem('user_id', JSON.stringify(true));
+    sessionStorage.setItem('isLoggedIn', JSON.stringify(true));
   };
 
   // 로그아웃 함수
