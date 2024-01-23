@@ -1,22 +1,23 @@
 // src/Databases/productInfo.js
 
-const mysql = require("mysql2/promise");
+const mysql = require('mysql2/promise');
 
-const databaseName = "jjanbariERP";
+const databaseName = 'jjanbariERP';
 const tableUser = 'users';
-const tableproducts = "products";
-const tableAnimalCategories = "animal_categories";
-const tableAgeCategories = "age_categories";
-const tableFunctionalCategories = "functional_categories";
-const tableAnimalProducts = "animal_products";
-const tableAgeProducts = "age_products";
-const tableFunctionalProducts = "functional_products";
+const tableproducts = 'products';
+const tableAnimalCategories = 'animal_categories';
+const tableAgeCategories = 'age_categories';
+const tableFunctionalCategories = 'functional_categories';
+const tableAnimalProducts = 'animal_products';
+const tableAgeProducts = 'age_products';
+const tableFunctionalProducts = 'functional_products';
+const tableCart = 'cart';
 
 // 데이터베이스 연결 풀 생성
 let pool = mysql.createPool({
-  host: "forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com",
-  user: "root",
-  password: "qwer1234",
+  host: 'forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com',
+  user: 'root',
+  password: 'qwer1234',
   database: databaseName,
 });
 
@@ -114,11 +115,24 @@ async function initializeDatabase() {
     );
   `);
 
+    //cart 테이블 생성 쿼리
+    await pool.query(`CREATE TABLE IF NOT EXISTS cart (
+      cart_id INT AUTO_INCREMENT PRIMARY KEY,
+      user_id VARCHAR(255),
+      product_id INT,
+      name VARCHAR(255),
+      quantity INT,
+      price DECIMAL,
+      FOREIGN KEY (product_id) REFERENCES products(product_id),
+      FOREIGN KEY (product_id) REFERENCES products(product_id)
+    );
+  `);
+
     console.log(
-      `초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableUser}, ${tableproducts}, ${tableAnimalCategories}, ${tableAgeCategories}, ${tableFunctionalCategories}, ${tableAnimalProducts}, ${tableAgeProducts}, ${tableFunctionalProducts}`
+      `초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableUser}, ${tableproducts}, ${tableAnimalCategories}, ${tableAgeCategories}, ${tableFunctionalCategories}, ${tableAnimalProducts}, ${tableAgeProducts}, ${tableFunctionalProducts},${tableCart}`
     );
   } catch (error) {
-    console.error("초기화 실패: ", error.message);
+    console.error('초기화 실패: ', error.message);
   }
 }
 
@@ -129,12 +143,12 @@ initializeDatabase();
 async function jjanbariQuery(sql, params) {
   // 쿼리 실행 전에 연결 상태 체크
   if (pool._closed) {
-    console.error("Pool is closed. Reconnecting...");
+    console.error('Pool is closed. Reconnecting...');
     // 연결이 닫혔다면 새로운 연결 생성
     pool = mysql.createPool({
-      host: "forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com",
-      user: "root",
-      password: "qwer1234",
+      host: 'forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com',
+      user: 'root',
+      password: 'qwer1234',
       database: databaseName,
     });
   }

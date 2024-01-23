@@ -10,7 +10,7 @@ const DogPage = () => {
       <ProductRenderAnimal category="dog" />
     </div>
   );
-}
+};
 
 const CatPage = () => {
   return (
@@ -19,6 +19,6 @@ const CatPage = () => {
       <ProductRenderAnimal category="cat" />
     </div>
   );
-}
+};
 
 export { DogPage, CatPage };
