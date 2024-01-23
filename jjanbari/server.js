@@ -283,7 +283,7 @@ app.get('/cart/:userId', async (req, res) => {
   const { userId } = req.params;
 
   const selectQuery = `
-    SELECT c.cart_id, c.cart_quantity, c.cart_price, p.product_id, p.name, p.img
+    SELECT c.cart_id, c.user_id, c.product_id, c.cart_quantity, c.cart_price, p.name, p.img
     FROM cart c
     INNER JOIN products p ON c.product_id = p.product_id
     WHERE c.user_id = ?;
@@ -297,7 +297,6 @@ app.get('/cart/:userId', async (req, res) => {
   }
 });
 
-// 장바구니 상품 수량 변경
 app.post('/cart', async (req, res) => {
   const { userId, productId, cart_quantity, cart_price } = req.body;
 
