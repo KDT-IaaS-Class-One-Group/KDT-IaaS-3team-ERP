@@ -23,7 +23,15 @@ const CartPage = () => {
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
-            setCartItems(data);
+            setCartItems(
+              data.map((item) => ({
+                product_id: item.product_id,
+                name: item.name,
+                img: item.img,
+                cart_quantity: item.cart_quantity,
+                cart_price: item.cart_price,
+              }))
+            );
             calculateTotalPrice(data);
           } else {
             console.error('장바구니 데이터가 배열 형식이 아닙니다:', data);
@@ -110,5 +118,4 @@ const CartPage = () => {
     </div>
   );
 };
-
 export default CartPage;
