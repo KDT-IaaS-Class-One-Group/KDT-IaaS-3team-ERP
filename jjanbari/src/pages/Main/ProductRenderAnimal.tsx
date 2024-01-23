@@ -27,9 +27,9 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
     const queryParams = new URLSearchParams();
     if (selectedAges.length > 0) queryParams.append('age', selectedAges.join(','));
     if (selectedFunctionals.length > 0) queryParams.append('functional', selectedFunctionals.join(','));
-  
+
     console.log('Query parameters:', queryParams.toString());
-  
+
     fetch(`/products/${category}?${queryParams.toString()}`)
       .then((response) => response.json())
       .then((data) => {
@@ -39,24 +39,24 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   }, [category, selectedAges, selectedFunctionals]);
 
   const handleAgeCheckboxChange = (ageId: number) => {
-    console.log('Age checkbox clicked:', ageId);
     setSelectedAges((prevSelectedAges) => {
+      // 만약 현재 클릭한 나이 카테고리가 이미 선택되어 있다면 모두 초기화
       if (prevSelectedAges.includes(ageId)) {
-        return prevSelectedAges.filter((selectedAge) => selectedAge !== ageId);
-      } else {
-        return [...prevSelectedAges, ageId];
+        return [];
       }
+      // 현재 클릭한 나이 카테고리를 선택하고, 다른 모든 선택된 나이 카테고리를 초기화
+      return [ageId];
     });
   };
 
   const handleFunctionalCheckboxChange = (functionalId: number) => {
-    console.log('Functional checkbox clicked:', functionalId);
     setSelectedFunctionals((prevSelectedFunctionals) => {
+      // 만약 현재 클릭한 기능 카테고리가 이미 선택되어 있다면 모두 초기화
       if (prevSelectedFunctionals.includes(functionalId)) {
-        return prevSelectedFunctionals.filter((selectedFunctional) => selectedFunctional !== functionalId);
-      } else {
-        return [...prevSelectedFunctionals, functionalId];
+        return [];
       }
+      // 현재 클릭한 기능 카테고리를 선택하고, 다른 모든 선택된 기능 카테고리를 초기화
+      return [functionalId];
     });
   };
 
