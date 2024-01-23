@@ -20,6 +20,7 @@ const handleAddToCart = async (product: Product, navigate: NavigateFunction) => 
         body: JSON.stringify({
           userId,
           productId: product.product_id,
+          name: product.name,
           cart_quantity: selectedQuantity,
           cart_price: product.price,
         }),
