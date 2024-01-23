@@ -3,19 +3,18 @@
 import "./HeaderPages.css";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../Auth/AuthContext";
 
 const HeaderPages = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   // 세션 스토리지에서 isLoggedIn 및 user_id 값 가져오기
   const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
   const userId = sessionStorage.getItem('user_id');
 
   const handleLogout = () => {
-    // 로그아웃 시 세션 스토리지에서 값 제거
-    sessionStorage.removeItem('isLoggedIn');
-    sessionStorage.removeItem('user_id');
-    
+    logout();
     // 로그아웃 후 로그인 페이지로 이동
     navigate("/login");
   };
