@@ -2,12 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import handlePurchase from '../function/HandlePurchase';
 import { User, Product } from '../../interface/interface';
-
-
-
+import { useAuth } from '../../../Auth/AuthContext';
 
 const PaymentPage = () => {
   const [address, setAddress] = useState('');
@@ -15,38 +12,50 @@ const PaymentPage = () => {
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
+  const { state } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // 로그인한 사용자의 정보를 가져옵니다.
-    fetch('/users')
-      .then((response) => response.json())
-      .then((data: User) => setUser(data));
-
-    // 선택된 상품 정보를 가져옵니다.
-    const productFromState = location.state?.selectedProduct as Product | undefined;
-    if (productFromState) {
-      setSelectedProduct(productFromState);
-    }
+    const fetchData = async () => {
+      try {
+        // 로그인한 사용자의 정보를 가져옵니다.
+        const userDataResponse = await fetch('/users');
+        const userData = await userDataResponse.json();
+        setUser(userData);
+  
+        // 선택된 상품 정보를 가져옵니다.
+        const productFromState = location.state?.selectedProduct as Product | undefined;
+        if (productFromState) {
+          setSelectedProduct(productFromState);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // 에러 처리
+      }
+    };
+  
+    fetchData();
   }, [location.state]);
 
   const handleBuy = async () => {
-    if (isLoggedIn() && selectedProduct) {
+    if (state && selectedProduct) {
       try {
         // 먼저 상품 수량 감소 처리
         const purchaseSuccess = await handlePurchase(selectedProduct, setSelectedProduct);
         if (purchaseSuccess) {
           // 상품 수량 감소에 성공하면, 결제 정보를 서버로 전송
-          const paymentResponse = await fetch('http://localhost:3001/payment', {
+          const paymentResponse = await fetch('/payment', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productId: selectedProduct.product_id }),
+            body: JSON.stringify({
+              productId: selectedProduct.product_id,
+            }),
           });
-
+  
           if (paymentResponse.ok) {
             // 추가 처리 (예: 사용자에게 성공 메시지 표시)
             navigate('/'); // 주문 목록 페이지로 이동

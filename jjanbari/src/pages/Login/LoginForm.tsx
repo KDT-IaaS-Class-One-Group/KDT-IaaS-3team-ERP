@@ -13,11 +13,12 @@ const LoginForm: React.FC = () => {
     user_pw: '',
   });
   const navigate = useNavigate();
-  const { isLoggedIn, login, logout } = useAuth(); 
+  const { state, login, logout } = useAuth(); 
 
   const handleLogin = () => {
     // 로그인 로직 처리
-    login();
+    const user = { username: loginFormData.user_id }; // 로그인 시 필요한 유저 정보를 정의
+    login(user);
   };
 
   const handleLogout = () => {
@@ -27,7 +28,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div>
-      {isLoggedIn ? (
+      {state.isAuthenticated ? (
         <div>
           <p>이미 로그인되었습니다.</p>
           <button onClick={handleLogout}>로그아웃</button>
