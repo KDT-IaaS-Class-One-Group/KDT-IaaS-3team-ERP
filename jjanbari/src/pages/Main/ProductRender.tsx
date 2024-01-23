@@ -36,7 +36,6 @@ const ProductRender = () => {
             <img src={product.img} alt={product.name} />
             <div className="product-details">
               <h3>{product.name}</h3>
-              <br></br>
               <p>가격: {product.price}</p>
               <p>수량: {product.quantity}</p>
               <input type="number" id={`quantity-${product.product_id}`} min="1" max={product.quantity} />
