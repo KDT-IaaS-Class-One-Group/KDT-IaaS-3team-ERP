@@ -22,13 +22,23 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   }, []);
 
   useEffect(() => {
-    // Checkbox에서 선택한 카테고리에 대한 필터링을 수행
-    fetch(`/products/${category}?ages=${selectedAges.join(',')}&functionals=${selectedFunctionals.join(',')}`)
+    // selectedAges와 selectedFunctionals를 쿼리 파라미터로 추가하여 서버에 전송합니다.
+    const queryParams = new URLSearchParams();
+    if (selectedAges.length > 0) queryParams.append('age', selectedAges.join(','));
+    if (selectedFunctionals.length > 0) queryParams.append('functional', selectedFunctionals.join(','));
+  
+    console.log('Query parameters:', queryParams.toString());
+  
+    fetch(`/products/${category}?${queryParams.toString()}`)
       .then((response) => response.json())
-      .then((data) => setProducts(data));
+      .then((data) => {
+        console.log('Filtered products:', data);
+        setProducts(data);
+      });
   }, [category, selectedAges, selectedFunctionals]);
 
   const handleAgeCheckboxChange = (ageId: number) => {
+    console.log('Age checkbox clicked:', ageId);
     setSelectedAges((prevSelectedAges) => {
       if (prevSelectedAges.includes(ageId)) {
         return prevSelectedAges.filter((selectedAge) => selectedAge !== ageId);
@@ -39,6 +49,7 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   };
 
   const handleFunctionalCheckboxChange = (functionalId: number) => {
+    console.log('Functional checkbox clicked:', functionalId);
     setSelectedFunctionals((prevSelectedFunctionals) => {
       if (prevSelectedFunctionals.includes(functionalId)) {
         return prevSelectedFunctionals.filter((selectedFunctional) => selectedFunctional !== functionalId);
@@ -47,9 +58,6 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
       }
     });
   };
-  
-  console.log(handleAgeCheckboxChange);
-  console.log(handleFunctionalCheckboxChange);
 
   const handleBuy = (product: Product) => {
     const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
@@ -65,7 +73,7 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   return (
     <div className="product-container">
       <div>
-        <h4>나이 필터:</h4>
+        <label>나이:</label>
         {ageCategories.map((age) => (
           <div key={age.age_id}>
             <input
@@ -80,7 +88,7 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
       </div>
 
       <div>
-        <h4>기능 필터:</h4>
+        <label>기능:</label>
         {functionalCategories.map((functional) => (
           <div key={functional.functional_id}>
             <input
@@ -93,7 +101,6 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
           </div>
         ))}
       </div>
-
       {products.length > 0 &&
         products.map((product) => (
           <div className="product-item" key={product.product_id}>
