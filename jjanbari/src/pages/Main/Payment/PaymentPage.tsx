@@ -9,8 +9,8 @@ import handlePurchase from '../function/HandlePurchase';
 type CartItem = {
   product_id: number;
   name: string;
-  cart_quantity: number;
-  cart_price: number;
+  quantity: number;
+  price: number;
 };
 
 const PaymentPage = () => {
@@ -51,7 +51,7 @@ const PaymentPage = () => {
 
   //cartItems 배열을 순회하면서 각 항목의 cart_price와 cart_quantity를 곱하여 총 가격을 계산합니다.
   const calculateTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.cart_price * item.cart_quantity, 0);
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   //CartItem 타입의 객체를 Product 타입으로 변환합니다. 이 과정에선 해당 상품의 이미지 URL을 가져옵니다.
@@ -59,8 +59,8 @@ const PaymentPage = () => {
     return {
       product_id: cartItem.product_id,
       name: cartItem.name,
-      price: cartItem.cart_price,
-      quantity: cartItem.cart_quantity,
+      price: cartItem.price,
+      quantity: cartItem.quantity,
       img: productImages[cartItem.product_id] || 'placeholder.jpg',
     };
   };
@@ -115,8 +115,8 @@ const PaymentPage = () => {
           <div key={index}>
             <img src={productImages[item.product_id] || 'placeholder.jpg'} alt={item.name} style={{ width: '100px', height: '100px' }} />
             <h3>{item.name}</h3>
-            <p>가격: {item.cart_price}</p>
-            <p>수량: {item.cart_quantity}</p>
+            <p>가격: {item.price}</p>
+            <p>수량: {item.quantity}</p>
           </div>
         ))}
       </div>
