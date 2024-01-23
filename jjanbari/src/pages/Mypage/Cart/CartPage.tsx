@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Product } from '../../interface/interface';
 
+// CartItem 타입을 수정하여 product 필드 대신 직접 필요한 정보를 포함시킵니다.
 type CartItem = {
-  product: Product;
+  product_id: number;
+  name: string;
+  img: string | null;
   cart_quantity: number;
   cart_price: number;
 };
@@ -21,19 +23,7 @@ const CartPage = () => {
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
-            setCartItems(
-              data.map((item) => ({
-                product: {
-                  product_id: item.product_id,
-                  name: item.name,
-                  price: item.cart_price,
-                  quantity: item.cart_quantity,
-                  img: item.img,
-                },
-                cart_quantity: item.cart_quantity,
-                cart_price: item.cart_price,
-              }))
-            );
+            setCartItems(data);
             calculateTotalPrice(data);
           } else {
             console.error('장바구니 데이터가 배열 형식이 아닙니다:', data);
@@ -52,7 +42,6 @@ const CartPage = () => {
     }
     setTotalPrice(sum);
   };
-
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, productId: number) => {
     const newQuantity = Number(e.target.value);
     const userId = sessionStorage.getItem('user_id');
@@ -65,7 +54,7 @@ const CartPage = () => {
       })
         .then((response) => response.json())
         .then(() => {
-          const updatedItems = cartItems.map((item) => (item.product.product_id === productId ? { ...item, cart_quantity: newQuantity } : item));
+          const updatedItems = cartItems.map((item) => (item.product_id === productId ? { ...item, cart_quantity: newQuantity } : item));
           setCartItems(updatedItems);
           calculateTotalPrice(updatedItems);
         });
@@ -80,7 +69,7 @@ const CartPage = () => {
       })
         .then((response) => response.json())
         .then(() => {
-          const updatedItems = cartItems.filter((item) => item.product.product_id !== productId);
+          const updatedItems = cartItems.filter((item) => item.product_id !== productId);
           setCartItems(updatedItems);
           calculateTotalPrice(updatedItems);
         });
@@ -98,14 +87,14 @@ const CartPage = () => {
         <div className="cart-list">
           {cartItems.length > 0 ? (
             cartItems.map((item) => (
-              <div className="cart-item" key={item.product.product_id}>
-                <img src={item.product.img || 'placeholder.jpg'} alt={item.product.name || '이미지 없음'} />
+              <div className="cart-item" key={item.product_id}>
+                <img src={item.img || 'placeholder.jpg'} alt={item.name || '이미지 없음'} />
                 <div className="cart-item-details">
-                  <h3>{item.product.name}</h3>
+                  <h3>{item.name}</h3>
                   <p>가격: {item.cart_price}</p>
                   <p>수량: {item.cart_quantity}</p>
-                  <input type="number" value={item.cart_quantity} min="1" max={item.product.quantity} onChange={(e) => handleQuantityChange(e, item.product.product_id)} />
-                  <button onClick={() => handleDeleteClick(item.product.product_id)}>삭제</button>
+                  <input type="number" value={item.cart_quantity} min="1" max={item.cart_quantity} onChange={(e) => handleQuantityChange(e, item.product_id)} />
+                  <button onClick={() => handleDeleteClick(item.product_id)}>삭제</button>
                 </div>
               </div>
             ))
