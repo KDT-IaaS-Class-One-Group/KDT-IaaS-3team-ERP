@@ -6,12 +6,20 @@ import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/
 import { User, Product } from '../../interface/interface';
 import handlePurchase from '../function/HandlePurchase';
 
+type CartItem = {
+  product_id: number;
+  name: string;
+  img: string | null;
+  cart_quantity: number;
+  cart_price: number;
+};
+
 const PaymentPage = () => {
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
-  const [products, setProducts] = useState<Product[]>([]); // 장바구니 상품 목록
+  const [cartItems, setCartItems] = useState<CartItem[]>([]); // 장바구니 상품 목록
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,45 +30,37 @@ const PaymentPage = () => {
       .then((response) => response.json())
       .then((data: User) => setUser(data));
 
-    // location.state에서 장바구니 상품 목록 또는 개별 상품을 가져옵니다.
-    const cartItems = location.state?.cartItems as Product[] | undefined;
-    const singleProduct = location.state?.selectedProduct as Product | undefined;
-
-    if (cartItems) {
-      setProducts(cartItems);
-    } else if (singleProduct) {
-      setProducts([singleProduct]);
+    // location.state에서 장바구니 상품 목록을 가져옵니다.
+    const itemsFromState = location.state?.cartItems as CartItem[] | undefined;
+    if (itemsFromState) {
+      setCartItems(itemsFromState);
     }
   }, [location.state]);
 
   const calculateTotalPrice = () => {
-    return products.reduce((total, product) => total + product.price * product.quantity, 0);
+    return cartItems.reduce((total, item) => total + item.cart_price * item.cart_quantity, 0);
+  };
+
+  const convertToProduct = (cartItem: CartItem): Product => {
+    return {
+      product_id: cartItem.product_id,
+      name: cartItem.name,
+      price: cartItem.cart_price,
+      quantity: cartItem.cart_quantity,
+      img: cartItem.img
+    };
   };
 
   const handleBuy = async () => {
     if (isLoggedIn()) {
       try {
-        for (const product of products) {
-          // 상품별 결제 처리 로직
+        for (const cartItem of cartItems) {
+          const product = convertToProduct(cartItem); // CartItem을 Product로 변환
           const purchaseSuccess = await handlePurchase(product, () => {});
           if (!purchaseSuccess) {
             throw new Error(`상품 '${product.name}' 수량 감소 실패`);
           }
-
-          // 상품별 결제 정보 서버로 전송
-          const paymentResponse = await fetch('http://localhost:3001/payment', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ productId: product.product_id }),
-          });
-
-          if (!paymentResponse.ok) {
-            throw new Error(`상품 '${product.name}' 결제 처리 실패`);
-          }
         }
-
         // 모든 상품 결제 처리가 성공한 경우
         navigate('/');
       } catch (error) {
@@ -76,12 +76,12 @@ const PaymentPage = () => {
     <div id="container">
       <h1>결제 페이지</h1>
       <div>
-        {products.map((product, index) => (
+        {cartItems.map((item, index) => (
           <div key={index}>
-            <img src={product.img} alt={product.name} style={{ width: '100px', height: '100px' }} />
-            <h3>{product.name}</h3>
-            <p>가격: {product.price}</p>
-            <p>수량: {product.quantity}</p>
+            <img src={item.img} alt={item.name} style={{ width: '100px', height: '100px' }} />
+            <h3>{item.name}</h3>
+            <p>가격: {item.cart_price}</p>
+            <p>수량: {item.cart_quantity}</p>
           </div>
         ))}
       </div>
