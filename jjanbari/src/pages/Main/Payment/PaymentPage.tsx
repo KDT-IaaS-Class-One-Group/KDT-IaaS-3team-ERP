@@ -2,12 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import handlePurchase from '../function/HandlePurchase';
 import { User, Product } from '../../interface/interface';
-
-
-
+import { useAuth } from '../../../Auth/AuthContext';
 
 const PaymentPage = () => {
   const [address, setAddress] = useState('');
@@ -18,6 +15,7 @@ const PaymentPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     // 로그인한 사용자의 정보를 가져옵니다.
@@ -33,7 +31,7 @@ const PaymentPage = () => {
   }, [location.state]);
 
   const handleBuy = async () => {
-    if (isLoggedIn() && selectedProduct) {
+    if (isLoggedIn && selectedProduct) {
       try {
         // 먼저 상품 수량 감소 처리
         const purchaseSuccess = await handlePurchase(selectedProduct, setSelectedProduct);
