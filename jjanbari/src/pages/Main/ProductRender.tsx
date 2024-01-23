@@ -1,27 +1,28 @@
 // src/pages/Main/ProductRender.tsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import { Product } from '../interface/interface';
+import { useAuth } from '../../Auth/AuthContext';
 import handleAddToCart from './function/handleAddToCart';
 
 const ProductRender = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const { state } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('ProductRender 내 isLoggedIn:', state);
     fetch('/products')
       .then((response) => response.json())
       .then((data) => setProducts(data));
-  }, []);
+  }, [state]);
 
   const handleBuy = async (product: Product) => {
     const selectedQuantity = Number((document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement).value);
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
-    if (isLoggedIn()) {
-      // 결제 페이지로 이동할 때 선택한 상품 정보를 함께 전달
-      navigate('/payment', { state: { cartItems: [selectedProduct] } });
+    if (state) {
+      navigate('/payment', { state: { selectedProduct } });
     } else {
       navigate('/login');
     }

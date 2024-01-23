@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { isLoggedIn } from '../../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
-import { User, Product } from '../../interface/interface';
 import handlePurchase from '../function/HandlePurchase';
+import { User, Product } from '../../interface/interface';
+import { useAuth } from '../../../Auth/AuthContext';
 
 type CartItem = {
   product_id: number;
@@ -18,23 +18,34 @@ const PaymentPage = () => {
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [productImages, setProductImages] = useState<{ [key: number]: string }>({});
+  const { state } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // 로그인한 사용자의 정보를 가져옵니다.
-    fetch('/users')
-      .then((response) => response.json())
-      .then((data: User) => setUser(data));
+    const fetchData = async () => {
+      try {
+        // 로그인한 사용자의 정보를 가져옵니다.
+        const userDataResponse = await fetch('/users');
+        const userData = await userDataResponse.json();
+        setUser(userData);
 
-    // location.state에서 장바구니 상품 목록을 가져옵니다.
-    const itemsFromState = location.state?.cartItems as CartItem[] | undefined;
-    if (itemsFromState) {
-      setCartItems(itemsFromState);
-    }
+        // location.state에서 장바구니 상품 목록을 가져옵니다.
+        const itemsFromState = location.state?.cartItems as CartItem[] | undefined;
+        if (itemsFromState) {
+          setCartItems(itemsFromState);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // 에러 처리
+      }
+    };
+
+    fetchData();
   }, [location.state]);
 
   useEffect(() => {
@@ -66,7 +77,7 @@ const PaymentPage = () => {
   };
 
   const handleBuy = async () => {
-    if (isLoggedIn()) {
+    if (state) {
       try {
         for (const cartItem of cartItems) {
           //함수를 사용하여 CartItem을 Product 객체로 변환
@@ -78,7 +89,7 @@ const PaymentPage = () => {
           }
 
           // 상품별 결제 정보 서버로 전송
-          const paymentResponse = await fetch('http://localhost:3001/payment', {
+          const paymentResponse = await fetch('/payment', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -92,7 +103,7 @@ const PaymentPage = () => {
 
           // 결제가 완료된 상품을 장바구니에서 삭제
           const userId = sessionStorage.getItem('user_id');
-          await fetch(`http://localhost:3001/cart/${userId}/${product.product_id}`, {
+          await fetch(`/cart/${userId}/${product.product_id}`, {
             method: 'DELETE',
           });
         }

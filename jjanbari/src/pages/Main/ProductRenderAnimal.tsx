@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import { Product, Category } from '../interface/interface';
+import { useAuth } from '../../Auth/AuthContext';
 import handleAddToCart from './function/handleAddToCart';
 
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
@@ -10,6 +10,7 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [selectedFunctionals, setSelectedFunctionals] = useState<number[]>([]);
   const [ageCategories, setAgeCategories] = useState<Category[]>([]);
   const [functionalCategories, setFunctionalCategories] = useState<Category[]>([]);
+  const { state } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,10 +63,11 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   };
 
   const handleBuy = (product: Product) => {
-    const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
+    const selectedQuantityElement = document.getElementById(`quantity-${product.name}`) as HTMLInputElement;
+    const selectedQuantity = selectedQuantityElement ? Number(selectedQuantityElement.value) : 0;
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
-    if (isLoggedIn()) {
+    if (state) {
       navigate('/payment', { state: { selectedProduct } });
     } else {
       navigate('/login');
