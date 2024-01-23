@@ -6,8 +6,8 @@ type CartItem = {
   product_id: number;
   name: string;
   img: string | null;
-  cart_quantity: number;
-  cart_price: number;
+  quantity: number;
+  price: number;
 };
 
 const CartPage = () => {
@@ -28,8 +28,8 @@ const CartPage = () => {
                 product_id: item.product_id,
                 name: item.name,
                 img: item.img,
-                cart_quantity: item.cart_quantity,
-                cart_price: item.cart_price,
+                quantity: item.quantity,
+                price: item.price,
               }))
             );
             calculateTotalPrice(data);
@@ -46,7 +46,7 @@ const CartPage = () => {
   const calculateTotalPrice = (items: CartItem[]) => {
     let sum = 0;
     for (let item of items) {
-      sum += item.cart_price * item.cart_quantity;
+      sum += item.price * item.quantity;
     }
     setTotalPrice(sum);
   };
@@ -99,9 +99,9 @@ const CartPage = () => {
                 <img src={item.img || 'placeholder.jpg'} alt={item.name || '이미지 없음'} />
                 <div className="cart-item-details">
                   <h3>{item.name}</h3>
-                  <p>가격: {item.cart_price}</p>
-                  <p>수량: {item.cart_quantity}</p>
-                  <input type="number" value={item.cart_quantity} min="1" max={item.cart_quantity} onChange={(e) => handleQuantityChange(e, item.product_id)} />
+                  <p>가격: {item.price}</p>
+                  <p>수량: {item.quantity}</p>
+                  <input type="number" value={item.quantity} min="1" max={item.quantity} onChange={(e) => handleQuantityChange(e, item.product_id)} />
                   <button onClick={() => handleDeleteClick(item.product_id)}>삭제</button>
                 </div>
               </div>
