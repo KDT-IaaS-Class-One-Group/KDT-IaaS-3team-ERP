@@ -49,10 +49,12 @@ const PaymentPage = () => {
     });
   }, [cartItems]);
 
+  //cartItems 배열을 순회하면서 각 항목의 cart_price와 cart_quantity를 곱하여 총 가격을 계산합니다.
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.cart_price * item.cart_quantity, 0);
   };
 
+//CartItem 타입의 객체를 Product 타입으로 변환합니다. 이 과정에선 해당 상품의 이미지 URL을 가져옵니다.
   const convertToProduct = (cartItem: CartItem): Product => {
     return {
       product_id: cartItem.product_id,
@@ -67,7 +69,9 @@ const PaymentPage = () => {
     if (isLoggedIn()) {
       try {
         for (const cartItem of cartItems) {
+          //함수를 사용하여 CartItem을 Product 객체로 변환
           const product = convertToProduct(cartItem);
+          //handlePurchase 함수를 호출하여 상품의 수량 감소 처리
           const purchaseSuccess = await handlePurchase(product, () => {});
           if (!purchaseSuccess) {
             throw new Error(`상품 '${product.name}' 수량 감소 실패`);
