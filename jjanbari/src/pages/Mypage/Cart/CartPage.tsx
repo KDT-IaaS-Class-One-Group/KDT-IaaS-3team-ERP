@@ -92,29 +92,31 @@ const CartPage = () => {
   };
 
   return (
-    <div className="cart-page">
-      <h1>장바구니</h1>
-      <div className="cart-list">
-        {cartItems.length > 0 ? (
-          cartItems.map((item) => (
-            <div className="cart-item" key={item.product.product_id}>
-              <img src={item.product.img || 'placeholder.jpg'} alt={item.product.name || '이미지 없음'} />
-              <div className="cart-item-details">
-                <h3>{item.product.name}</h3>
-                <p>가격: {item.cart_price}</p>
-                <p>수량: {item.cart_quantity}</p>
-                <input type="number" value={item.cart_quantity} min="1" max={item.product.quantity} onChange={(e) => handleQuantityChange(e, item.product.product_id)} />
-                <button onClick={() => handleDeleteClick(item.product.product_id)}>삭제</button>
+    <div id="container">
+      <div className="cart-page">
+        <h1>장바구니</h1>
+        <div className="cart-list">
+          {cartItems.length > 0 ? (
+            cartItems.map((item) => (
+              <div className="cart-item" key={item.product.product_id}>
+                <img src={item.product.img || 'placeholder.jpg'} alt={item.product.name || '이미지 없음'} />
+                <div className="cart-item-details">
+                  <h3>{item.product.name}</h3>
+                  <p>가격: {item.cart_price}</p>
+                  <p>수량: {item.cart_quantity}</p>
+                  <input type="number" value={item.cart_quantity} min="1" max={item.product.quantity} onChange={(e) => handleQuantityChange(e, item.product.product_id)} />
+                  <button onClick={() => handleDeleteClick(item.product.product_id)}>삭제</button>
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p>장바구니에 담긴 상품이 없습니다.</p>
-        )}
-      </div>
-      <div className="cart-summary">
-        <p>총 가격: {totalPrice}</p>
-        <button onClick={handleCheckoutClick}>결제하기</button>
+            ))
+          ) : (
+            <p>장바구니에 담긴 상품이 없습니다.</p>
+          )}
+        </div>
+        <div className="cart-summary">
+          <p>총 가격: {totalPrice}</p>
+          <button onClick={handleCheckoutClick}>결제하기</button>
+        </div>
       </div>
     </div>
   );
