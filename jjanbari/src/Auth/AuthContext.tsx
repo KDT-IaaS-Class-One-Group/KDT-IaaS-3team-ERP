@@ -1,59 +1,89 @@
-// src/Auth/AuthContext.tsx
+// AuthContext.tsx
+import React, { createContext, useReducer, useContext, ReactNode } from 'react';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+// 초기 상태 정의
+interface AuthState {
+  isAuthenticated: boolean;
+  user: User | null;
+}
 
-// AuthContextProps 인터페이스 정의
+// 유저 정보 타입 정의
+interface User {
+  username: string;
+  // 다른 유저 정보를 추가할 수 있습니다.
+}
+
+// 액션 타입 정의
+enum ActionTypes {
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+}
+
+// 액션 타입과 페이로드를 갖는 액션 객체 정의
+type AuthAction = { type: ActionTypes.LOGIN; payload: User } | { type: ActionTypes.LOGOUT };
+
+// 리듀서 함수 정의
+const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+  switch (action.type) {
+    case ActionTypes.LOGIN:
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: action.payload,
+      };
+    case ActionTypes.LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+      };
+    default:
+      return state;
+  }
+};
+
+// Context 생성
 interface AuthContextProps {
-  isLoggedIn: boolean;
-  login: () => void;
+  state: AuthState;
+  login: (user: User) => void;
   logout: () => void;
 }
 
-// createContext를 사용하여 Context 객체 생성 및 초기값 undefined로 설정
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 // AuthProvider 컴포넌트 정의
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // useState를 사용하여 isLoggedIn 상태와 login, logout 함수 정의
-  const [isLoggedIn, setLoggedIn] = useState<boolean>(() => {
-    // 세션 스토리지에서 값 가져오기
-    const storedValue = sessionStorage.getItem('isLoggedIn');
-    // 세션 스토리지에 isLoggedIn에 대한 값이 존재하면 파싱한 값을 반환하고, 없으면 false를 리턴
-    return storedValue ? JSON.parse(storedValue) : false;
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [state, dispatch] = useReducer(authReducer, {
+    isAuthenticated: false,
+    user: null,
   });
 
-  // 로그인 함수
-  const login = () => {
-    setLoggedIn(true);
-    // 세션 스토리지에 값 저장
-    sessionStorage.setItem('isLoggedIn', JSON.stringify(true));
+  const login = (user: User) => {
+    dispatch({ type: ActionTypes.LOGIN, payload: user });
   };
 
-  // 로그아웃 함수
   const logout = () => {
-    setLoggedIn(false);
-    // 세션 스토리지에서 값 제거
-    sessionStorage.removeItem('isLoggedIn');
+    dispatch({ type: ActionTypes.LOGOUT });
   };
 
-  // AuthContext.Provider로 전역 상태 및 함수 제공
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ state, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// useAuth 커스텀 훅 정의
-export const useAuth = () => {
-  // useContext를 사용하여 AuthContext의 값 가져오기
+// 커스텀 훅 생성
+const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
-
-  // AuthContext가 제대로 설정되지 않은 경우 에러 throw
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
-
-  // AuthContext의 값 반환
   return context;
 };
+
+export { AuthProvider, useAuth };
