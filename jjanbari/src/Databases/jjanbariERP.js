@@ -123,6 +123,7 @@ async function initializeDatabase() {
       name VARCHAR(255),
       cart_quantity INT,
       cart_price DECIMAL,
+      FOREIGN KEY (product_id) REFERENCES products(product_id),
       FOREIGN KEY (product_id) REFERENCES products(product_id)
     );
   `);
