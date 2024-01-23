@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import { Product } from '../interface/interface';
-import handleAddToCart from './function/handleAddToCart';
 
 const ProductRender = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,15 +14,13 @@ const ProductRender = () => {
       .then((data) => setProducts(data));
   }, []);
 
-  const handleBuy = (product: Product) => {
-    // 선택한 수량을 가져옵니다. product.product_id 사용
+  const handleBuy = async (product: Product) => {
     const selectedQuantity = Number((document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement).value);
-
-    // 선택한 수량을 포함한 새로운 상품 객체를 생성합니다.
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
     if (isLoggedIn()) {
-      navigate('/payment', { state: { selectedProduct } });
+      // 결제 페이지로 이동할 때 선택한 상품 정보를 함께 전달
+      navigate('/payment', { state: { cartItems: [selectedProduct] } });
     } else {
       navigate('/login');
     }
@@ -41,7 +38,7 @@ const ProductRender = () => {
               <p>가격: {product.price}</p>
               <p>수량: {product.quantity}</p>
               <input type="number" id={`quantity-${product.product_id}`} min="1" max={product.quantity} />
-              <button onClick={() => handleAddToCart(product, navigate)}>장바구니</button>
+              <button>장바구니</button>
               <button>좋아요</button>
               <button onClick={() => handleBuy(product)}>구매</button>
             </div>

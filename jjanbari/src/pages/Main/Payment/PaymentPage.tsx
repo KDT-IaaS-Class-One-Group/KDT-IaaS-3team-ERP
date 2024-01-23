@@ -18,7 +18,7 @@ const PaymentPage = () => {
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]); // 변경된 부분: CartItem 타입으로 cartItems 상태 정의
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [productImages, setProductImages] = useState<{ [key: number]: string }>({});
 
   const navigate = useNavigate();
@@ -31,16 +31,9 @@ const PaymentPage = () => {
       .then((data: User) => setUser(data));
 
     // location.state에서 장바구니 상품 목록을 가져옵니다.
-    const selectedProducts = location.state?.cartItems as Product[] | undefined;
-
-    if (selectedProducts) {
-      // 선택한 상품 정보를 설정합니다.
-      setCartItems(selectedProducts.map((product) => ({
-        product_id: product.product_id,
-        name: product.name,
-        cart_quantity: 1, // 선택한 수량을 설정할 수 있으면 설정하세요.
-        cart_price: product.price, // 상품 가격 설정
-      })));
+    const itemsFromState = location.state?.cartItems as CartItem[] | undefined;
+    if (itemsFromState) {
+      setCartItems(itemsFromState);
     }
   }, [location.state]);
 
@@ -56,12 +49,12 @@ const PaymentPage = () => {
     });
   }, [cartItems]);
 
-  // cartItems 배열을 순회하면서 각 항목의 cart_price와 cart_quantity를 곱하여 총 가격을 계산합니다.
+  //cartItems 배열을 순회하면서 각 항목의 cart_price와 cart_quantity를 곱하여 총 가격을 계산합니다.
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.cart_price * item.cart_quantity, 0);
   };
 
-  // CartItem 타입의 객체를 Product 타입으로 변환합니다. 이 과정에선 해당 상품의 이미지 URL을 가져옵니다.
+  //CartItem 타입의 객체를 Product 타입으로 변환합니다. 이 과정에선 해당 상품의 이미지 URL을 가져옵니다.
   const convertToProduct = (cartItem: CartItem): Product => {
     return {
       product_id: cartItem.product_id,
@@ -76,9 +69,9 @@ const PaymentPage = () => {
     if (isLoggedIn()) {
       try {
         for (const cartItem of cartItems) {
-          // 함수를 사용하여 CartItem을 Product 객체로 변환
+          //함수를 사용하여 CartItem을 Product 객체로 변환
           const product = convertToProduct(cartItem);
-          // handlePurchase 함수를 호출하여 상품의 수량 감소 처리
+          //handlePurchase 함수를 호출하여 상품의 수량 감소 처리
           const purchaseSuccess = await handlePurchase(product, () => {});
           if (!purchaseSuccess) {
             throw new Error(`상품 '${product.name}' 수량 감소 실패`);
@@ -133,7 +126,6 @@ const PaymentPage = () => {
       </div>
       <div>
         <h2>배송 정보</h2>
-        <h2>받는 사람: {user ? user.user_name : '사용자 정보를 불러오는 중...'}</h2>
         <label>주소: </label>
         <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
         <br />
