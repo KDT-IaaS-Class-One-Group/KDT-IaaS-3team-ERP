@@ -15,6 +15,10 @@ const HeaderPages = () => {
 
   const handleLogout = () => {
     logout();
+    // 세션 스토리지에서 로그인 관련 정보 제거
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('user_id');
+
     // 로그아웃 후 로그인 페이지로 이동
     navigate("/login");
   };

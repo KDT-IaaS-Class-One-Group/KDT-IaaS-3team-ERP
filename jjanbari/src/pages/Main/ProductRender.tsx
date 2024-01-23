@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import { Product } from '../interface/interface';
+import { useAuth } from '../../Auth/AuthContext';
 
 const ProductRender = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     fetch('/products')
@@ -22,7 +23,7 @@ const ProductRender = () => {
     // 선택한 수량을 포함한 새로운 상품 객체를 생성합니다.
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
-    if (isLoggedIn()) {
+    if (isLoggedIn) {
       navigate('/payment', { state: { selectedProduct } });
     } else {
       navigate('/login');

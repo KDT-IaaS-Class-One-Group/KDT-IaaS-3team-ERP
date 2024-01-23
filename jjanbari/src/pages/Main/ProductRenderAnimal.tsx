@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import { Product, Category } from '../interface/interface';
+import { useAuth } from '../../Auth/AuthContext';
 
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -10,6 +10,8 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [ageCategories, setAgeCategories] = useState<Category[]>([]);
   const [functionalCategories, setFunctionalCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
+
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     // 나이와 기능 카테고리 정보를 서버에서 가져오도록 업데이트
@@ -64,7 +66,7 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
     const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
-    if (isLoggedIn()) {
+    if (isLoggedIn) {
       navigate('/payment', { state: { selectedProduct } });
     } else {
       navigate('/login');

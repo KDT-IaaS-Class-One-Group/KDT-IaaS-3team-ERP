@@ -17,7 +17,7 @@ const LoginForm: React.FC = () => {
 
   const handleLogin = () => {
     // 로그인 로직 처리
-    login();
+    login(loginFormData.user_id);
   };
 
   const handleLogout = () => {

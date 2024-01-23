@@ -5,7 +5,8 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 // AuthContextProps 인터페이스 정의
 interface AuthContextProps {
   isLoggedIn: boolean;
-  login: () => void;
+  user_id: string | null;
+  login: (userId: string) => void;
   logout: () => void;
 }
 
@@ -22,23 +23,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return storedValue ? JSON.parse(storedValue) : false;
   });
 
+  const [user_id, setUserId] = useState<string | null>(() => {
+    // 세션 스토리지에서 user_id 값 가져오기
+    return sessionStorage.getItem('user_id');
+  });
+
   // 로그인 함수
-  const login = () => {
+  const login = (userId: string) => {
     setLoggedIn(true);
+    setUserId(userId);
     // 세션 스토리지에 값 저장
     sessionStorage.setItem('isLoggedIn', JSON.stringify(true));
+    sessionStorage.setItem('user_id', userId);
   };
 
   // 로그아웃 함수
   const logout = () => {
     setLoggedIn(false);
+    setUserId(null);
     // 세션 스토리지에서 값 제거
     sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('user_id');
   };
 
   // AuthContext.Provider로 전역 상태 및 함수 제공
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user_id, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
