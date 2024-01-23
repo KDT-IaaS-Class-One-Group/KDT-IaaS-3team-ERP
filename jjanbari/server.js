@@ -15,7 +15,7 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-// 회원 가입 API
+// 회원 가입 라우트
 app.post('/signup', async (req, res) => {
   try {
     const { userID, userPW, userNAME } = req.body;
@@ -35,7 +35,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// 로그인 API
+// 로그인 라우트
 app.post('/login', async (req, res) => {
   try {
     const { userID, userPW } = req.body;
@@ -140,20 +140,51 @@ app.get('/products', async (req, res) => {
 // 서버 코드에 강아지와 고양이 카테고리에 해당하는 상품 가져오는 API 추가
 app.get('/products/:category', async (req, res) => {
   const category = req.params.category;
+  const ageFilter = req.query.age; // 나이 카테고리를 쿼리 파라미터로 받습니다.
+  const functionalFilter = req.query.functional; // 기능 카테고리를 쿼리 파라미터로 받습니다.
+
   try {
-    let query = 'SELECT products.product_id, products.name, products.price, products.quantity, products.img FROM products ';
-    let params = [];
-    if (category === 'dog') {
-      query += 'INNER JOIN animal_products ON products.product_id = animal_products.product_id WHERE animal_products.animal_id = ?';
-      params.push(1); // 예시로 강아지 카테고리 ID를 1로 가정
-    } else if (category === 'cat') {
-      query += 'INNER JOIN animal_products ON products.product_id = animal_products.product_id WHERE animal_products.animal_id = ?';
-      params.push(2); // 예시로 고양이 카테고리 ID를 2로 가정
+    let query = `
+      SELECT products.product_id, products.name, products.price, products.quantity, products.img 
+      FROM products 
+      INNER JOIN animal_products ON products.product_id = animal_products.product_id
+      INNER JOIN age_products ON products.product_id = age_products.product_id
+      INNER JOIN functional_products ON products.product_id = functional_products.product_id
+      WHERE animal_products.animal_id = ?`;
+
+    let params = [category === 'dog' ? 1 : 2]; // 강아지는 1, 고양이는 2로 가정
+
+    // 나이 필터가 존재하면 추가합니다.
+    if (ageFilter) {
+      query += ' AND age_products.age_id = ?';
+      params.push(parseInt(ageFilter, 10)); // 쿼리 파라미터를 정수로 변환하여 추가합니다.
     }
+
+    // 기능 필터가 존재하면 추가합니다.
+    if (functionalFilter) {
+      query += ' AND functional_products.functional_id = ?';
+      params.push(parseInt(functionalFilter, 10)); // 쿼리 파라미터를 정수로 변환하여 추가합니다.
+    }
+
     const products = await jjanbariQuery(query, params);
     res.json(products);
   } catch (error) {
     console.error('Error during fetching products:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
+app.get('/categories', async (req, res) => {
+  try {
+    // 나이 카테고리 조회
+    const ageCategories = await jjanbariQuery('SELECT age_id, age_name FROM age_categories');
+
+    // 기능 카테고리 조회
+    const functionalCategories = await jjanbariQuery('SELECT functional_id, functional_name FROM functional_categories');
+
+    res.json({ ageCategories, functionalCategories });
+  } catch (error) {
+    console.error('Error during fetching categories:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
@@ -245,7 +276,6 @@ app.post('/payment', async (req, res) => {
     res.status(500).json({ success: false, error: '결제 처리 중 오류가 발생했습니다.' });
   }
 });
-
 //cartPage API
 
 // 장바구니 목록 조회

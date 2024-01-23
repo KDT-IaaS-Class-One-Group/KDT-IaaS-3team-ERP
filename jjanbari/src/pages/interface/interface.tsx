@@ -39,4 +39,11 @@ interface UserProfiles  {
   user_name: string;
 };
 
-export {Product, LoginFormData, User, UserProfiles, AnimalCategory, AgeCategory, FunctionalCategory}
+interface Category {
+  age_id: number,
+  functional_id: number,
+  age_name: string,
+  functional_name: string
+}
+
+export {Product, LoginFormData, User, UserProfiles, AnimalCategory, AgeCategory, FunctionalCategory, Category}
