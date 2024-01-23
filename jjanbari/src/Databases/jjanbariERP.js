@@ -116,13 +116,15 @@ async function initializeDatabase() {
   `);
 
     //cart 테이블 생성 쿼리
-    await pool.query(`CREATE TABLE IF NOT EXISTS cart (
-    cart_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
-    product_id INT,
-    cart_quantity INT,
-    cart_price DECIMAL
-  )
+    await pool.query(`CREATE TABLE cart (
+      cart_id INT AUTO_INCREMENT PRIMARY KEY,
+      user_id VARCHAR(255),
+      product_id INT,
+      name VARCHAR(255),
+      cart_quantity INT,
+      cart_price DECIMAL,
+      FOREIGN KEY (product_id) REFERENCES products(product_id)
+    );
   `);
 
     console.log(
