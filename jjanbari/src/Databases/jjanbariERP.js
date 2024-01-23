@@ -121,7 +121,7 @@ async function initializeDatabase() {
     user_id VARCHAR(255),
     product_id INT,
     cart_quantity INT,
-    cart_price DECIMAL(10, 2) 
+    cart_price DECIMAL
   )
   `);
 
