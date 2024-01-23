@@ -34,6 +34,7 @@ const UserProfilesPage = () => {
             <th>ID</th>
             <th>UserID</th>
             <th>UserName</th>
+            <th>UserCash</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +43,7 @@ const UserProfilesPage = () => {
               <td>{user.user_num}</td>
               <td>{user.user_id}</td>
               <td>{user.user_name}</td>
+              <td>{user.user_cash}</td>
             </tr>
           ))}
         </tbody>

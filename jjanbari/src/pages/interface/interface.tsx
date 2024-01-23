@@ -37,6 +37,7 @@ interface UserProfiles  {
   user_id: string;
   user_pw: string;
   user_name: string;
+  user_cash: number;
 };
 
 interface Category {
