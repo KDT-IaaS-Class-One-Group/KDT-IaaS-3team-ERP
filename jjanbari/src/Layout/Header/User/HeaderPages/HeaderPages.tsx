@@ -8,6 +8,7 @@ const HeaderPages = () => {
   const navigate = useNavigate();
 
   // 세션 스토리지에서 isLoggedIn 및 user_id 값 가져오기
+  console.log(sessionStorage)
   const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
   const userId = sessionStorage.getItem('user_id');
   const userCash = sessionStorage.getItem('user_cash');
