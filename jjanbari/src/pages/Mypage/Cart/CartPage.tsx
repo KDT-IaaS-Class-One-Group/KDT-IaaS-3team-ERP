@@ -88,11 +88,11 @@ const CartPage = () => {
             <div className="cart-item" key={item.product?.product_id || 'placeholder'}>
               {item.product?.img ? <img src={item.product.img} alt={item.product.name} /> : null} {/* 이미지가 없으면 아무것도 표시하지 않음 */}
               <div className="cart-item-details">
-                <h3>{item.product.name}</h3>
-                <p>가격: {item.product.price}</p>
+                <h3>{item.product?.name || '상품 이름'}</h3>
+                <p>가격: {item.product?.price || 0}</p>
                 <p>수량: {item.cart_qty}</p>
-                <input type="number" value={item.cart_qty} min="1" max={item.product.quantity} onChange={(e) => handleQuantityChange(e, item.product)} />
-                <button onClick={() => handleDeleteClick(item.product)}>삭제</button>
+                <input type="number" value={item.cart_qty} min="1" max={item.product?.quantity || 1} onChange={(e) => handleQuantityChange(e, item.product)} />
+                <button onClick={() => item.product && handleDeleteClick(item.product)}>삭제</button>
               </div>
             </div>
           ))
