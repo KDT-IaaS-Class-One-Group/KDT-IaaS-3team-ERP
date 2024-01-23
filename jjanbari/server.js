@@ -15,7 +15,7 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-// 회원 가입 라우트
+// 회원 가입 api
 app.post('/signup', async (req, res) => {
   try {
     const { userID, userPW, userNAME } = req.body;
@@ -35,7 +35,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// 로그인 라우트
+// 로그인 api
 app.post('/login', async (req, res) => {
   try {
     const { userID, userPW } = req.body;
