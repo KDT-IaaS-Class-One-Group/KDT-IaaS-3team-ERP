@@ -121,8 +121,8 @@ async function initializeDatabase() {
       user_id VARCHAR(255),
       product_id INT,
       name VARCHAR(255),
-      cart_quantity INT,
-      cart_price DECIMAL,
+      quantity INT,
+      price DECIMAL,
       FOREIGN KEY (product_id) REFERENCES products(product_id),
       FOREIGN KEY (product_id) REFERENCES products(product_id)
     );
