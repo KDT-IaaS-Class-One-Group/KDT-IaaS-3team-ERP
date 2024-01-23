@@ -20,6 +20,7 @@ const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<
       body: JSON.stringify({
         userID: loginFormData.user_id,
         userPW: loginFormData.user_pw,
+        userCASH: loginFormData.user_cash,
       }),
     });
 
@@ -29,6 +30,7 @@ const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<
 
       // 세션 스토리지에 user_id와 isLoggedIn 저장
       sessionStorage.setItem('user_id', loginFormData.user_id);
+      sessionStorage.setItem('user_cash', loginFormData.user_cash);
       sessionStorage.setItem('isLoggedIn', 'true');
 
       // user_id가 'adroot'이면 /admin으로 이동, 그 외에는 /으로 이동
