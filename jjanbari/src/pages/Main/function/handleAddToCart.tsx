@@ -8,6 +8,7 @@ const handleAddToCart = async (product: Product, navigate: NavigateFunction) => 
   const selectedQuantity = quantityInput ? Number(quantityInput.value) : 0;
   const userId = sessionStorage.getItem('user_id') || 'anonymous'; // 로그인하지 않은 경우 'anonymous'
 
+  const cart_price = product.price; // 가격을 설정
   if (selectedQuantity > 0) {
     try {
       const response = await fetch('http://localhost:3001/cart', {
@@ -18,8 +19,8 @@ const handleAddToCart = async (product: Product, navigate: NavigateFunction) => 
         body: JSON.stringify({
           userId,
           productId: product.product_id,
-          cart_quantity: selectedQuantity,
-          cart_price: product.price,
+          quantity: selectedQuantity,
+          price: cart_price, // 수정된 부분
         }),
       });
 
