@@ -46,6 +46,12 @@ const PaymentPage = () => {
     };
 
     fetchData();
+
+    const selectedProductFromState = location.state?.selectedProduct as Product | undefined;
+    if (selectedProductFromState) {
+      setSelectedProduct(selectedProductFromState);
+      setCartItems([{ ...selectedProductFromState }]);
+    }
   }, [location.state]);
 
   useEffect(() => {
@@ -122,20 +128,18 @@ const PaymentPage = () => {
     <div id="container">
       <h1>결제 페이지</h1>
       <div>
-        {cartItems.map((item, index) => (
-          <div key={index}>
-            <img src={productImages[item.product_id] || 'placeholder.jpg'} alt={item.name} style={{ width: '100px', height: '100px' }} />
-            <h3>{item.name}</h3>
-            <p>가격: {item.price}</p>
-            <p>수량: {item.quantity}</p>
+        {selectedProduct ? (
+          <div>
+            <img src={selectedProduct.img} alt={selectedProduct.name} style={{ width: '100px', height: '100px' }} />
+            <h3>{selectedProduct.name}</h3>
+            <p>가격: {selectedProduct.price}</p>
+            <p>수량: {selectedProduct.quantity}</p>
           </div>
-        ))}
-      </div>
-      <div>
-        <h2>총 가격: {calculateTotalPrice()}</h2>
-        <button onClick={handleBuy}>결제하기</button>
-      </div>
-      <div>
+        ) : null}
+        <div>
+          <h2>총 가격: {selectedProduct ? selectedProduct.price * selectedProduct.quantity : 0}</h2>
+          <button onClick={handleBuy}>결제하기</button>
+        </div>
         <h2>배송 정보</h2>
         <label>주소: </label>
         <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
