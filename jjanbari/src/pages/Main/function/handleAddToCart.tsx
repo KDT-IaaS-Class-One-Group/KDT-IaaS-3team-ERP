@@ -6,8 +6,6 @@ import { Product } from '../../interface/interface';
 const handleAddToCart = async (product: Product, navigate: NavigateFunction) => {
   const quantityInput = document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement;
   const selectedQuantity = quantityInput ? Number(quantityInput.value) : 0;
-
-  // 세션 스토리지에서 userId 가져오기
   const userId = sessionStorage.getItem('user_id') || 'anonymous'; // 로그인하지 않은 경우 'anonymous'
 
   if (selectedQuantity > 0) {
@@ -20,7 +18,6 @@ const handleAddToCart = async (product: Product, navigate: NavigateFunction) => 
         body: JSON.stringify({
           userId,
           productId: product.product_id,
-          name: product.name,
           cart_quantity: selectedQuantity,
           cart_price: product.price,
         }),
