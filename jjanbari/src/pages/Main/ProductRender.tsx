@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import { Product } from '../interface/interface';
+import handleAddToCart from './function/handleAddToCart';
 
 const ProductRender = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -38,7 +39,7 @@ const ProductRender = () => {
               <p>가격: {product.price}</p>
               <p>수량: {product.quantity}</p>
               <input type="number" id={`quantity-${product.product_id}`} min="1" max={product.quantity} />
-              <button>장바구니</button>
+              <button onClick={() => handleAddToCart(product, navigate)}>장바구니</button>
               <button>좋아요</button>
               <button onClick={() => handleBuy(product)}>구매</button>
             </div>
