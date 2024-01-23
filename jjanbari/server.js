@@ -283,7 +283,7 @@ app.get('/cart/:userId', async (req, res) => {
   const { userId } = req.params;
 
   const selectQuery = `
-    SELECT c.cart_id, c.user_id, c.product_id, c.cart_quantity, c.cart_price, p.name, p.img
+    SELECT c.cart_id, c.user_id, c.product_id, c.quantity, c.price, p.name, p.img
     FROM cart c
     INNER JOIN products p ON c.product_id = p.product_id
     WHERE c.user_id = ?;
@@ -298,14 +298,17 @@ app.get('/cart/:userId', async (req, res) => {
 });
 
 app.post('/cart', async (req, res) => {
-  const { userId, productId, cart_quantity, cart_price } = req.body;
+  const { userId, productId, quantity, price } = req.body; // price 값을 가져옵니다
+
+  // undefined를 null로 변환
+  const cart_price = price !== undefined ? price : null;
 
   const insertQuery = `
-    INSERT INTO cart (user_id, product_id, cart_quantity, cart_price)
+    INSERT INTO cart (user_id, product_id, quantity, price)
     VALUES (?, ?, ?, ?);
   `;
   try {
-    await jjanbariQuery(insertQuery, [userId, productId, cart_quantity, cart_price]);
+    await jjanbariQuery(insertQuery, [userId, productId, quantity, cart_price]);
     res.json({ success: true, message: '장바구니에 상품이 추가되었습니다.' });
   } catch (error) {
     console.error('장바구니에 상품 추가 실패:', error);
@@ -314,16 +317,16 @@ app.post('/cart', async (req, res) => {
 });
 
 app.put('/cart/:userId/:productId', async (req, res) => {
-  const { userId, productId } = req.params;
-  const { cart_quantity } = req.body;
+  const { userId } = req.params;
+  const { quantity } = req.body;
 
   const updateQuery = `
     UPDATE cart
-    SET cart_quantity = ?
-    WHERE user_id = ? AND product_id = ?;
+    SET quantity = ?
+    WHERE user_id = ?;
   `;
   try {
-    await jjanbariQuery(updateQuery, [cart_quantity, userId, productId]);
+    await jjanbariQuery(updateQuery, [quantity, userId]);
     res.json({ success: true, message: '장바구니 상품 수량이 업데이트되었습니다.' });
   } catch (error) {
     console.error('장바구니 상품 수량 변경 실패:', error);
