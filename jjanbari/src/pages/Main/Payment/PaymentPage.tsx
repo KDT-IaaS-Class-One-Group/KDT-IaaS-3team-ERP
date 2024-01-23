@@ -9,7 +9,6 @@ import handlePurchase from '../function/HandlePurchase';
 type CartItem = {
   product_id: number;
   name: string;
-  img: string | null;
   cart_quantity: number;
   cart_price: number;
 };
@@ -19,7 +18,8 @@ const PaymentPage = () => {
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]); // 장바구니 상품 목록
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [productImages, setProductImages] = useState<{ [key: number]: string }>({});
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,6 +37,18 @@ const PaymentPage = () => {
     }
   }, [location.state]);
 
+  useEffect(() => {
+    // 상품 이미지 URL을 가져오는 로직
+    cartItems.forEach((item) => {
+      fetch(`/products/${item.product_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setProductImages((prev) => ({ ...prev, [item.product_id]: data.img }));
+        })
+        .catch((error) => console.error('Error fetching product image:', error));
+    });
+  }, [cartItems]);
+
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.cart_price * item.cart_quantity, 0);
   };
@@ -47,7 +59,7 @@ const PaymentPage = () => {
       name: cartItem.name,
       price: cartItem.cart_price,
       quantity: cartItem.cart_quantity,
-      img: cartItem.img
+      img: productImages[cartItem.product_id] || 'placeholder.jpg',
     };
   };
 
@@ -55,17 +67,30 @@ const PaymentPage = () => {
     if (isLoggedIn()) {
       try {
         for (const cartItem of cartItems) {
-          const product = convertToProduct(cartItem); // CartItem을 Product로 변환
+          const product = convertToProduct(cartItem);
           const purchaseSuccess = await handlePurchase(product, () => {});
           if (!purchaseSuccess) {
             throw new Error(`상품 '${product.name}' 수량 감소 실패`);
           }
+
+          // 상품별 결제 정보 서버로 전송
+          const paymentResponse = await fetch('http://localhost:3001/payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productId: product.product_id }),
+          });
+
+          if (!paymentResponse.ok) {
+            throw new Error(`상품 '${product.name}' 결제 처리 실패`);
+          }
         }
+
         // 모든 상품 결제 처리가 성공한 경우
         navigate('/');
       } catch (error) {
         console.error('Error during payment:', error);
-        // 에러 처리: 사용자에게 에러 메시지 표시
       }
     } else {
       navigate('/login');
@@ -78,7 +103,7 @@ const PaymentPage = () => {
       <div>
         {cartItems.map((item, index) => (
           <div key={index}>
-            <img src={item.img} alt={item.name} style={{ width: '100px', height: '100px' }} />
+            <img src={productImages[item.product_id] || 'placeholder.jpg'} alt={item.name} style={{ width: '100px', height: '100px' }} />
             <h3>{item.name}</h3>
             <p>가격: {item.cart_price}</p>
             <p>수량: {item.cart_quantity}</p>
