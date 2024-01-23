@@ -67,7 +67,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
 app.use('/uploads', express.static('uploads'));
 
 // 서버 코드에 카테고리 목록을 가져오는 API 추가
@@ -254,8 +253,10 @@ app.get('/cart/:userId', async (req, res) => {
   const { userId } = req.params;
 
   const selectQuery = `
-    SELECT * FROM cart
-    WHERE user_id = ?;
+    SELECT c.cart_id, c.cart_quantity, c.cart_price, p.product_id, p.name, p.img
+    FROM cart c
+    INNER JOIN products p ON c.product_id = p.product_id
+    WHERE c.user_id = ?;
   `;
   try {
     const cartItems = await jjanbariQuery(selectQuery, [userId]);
