@@ -10,7 +10,7 @@ const HeaderPages = () => {
   // 세션 스토리지에서 isLoggedIn 및 user_id 값 가져오기
   const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
   const userId = sessionStorage.getItem('user_id');
-  const userCash = sessionStorage.getItem('user_cash');
+  console.log('HeaderPages 내 isLoggedIn:', isLoggedIn);
 
   const handleLogout = () => {
     // 로그아웃 시 세션 스토리지에서 값 제거
@@ -29,7 +29,6 @@ const HeaderPages = () => {
           <>
             <span>{`${userId}님`}</span>
             <button onClick={handleLogout}>로그아웃</button>
-            <span>{`money:${userCash}`}</span>
           </>
         ) : (
           // 로그아웃 상태인 경우
