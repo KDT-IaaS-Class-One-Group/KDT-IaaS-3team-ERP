@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../../Layout/Header/User/HeaderPages/LoginStatus/isLoggedIn';
 import { Product, Category } from '../interface/interface';
+import handleAddToCart from './function/handleAddToCart';
 
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -77,12 +78,7 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
         <label>나이:</label>
         {ageCategories.map((age) => (
           <div key={age.age_id}>
-            <input
-              type="checkbox"
-              id={`age-${age.age_id}`}
-              checked={selectedAges.includes(age.age_id)}
-              onChange={() => handleAgeCheckboxChange(age.age_id)}
-            />
+            <input type="checkbox" id={`age-${age.age_id}`} checked={selectedAges.includes(age.age_id)} onChange={() => handleAgeCheckboxChange(age.age_id)} />
             <label htmlFor={`age-${age.age_id}`}>{age.age_name}</label>
           </div>
         ))}
@@ -112,6 +108,8 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
               <p>가격: {product.price}</p>
               <p>수량: {product.quantity}</p>
               <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
+              <button onClick={() => handleAddToCart(product, navigate)}>장바구니</button>
+              <button>좋아요</button>
               <button onClick={() => handleBuy(product)}>구매</button>
             </div>
           </div>
