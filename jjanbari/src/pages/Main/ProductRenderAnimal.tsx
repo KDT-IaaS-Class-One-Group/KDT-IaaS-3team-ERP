@@ -16,10 +16,11 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
     fetch('/categories')
       .then((response) => response.json())
       .then((data) => {
-        setAgeCategories(data.ageCategories);
+        const filteredAges = category === 'dog' ? data.ageCategories.slice(0, 2) : data.ageCategories.slice(2);
+        setAgeCategories(filteredAges);
         setFunctionalCategories(data.functionalCategories);
       });
-  }, []);
+  }, [category]);
 
   useEffect(() => {
     // selectedAges와 selectedFunctionals를 쿼리 파라미터로 추가하여 서버에 전송합니다.
