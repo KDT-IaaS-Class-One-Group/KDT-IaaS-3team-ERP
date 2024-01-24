@@ -5,13 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import handlePurchase from '../function/HandlePurchase';
 import { User, Product } from '../../interface/interface';
 import { useAuth } from '../../../Auth/AuthContext';
-
-type CartItem = {
-  product_id: number;
-  name: string;
-  quantity: number;
-  price: number;
-};
+import { CartItem } from '../../interface/interface';
 
 const PaymentPage = () => {
   const [address, setAddress] = useState('');
@@ -145,16 +139,17 @@ const PaymentPage = () => {
         <h2>총 가격: {calculateTotalPrice()}</h2>
         <button onClick={handleBuy}>결제하기</button>
       </div>
-        <h2>배송 정보</h2>
-        <label>주소: </label>
-        <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-        <br />
-        <label>상세주소: </label>
-        <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
-        <br />
-        <label>연락처: </label>
-        <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-      </div>
-  )};
-        
+      <h2>배송 정보</h2>
+      <label>주소: </label>
+      <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+      <br />
+      <label>상세주소: </label>
+      <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
+      <br />
+      <label>연락처: </label>
+      <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+    </div>
+  );
+};
+
 export default PaymentPage;
