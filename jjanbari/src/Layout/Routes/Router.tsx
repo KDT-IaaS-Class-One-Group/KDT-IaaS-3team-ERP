@@ -9,6 +9,7 @@ import Mypage from '../../pages/Mypage/Mypage';
 import MainPage from '../../pages/Main/MainPage';
 import { DogPage } from '../../pages/Main/DogCatPage';
 import { CatPage } from '../../pages/Main/DogCatPage';
+import ProductDetailPage from '../../pages/Main/ProductDetailPage';
 
 import './Router.css';
 
@@ -38,6 +39,7 @@ const Router = () => {
       <Route path="/" element={<MainPage />}></Route>
       <Route path="/dog" element={<DogPage />}></Route>
       <Route path="/cat" element={<CatPage />}></Route>
+      <Route path="/product/:productId" element={<ProductDetailPage />} />
 
       {/* 결제페이지 */}
       <Route path="/payment" element={<PaymentPage />}></Route>
