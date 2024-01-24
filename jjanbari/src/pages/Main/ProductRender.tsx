@@ -18,7 +18,8 @@ const ProductRender = () => {
   }, [state]);
 
   const handleBuy = async (product: Product) => {
-    const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
+    const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as // 이부분 오류
+    HTMLInputElement).value);
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
     if (state) {
