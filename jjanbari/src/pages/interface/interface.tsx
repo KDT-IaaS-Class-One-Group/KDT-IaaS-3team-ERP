@@ -1,10 +1,11 @@
+import CartPage from '../Mypage/Cart/CartPage';
 interface Product {
   product_id: number;
   name: string;
   price: number;
   quantity: number;
   img: string;
-};
+}
 
 interface AnimalCategory {
   animal_id: number;
@@ -32,19 +33,27 @@ interface User {
   user_name: string;
 }
 
-interface UserProfiles  {
+interface UserProfiles {
   user_num: number;
   user_id: string;
   user_pw: string;
-  user_name: string;
+  user_name: string; 
   user_cash: number;
-};
-
-interface Category {
-  age_id: number,
-  functional_id: number,
-  age_name: string,
-  functional_name: string
 }
 
-export {Product, LoginFormData, User, UserProfiles, AnimalCategory, AgeCategory, FunctionalCategory, Category}
+interface Category {
+  age_id: number;
+  functional_id: number;
+  age_name: string;
+  functional_name: string;
+}
+
+interface CartItem {
+  product_id: number;
+  name: string;
+  quantity: number;
+  price: number;
+  img: string;
+}
+
+export { Product, LoginFormData, User, UserProfiles, AnimalCategory, AgeCategory, FunctionalCategory, Category, CartItem };
