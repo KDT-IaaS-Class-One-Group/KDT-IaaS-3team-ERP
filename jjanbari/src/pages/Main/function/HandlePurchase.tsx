@@ -1,7 +1,7 @@
 // src/pages/Main/function/HandlePurchase.tsx
 import { Product } from "../../interface/interface";
 
-const handlePurchase = async (selectedProduct: Product, setSelectedProduct: React.Dispatch<React.SetStateAction<Product | undefined>>): Promise<boolean> => {
+const handlePurchase = async (selectedProduct: Product, setSelectedProduct: React.Dispatch<React.SetStateAction<Product | undefined>>, userId: string | null): Promise<boolean> => {
   if (!selectedProduct.product_id) {
     alert('상품 ID가 없습니다');
     return false;
@@ -13,7 +13,7 @@ const handlePurchase = async (selectedProduct: Product, setSelectedProduct: Reac
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ quantity: selectedProduct.quantity }),
+      body: JSON.stringify({ quantity: selectedProduct.quantity, userId: userId }),
     });
 
     if (response.ok) {

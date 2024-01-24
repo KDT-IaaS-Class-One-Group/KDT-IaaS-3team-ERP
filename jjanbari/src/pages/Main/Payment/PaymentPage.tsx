@@ -5,13 +5,20 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import handlePurchase from '../function/HandlePurchase';
 import { User, Product } from '../../interface/interface';
 import { useAuth } from '../../../Auth/AuthContext';
-import { CartItem } from '../../interface/interface';
+
+type CartItem = {
+  product_id: number;
+  name: string;
+  quantity: number;
+  price: number;
+};
 
 const PaymentPage = () => {
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [user, setUser] = useState<User | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [productImages, setProductImages] = useState<{ [key: number]: string }>({});
   const { state } = useAuth();
@@ -40,15 +47,10 @@ const PaymentPage = () => {
 
     fetchData();
 
-    const stateData = location.state;
-    if (stateData) {
-      if (stateData.selectedProduct) {
-        const selectedProduct = stateData.selectedProduct as Product;
-        setCartItems([selectedProduct]);
-      } else if (stateData.cartItems) {
-        const cartItemsFromCartPage = stateData.cartItems as CartItem[];
-        setCartItems(cartItemsFromCartPage);
-      }
+    const selectedProductFromState = location.state?.selectedProduct as Product | undefined;
+    if (selectedProductFromState) {
+      setSelectedProduct(selectedProductFromState);
+      setCartItems([{ ...selectedProductFromState }]);
     }
   }, [location.state]);
 
@@ -87,7 +89,8 @@ const PaymentPage = () => {
           //함수를 사용하여 CartItem을 Product 객체로 변환
           const product = convertToProduct(cartItem);
           //handlePurchase 함수를 호출하여 상품의 수량 감소 처리
-          const purchaseSuccess = await handlePurchase(product, () => {});
+          const userId = sessionStorage.getItem('user_id');
+          const purchaseSuccess = await handlePurchase(product, () => {}, userId);
           if (!purchaseSuccess) {
             throw new Error(`상품 '${product.name}' 수량 감소 실패`);
           }
@@ -106,7 +109,6 @@ const PaymentPage = () => {
           }
 
           // 결제가 완료된 상품을 장바구니에서 삭제
-          const userId = sessionStorage.getItem('user_id');
           await fetch(`/cart/${userId}/${product.product_id}`, {
             method: 'DELETE',
           });
@@ -126,28 +128,28 @@ const PaymentPage = () => {
     <div id="container">
       <h1>결제 페이지</h1>
       <div>
-        {cartItems.map((item, index) => (
-          <div key={index}>
-            <img src={productImages[item.product_id] || 'placeholder.jpg'} alt={item.name} style={{ width: '100px', height: '100px' }} />
-            <h3>{item.name}</h3>
-            <p>가격: {item.price}</p>
-            <p>수량: {item.quantity}</p>
+        {selectedProduct ? (
+          <div>
+            <img src={selectedProduct.img} alt={selectedProduct.name} style={{ width: '100px', height: '100px' }} />
+            <h3>{selectedProduct.name}</h3>
+            <p>가격: {selectedProduct.price}</p>
+            <p>수량: {selectedProduct.quantity}</p>
           </div>
-        ))}
+        ) : null}
+        <div>
+          <h2>총 가격: {selectedProduct ? selectedProduct.price * selectedProduct.quantity : 0}</h2>
+          <button onClick={handleBuy}>결제하기</button>
+        </div>
+        <h2>배송 정보</h2>
+        <label>주소: </label>
+        <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+        <br />
+        <label>상세주소: </label>
+        <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
+        <br />
+        <label>연락처: </label>
+        <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </div>
-      <div>
-        <h2>총 가격: {calculateTotalPrice()}</h2>
-        <button onClick={handleBuy}>결제하기</button>
-      </div>
-      <h2>배송 정보</h2>
-      <label>주소: </label>
-      <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-      <br />
-      <label>상세주소: </label>
-      <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
-      <br />
-      <label>연락처: </label>
-      <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
     </div>
   );
 };
