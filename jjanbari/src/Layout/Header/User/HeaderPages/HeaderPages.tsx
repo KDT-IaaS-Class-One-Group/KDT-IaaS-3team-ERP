@@ -10,7 +10,6 @@ const HeaderPages = () => {
   // 세션 스토리지에서 isLoggedIn 및 user_id 값 가져오기
   const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
   const userId = sessionStorage.getItem('user_id');
-  console.log('HeaderPages 내 isLoggedIn:', isLoggedIn);
 
   const handleLogout = () => {
     // 로그아웃 시 세션 스토리지에서 값 제거

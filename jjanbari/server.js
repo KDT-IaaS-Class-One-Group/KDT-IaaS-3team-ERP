@@ -137,6 +137,24 @@ app.get('/products', async (req, res) => {
   }
 });
 
+app.get('/product/:productId', async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+    const product = await jjanbariQuery('SELECT product_id, name, price, quantity, img FROM products WHERE product_id = ?', [productId]);
+
+    if (product.length === 0) {
+      // 상품이 존재하지 않는 경우에 대한 처리
+      res.status(404).json({ success: false, error: '상품을 찾을 수 없습니다.' });
+    } else {
+      res.json(product[0]);
+    }
+  } catch (error) {
+    console.error('Error during fetching product details:', error.message);
+    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
+  }
+});
+
 // 서버 코드에 강아지와 고양이 카테고리에 해당하는 상품 가져오는 API 추가
 app.get('/products/:category', async (req, res) => {
   const category = req.params.category;
