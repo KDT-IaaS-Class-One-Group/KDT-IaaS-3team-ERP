@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// CartItem 타입을 수정하여 product 필드 대신 직접 필요한 정보를 포함시킵니다.
-type CartItem = {
-  product_id: number;
-  name: string;
-  img: string | null;
-  quantity: number;
-  price: number;
-};
+import { CartItem } from '../../interface/interface';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
