@@ -220,6 +220,10 @@ app.put('/products/purchase/:id', async (req, res) => {
 
     // 상품 수량 업데이트
     await jjanbariQuery('UPDATE products SET quantity = quantity - ? WHERE product_id = ?', [quantity, id]);
+    
+    // 사용자의 cash 업데이트
+    await jjanbariQuery('UPDATE users SET user_cash = user_cash - ? WHERE user_id = ?', [price * quantity, userId])
+    
     res.json({ success: true, message: '구매가 완료되었습니다.' });
   } catch (error) {
     console.error('Error during purchase:', error.message);
