@@ -203,6 +203,7 @@ app.get('/admin/products', async (req, res) => {
 app.put('/products/purchase/:id', async (req, res) => {
   const { id } = req.params;
   const { quantity } = req.body; // 구매할 수량
+  const userId = req.body.userId; // 사용자 ID
 
   try {
     // 상품 정보를 먼저 조회
