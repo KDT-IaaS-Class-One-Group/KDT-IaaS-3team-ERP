@@ -1,5 +1,5 @@
 /* src/index.css */
-
+@import url(./pages/Mypage/Cart/CartPage.css);
 * {
   margin: 0;
   padding: 0;
@@ -36,13 +36,12 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 20vh;;
+  margin-top: 20vh;
 }
 
 h1 {
   font-size: 2rem;
 }
-
 
 #footer {
   width: 100vw;
