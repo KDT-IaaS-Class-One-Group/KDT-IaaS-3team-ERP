@@ -15,7 +15,7 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-// 회원 가입 라우트
+// 회원 가입 api
 app.post('/signup', async (req, res) => {
   try {
     const { userID, userPW, userNAME } = req.body;
@@ -35,7 +35,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// 로그인 라우트
+// 로그인 api
 app.post('/login', async (req, res) => {
   try {
     const { userID, userPW } = req.body;
@@ -66,7 +66,6 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, error: '로그인에 실패했습니다. 다시 시도해주세요.' });
   }
 });
-
 
 app.use('/uploads', express.static('uploads'));
 
@@ -100,29 +99,25 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
     if (existingProducts.length > 0) {
       // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트
       const existingProduct = existingProducts[0];
-      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [
-        quantity,
-        existingProduct.id,
-      ]);
+      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.id]);
     } else {
       // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가
-      const insertProductResult = await jjanbariQuery(
-        'INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [name, price, quantity, img, animalCategory, ageCategory, functionalCategory]
-      );
+      const insertProductResult = await jjanbariQuery('INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+        name,
+        price,
+        quantity,
+        img,
+        animalCategory,
+        ageCategory,
+        functionalCategory,
+      ]);
 
       const productId = insertProductResult.insertId;
 
       // 각각의 연결 테이블에도 데이터 추가
-      await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [
-        productId,
-        animalCategory,
-      ]);
+      await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
       await jjanbariQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
-      await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [
-        productId,
-        functionalCategory,
-      ]);
+      await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
     }
 
     res.json({ success: true, message: '제품 등록 완료' });
@@ -145,8 +140,8 @@ app.get('/products', async (req, res) => {
 // 서버 코드에 강아지와 고양이 카테고리에 해당하는 상품 가져오는 API 추가
 app.get('/products/:category', async (req, res) => {
   const category = req.params.category;
-  const ageFilter = req.query.age;  // 나이 카테고리를 쿼리 파라미터로 받습니다.
-  const functionalFilter = req.query.functional;  // 기능 카테고리를 쿼리 파라미터로 받습니다.
+  const ageFilter = req.query.age; // 나이 카테고리를 쿼리 파라미터로 받습니다.
+  const functionalFilter = req.query.functional; // 기능 카테고리를 쿼리 파라미터로 받습니다.
 
   try {
     let query = `
@@ -183,7 +178,7 @@ app.get('/categories', async (req, res) => {
   try {
     // 나이 카테고리 조회
     const ageCategories = await jjanbariQuery('SELECT age_id, age_name FROM age_categories');
-    
+
     // 기능 카테고리 조회
     const functionalCategories = await jjanbariQuery('SELECT functional_id, functional_name FROM functional_categories');
 
@@ -235,12 +230,7 @@ app.put('/admin/products/:id', async (req, res) => {
   const { name, price, quantity } = req.body;
 
   try {
-    await jjanbariQuery('UPDATE products SET name = ?, price = ?, quantity = ? WHERE product_id = ?', [
-      name,
-      price,
-      quantity,
-      id,
-    ]);
+    await jjanbariQuery('UPDATE products SET name = ?, price = ?, quantity = ? WHERE product_id = ?', [name, price, quantity, id]);
     res.json({ success: true });
   } catch (error) {
     console.error('Error during updating product:', error.message);
@@ -284,6 +274,80 @@ app.post('/payment', async (req, res) => {
   } catch (error) {
     console.error('Error during payment processing:', error.message);
     res.status(500).json({ success: false, error: '결제 처리 중 오류가 발생했습니다.' });
+  }
+});
+//cartPage API
+
+// 장바구니 목록 조회
+app.get('/cart/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  const selectQuery = `
+    SELECT c.cart_id, c.user_id, c.product_id, c.quantity, c.price, p.name, p.img
+    FROM cart c
+    INNER JOIN products p ON c.product_id = p.product_id
+    WHERE c.user_id = ?;
+  `;
+  try {
+    const cartItems = await jjanbariQuery(selectQuery, [userId]);
+    res.json(cartItems);
+  } catch (error) {
+    console.error('장바구니 목록 조회 실패:', error);
+    res.status(500).json({ success: false, error: '장바구니 목록 조회에 실패했습니다.' });
+  }
+});
+
+app.post('/cart', async (req, res) => {
+  const { userId, productId, quantity, price } = req.body; // price 값을 가져옵니다
+
+  // undefined를 null로 변환
+  const cart_price = price !== undefined ? price : null;
+
+  const insertQuery = `
+    INSERT INTO cart (user_id, product_id, quantity, price)
+    VALUES (?, ?, ?, ?);
+  `;
+  try {
+    await jjanbariQuery(insertQuery, [userId, productId, quantity, cart_price]);
+    res.json({ success: true, message: '장바구니에 상품이 추가되었습니다.' });
+  } catch (error) {
+    console.error('장바구니에 상품 추가 실패:', error);
+    res.status(500).json({ success: false, error: '장바구니에 상품 추가에 실패했습니다.' });
+  }
+});
+
+app.put('/cart/:userId/:productId', async (req, res) => {
+  const { userId } = req.params;
+  const { quantity } = req.body;
+
+  const updateQuery = `
+    UPDATE cart
+    SET quantity = ?
+    WHERE user_id = ?;
+  `;
+  try {
+    await jjanbariQuery(updateQuery, [quantity, userId]);
+    res.json({ success: true, message: '장바구니 상품 수량이 업데이트되었습니다.' });
+  } catch (error) {
+    console.error('장바구니 상품 수량 변경 실패:', error);
+    res.status(500).json({ success: false, error: '장바구니 상품 수량 변경에 실패했습니다.' });
+  }
+});
+
+// 장바구니 상품 삭제
+app.delete('/cart/:userId/:productId', async (req, res) => {
+  const { userId, productId } = req.params;
+
+  const deleteQuery = `
+    DELETE FROM cart
+    WHERE user_id = ? AND product_id = ?;
+  `;
+  try {
+    await jjanbariQuery(deleteQuery, [userId, productId]);
+    res.json({ success: true, message: '장바구니 상품이 삭제되었습니다.' });
+  } catch (error) {
+    console.error('장바구니 상품 삭제 실패:', error);
+    res.status(500).json({ success: false, error: '장바구니 상품 삭제에 실패했습니다.' });
   }
 });
 
