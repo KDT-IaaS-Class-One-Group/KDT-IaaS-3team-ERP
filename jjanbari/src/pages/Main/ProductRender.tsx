@@ -33,7 +33,7 @@ const ProductRender = () => {
     <div className="product-container">
       {products.length > 0 &&
         products.map((product) => (
-          <div className="product-item" key={product.name}>
+          <div className="product-item" key={product.name}> {/* 이 부분도 오류 */}
             <img src={product.img} alt={product.name} />
             <div className="product-details">
               <h3>{product.name}</h3>
