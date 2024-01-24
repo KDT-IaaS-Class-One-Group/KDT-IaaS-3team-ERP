@@ -18,7 +18,7 @@ const ProductRender = () => {
   }, [state]);
 
   const handleBuy = async (product: Product) => {
-    const selectedQuantity = Number((document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement).value);
+    const selectedQuantity = Number((document.getElementById(`quantity-${product.name}`) as HTMLInputElement).value);
     const selectedProduct = { ...product, quantity: selectedQuantity };
 
     if (state) {
@@ -32,7 +32,7 @@ const ProductRender = () => {
     <div className="product-container">
       {products.length > 0 &&
         products.map((product) => (
-          <div className="product-item" key={product.product_id}>
+          <div className="product-item" key={product.name}>
             <img src={product.img} alt={product.name} />
             <div className="product-details">
               <h3>{product.name}</h3>
