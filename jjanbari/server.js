@@ -213,6 +213,7 @@ app.put('/products/purchase/:id', async (req, res) => {
     }
 
     const currentQuantity = product[0].quantity;
+    const price = product[0].price;
     if (quantity > currentQuantity) {
       return res.status(400).json({ success: false, error: '재고가 부족합니다.' });
     }
