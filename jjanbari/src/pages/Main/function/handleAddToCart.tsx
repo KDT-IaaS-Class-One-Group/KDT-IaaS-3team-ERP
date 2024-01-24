@@ -4,7 +4,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { Product } from '../../interface/interface';
 
 const handleAddToCart = async (product: Product, navigate: NavigateFunction) => {
-  const quantityInput = document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement;
+  const quantityInput = document.getElementById(`quantity-${product.name}`) as HTMLInputElement;
   const selectedQuantity = quantityInput ? Number(quantityInput.value) : 0;
   const userId = sessionStorage.getItem('user_id') || 'anonymous'; // 로그인하지 않은 경우 'anonymous'
 
