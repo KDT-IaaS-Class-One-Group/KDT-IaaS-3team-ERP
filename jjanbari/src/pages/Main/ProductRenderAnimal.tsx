@@ -62,16 +62,8 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
     });
   };
 
-  const handleBuy = (product: Product) => {
-    const selectedQuantityElement = document.getElementById(`quantity-${product.name}`) as HTMLInputElement;
-    const selectedQuantity = selectedQuantityElement ? Number(selectedQuantityElement.value) : 0;
-    const selectedProduct = { ...product, quantity: selectedQuantity };
-
-    if (state) {
-      navigate('/payment', { state: { selectedProduct } });
-    } else {
-      navigate('/login');
-    }
+  const handleImageClick = (productId: number) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -80,7 +72,12 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
         <label>나이:</label>
         {ageCategories.map((age) => (
           <div key={age.age_id}>
-            <input type="checkbox" id={`age-${age.age_id}`} checked={selectedAges.includes(age.age_id)} onChange={() => handleAgeCheckboxChange(age.age_id)} />
+            <input
+              type="checkbox"
+              id={`age-${age.age_id}`}
+              checked={selectedAges.includes(age.age_id)}
+              onChange={() => handleAgeCheckboxChange(age.age_id)}
+            />
             <label htmlFor={`age-${age.age_id}`}>{age.age_name}</label>
           </div>
         ))}
@@ -103,16 +100,15 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
       {products.length > 0 &&
         products.map((product) => (
           <div className="product-item" key={product.product_id}>
-            <img src={product.img} alt={product.name} />
+            <img
+              src={product.img}
+              alt={product.name}
+              onClick={() => handleImageClick(product.product_id)} // 이미지 클릭 시 처리
+            />
             <div className="product-details">
               <h3>{product.name}</h3>
               <br></br>
               <p>가격: {product.price}</p>
-              <p>수량: {product.quantity}</p>
-              <input type="number" id={`quantity-${product.name}`} min="1" max={product.quantity} />
-              <button onClick={() => handleAddToCart(product, navigate)}>장바구니</button>
-              <button>좋아요</button>
-              <button onClick={() => handleBuy(product)}>구매</button>
             </div>
           </div>
         ))}
