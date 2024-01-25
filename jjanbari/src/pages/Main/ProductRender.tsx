@@ -10,10 +10,14 @@ const ProductRender = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('AuthContext state:', state);
     fetch('/products')
       .then((response) => response.json())
       .then((data) => setProducts(data));
   }, [state]);
+
+  
+    // console.log('Current login states:', state);
 
     const handleImageClick = (productId: number) => {
       navigate(`/product/${productId}`);

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product, Category } from '../interface/interface';
-import { useAuth } from '../../Auth/AuthContext';
-import handleAddToCart from './function/handleAddToCart';
 
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -10,7 +8,6 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [selectedFunctionals, setSelectedFunctionals] = useState<number[]>([]);
   const [ageCategories, setAgeCategories] = useState<Category[]>([]);
   const [functionalCategories, setFunctionalCategories] = useState<Category[]>([]);
-  const { state } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

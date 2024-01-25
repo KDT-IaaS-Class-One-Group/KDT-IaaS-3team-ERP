@@ -12,21 +12,29 @@ const ProductDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('AuthContext state:', state);
     fetch(`/product/${productId}`)
       .then((response) => response.json())
       .then((data) => setProduct(data));
   }, [state, productId]);
 
   const handleBuy = async (product: Product) => {
-    const selectedQuantity = Number(
-      (document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement).value
-    );
-    const selectedProduct = { ...product, quantity: selectedQuantity };
+    const selectedQuantityElement = document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement;
+    if (selectedQuantityElement) {
+      const selectedQuantity = Number(selectedQuantityElement.value);
+      const selectedProduct = { ...product, quantity: selectedQuantity };
+
+      // console.log('Current login state:', state);
   
-    if (state) {
-      navigate('/payment', { state: { selectedProduct } });
+      // 로그인 상태를 state.isAuthenticated로 확인합니다.
+      if (state.isAuthenticated) {
+        navigate('/payment', { state: { selectedProduct } });
+      } else {
+        navigate('/login');
+      }
     } else {
-      navigate('/login');
+      // 요소를 찾지 못한 경우의 오류 처리
+      console.error('Selected quantity element not found');
     }
   };
 
@@ -37,7 +45,7 @@ const ProductDetail = () => {
 
   return (
     <div className="product-container">
-      <div className="product-item" key={product.product_id}>
+      <div className="product-item" key={product.name}>
         <img src={product.img} alt={product.name} />
         <div className="product-details">
           <h3>{product.name}</h3>
