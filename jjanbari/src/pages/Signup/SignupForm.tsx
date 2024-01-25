@@ -16,12 +16,12 @@ const SignupForm: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <form onSubmit={handleSubmit(User, navigate)} className="SignupForm">
-      <input type="text" name="user_id" value={User.user_id} onChange={(e) => setUser({ ...User, user_id: e.target.value })} required />
+    <form onSubmit={handleSubmit(User, navigate)} className="signupForm">
+      <input type="text" name="user_id" placeholder="ID를 입력하세요" value={User.user_id} onChange={(e) => setUser({ ...User, user_id: e.target.value })} required />
       <br />
-      <input type="password" name="user_pw" value={User.user_pw} onChange={(e) => setUser({ ...User, user_pw: e.target.value })} required />
+      <input type="password" name="user_pw" placeholder="PASSWORD를 입력하세요" value={User.user_pw} onChange={(e) => setUser({ ...User, user_pw: e.target.value })} required />
       <br />
-      <input type="text" name="user_name" value={User.user_name} onChange={(e) => setUser({ ...User, user_name: e.target.value })} required />
+      <input type="text" name="user_name" placeholder="사용할 닉네임을 입력하세요" value={User.user_name} onChange={(e) => setUser({ ...User, user_name: e.target.value })} required />
       <br />
       <button type="submit">가입하기</button>
     </form>

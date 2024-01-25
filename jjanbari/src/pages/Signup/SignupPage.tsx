@@ -8,7 +8,7 @@ const SignupPage = () => {
   return (
     <div id="container">
       <div className="signupContainer">
-        <h1>회원 가입 페이지</h1>
+        <h1>Sign up</h1>
         <SignupForm />
       </div>
     </div>
