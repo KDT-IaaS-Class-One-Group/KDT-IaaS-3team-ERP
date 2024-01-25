@@ -32,24 +32,30 @@ const LoginForm: React.FC = () => {
           <button onClick={handleLogout}>로그아웃</button>
         </div>
       ) : (
-        <form onSubmit={handleSubmitCallback} className="LoginForm">
-          <label>
-            아이디:
-            <input type="text" name="user_id" value={loginFormData.user_id} onChange={handleInputChange(loginFormData, setLoginFormData)} required />
-          </label>
+        <form onSubmit={handleSubmitCallback} className="loginForm">
+          <input
+            type="text"
+            name="user_id"
+            placeholder="ID"
+            value={loginFormData.user_id}
+            onChange={handleInputChange(loginFormData, setLoginFormData)}
+            required
+          />
           <br />
-          <label>
-            비밀번호:
-            <input type="password" name="user_pw" value={loginFormData.user_pw} onChange={handleInputChange(loginFormData, setLoginFormData)} required />
-          </label>
+          <input
+            type="password"
+            name="user_pw"
+            placeholder="PASSWORD"
+            value={loginFormData.user_pw}
+            onChange={handleInputChange(loginFormData, setLoginFormData)}
+            required
+          />
           <br />
+          <button type="submit">로그인</button>
           <div>
-            <button className="sign">
-              <Link to="/signup" className="sign">
-                회원가입
-              </Link>
-            </button>
-            <button type="submit">로그인</button>
+            <Link to="/signup" className='sign'>
+              회원가입
+            </Link>
           </div>
         </form>
       )}

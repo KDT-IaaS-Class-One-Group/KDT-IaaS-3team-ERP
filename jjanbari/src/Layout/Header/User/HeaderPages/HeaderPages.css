@@ -12,7 +12,8 @@
   border: 2px solid lightgray;
 }
 
-.loginStatus {
+.pages,
+.loginStatus{
   display: flex;
   align-items: center;
   gap: 10px; /* 로그인 상태와 로그아웃 버튼 사이 간격 */

@@ -8,8 +8,10 @@ import './LoginPage.css';
 const LoginPage = () => {
   return (
     <div id="container">
-      <h1>로그인 페이지</h1>
-      <LoginForm />
+      <div className="loginContainer">
+        <h1>Login</h1>
+        <LoginForm />
+      </div>
     </div>
   );
 };

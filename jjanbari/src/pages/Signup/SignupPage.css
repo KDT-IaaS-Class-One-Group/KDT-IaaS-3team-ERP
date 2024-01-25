@@ -1,8 +1,43 @@
 /* src/pages/Signup/SignupPage.css */
 
-.SignupForm {
+.signupContainer {
+  height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;  
+}
+
+.signupForm {
   display: flex;
   flex-direction: column;
   align-items: end;
   margin: 2rem;
+}
+
+.signupForm> input {
+  width: 350px;
+  height: 50px;
+  border: none;
+  border-bottom: 0.6px solid #ddd;
+  margin-bottom: 2rem;
+  padding: 10px;
+  transition: 0.5s ease; 
+}
+
+.signupForm> input:focus {
+  border-bottom:0.6px solid #353535;
+  transition: 0.5s ease; 
+  outline:none;
+}
+
+.signupForm> button {
+  width: 350px;
+  height: 50px;
+  background-color: #ffa500 ;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  padding: 10px;
+  cursor: pointer;
 }
