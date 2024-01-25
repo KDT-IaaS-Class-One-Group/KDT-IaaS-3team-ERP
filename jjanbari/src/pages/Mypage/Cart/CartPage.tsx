@@ -86,44 +86,55 @@ const CartPage = () => {
       <div className="cart-page">
         <div className="cart-list">
           <div className="cart-name">
-            <p>이미지</p>
-            <p>상품이름</p>
-            <p>가격</p>
-            <p>수량</p>
-            <p></p>
+            <p> 상품 이미지 </p>
+            <p> 상품 이름 </p>
+            <p> 상품 가격 </p>
+            <p> 상품 수량</p>
+            <p>총 가격</p>
             <p>삭제</p>
           </div>
           {cartItems.length > 0 ? (
-            cartItems.map((item) => (
-              <div className="cart-item" key={item.product_id}>
-                <img src={item.img || 'placeholder.jpg'} className="image" alt={item.name || '이미지 없음'} />
-                <div className="cart-item-detail">
-                  <h3>{item.name}</h3>
+            cartItems.map((item) => {
+              const itemTotalPrice = item.price * item.quantity; // 아이템별 총 가격 계산
+              return (
+                <div className="cart-item" key={item.product_id}>
+                  <img src={item.img || 'placeholder.jpg'} className="image" alt={item.name || '이미지 없음'} />
+                  <div className="cart-item-detail">
+                    <h3>{item.name}</h3>
+                  </div>
+                  <div className="cart-item-detail">
+                    <p>{item.price}</p>
+                  </div>
+                  <div className="cart-item-detail">
+                    <p>{item.quantity}</p>
+                  </div>
+                  <div className="cart-item-detail">
+                    <input type="number" value={item.quantity} min="1" max={item.quantity} onChange={(e) => handleQuantityChange(e, item.product_id)} />
+                  </div>
+                  <div className="cart-item-detail">
+                    <p>{itemTotalPrice}</p>
+                  </div>
+                  <div className="cart-item-detail">
+                    <button className="cart-button" onClick={() => handleDeleteClick(item.product_id)}>
+                      삭제
+                    </button>
+                  </div>
                 </div>
-                <div className="cart-item-detail">
-                  <p>{item.price}</p>
-                </div>
-                <div className="cart-item-detail">
-                  <p>{item.quantity}</p>
-                </div>
-                <div className="cart-item-detail">
-                  <input type="number" value={item.quantity} min="1" max={item.quantity} onChange={(e) => handleQuantityChange(e, item.quantity)} />
-                </div>
-                <div className="cart-item-detail">
-                  <button onClick={() => handleDeleteClick(item.product_id)}>삭제</button>
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <p>장바구니에 담긴 상품이 없습니다.</p>
           )}
         </div>
         <div className="cart-summary">
           <p>총 가격: {totalPrice}</p>
-          <button onClick={handleCheckoutClick}>결제하기</button>
+          <button className="cart-button" onClick={handleCheckoutClick}>
+            결제하기
+          </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default CartPage;
