@@ -36,7 +36,7 @@ const LoginForm: React.FC = () => {
           <input
             type="text"
             name="user_id"
-            placeholder="ID를 입력하세요"
+            placeholder="ID"
             value={loginFormData.user_id}
             onChange={handleInputChange(loginFormData, setLoginFormData)}
             required
@@ -45,7 +45,7 @@ const LoginForm: React.FC = () => {
           <input
             type="password"
             name="user_pw"
-            placeholder="PW를 입력하세요"
+            placeholder="PASSWORD"
             value={loginFormData.user_pw}
             onChange={handleInputChange(loginFormData, setLoginFormData)}
             required
