@@ -25,7 +25,7 @@ const ProductDetail = () => {
       const selectedProduct = { ...product, quantity: selectedQuantity };
 
       // console.log('Current login state:', state);
-  
+
       // 로그인 상태를 state.isAuthenticated로 확인합니다.
       if (state.isAuthenticated) {
         navigate('/payment', { state: { selectedProduct } });
@@ -51,7 +51,14 @@ const ProductDetail = () => {
           <h3>{product.name}</h3>
           <p>가격: {product.price}</p>
           <p>수량: {product.quantity}</p>
-          <input type="number" id={`quantity-${product.product_id}`} min="1" max={product.quantity} />
+          <input
+            type="number"
+            id={`quantity-${product.product_id}`}
+            className="quantity-input"
+            min="1"
+            max={product.quantity}
+            defaultValue="1" // 기본값 설정
+          />
           <button onClick={() => handleAddToCart(product, navigate)}>장바구니</button>
           <button>좋아요</button>
           <button onClick={() => handleBuy(product)}>구매</button>
