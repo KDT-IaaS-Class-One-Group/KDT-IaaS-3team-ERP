@@ -1,5 +1,4 @@
 // src/pages/Login/LoginForm.tsx
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../Auth/AuthContext';
@@ -13,17 +12,16 @@ const LoginForm: React.FC = () => {
     user_pw: '',
   });
   const navigate = useNavigate();
-  const { state, login, logout } = useAuth(); 
-
-  const handleLogin = () => {
-    // 로그인 로직 처리
-    const user = { username: loginFormData.user_id }; // 로그인 시 필요한 유저 정보를 정의
-    login(user);
-  };
+  const { state, logout, login } = useAuth(); 
 
   const handleLogout = () => {
     // 로그아웃 로직 처리
     logout();
+  };
+
+  // handleSubmit 함수에 login 함수 전달
+  const handleSubmitCallback = (e: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit(loginFormData, navigate, login)(e);
   };
 
   return (
@@ -34,7 +32,7 @@ const LoginForm: React.FC = () => {
           <button onClick={handleLogout}>로그아웃</button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit(loginFormData, navigate)} className="LoginForm">
+        <form onSubmit={handleSubmitCallback} className="LoginForm">
           <label>
             아이디:
             <input
