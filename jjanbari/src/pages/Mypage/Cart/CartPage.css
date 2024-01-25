@@ -1,15 +1,18 @@
+#container {
+  width: 80vw; /* 또는 원하는 너비로 설정 */
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
 .cart-page {
-  width: 80vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* 센터 정렬을 위해 추가 */
+  padding: 20px;
+  border-radius: 10px; /* 모서리 둥글게 */
 }
 
 .cart-list,
 .cart-summary {
-  width: 100%; /* 컨테이너에 맞게 조정 */
-  border: 3px solid black;
-  border-top: none; /* 첫 번째 항목 외에는 상단 테두리를 제거 */
+  overflow: hidden;
 }
 
 .cart-name,
@@ -17,97 +20,60 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px; /* 좌우 패딩을 주어 내용이 테두리에 닿지 않도록 함 */
-  background-color: black; /* .cart-name에만 적용되어야 함 */
-  color: white; /* .cart-name에만 적용되어야 함 */
+  width: 100%; /* 자식 요소들이 부모의 전체 너비를 사용하도록 설정 */
 }
 
 .cart-name {
-  background-color: black;
-  color: white;
+  background-color: #f7f7f7;
+  font-weight: bold;
+  padding: 10px 30px;
 }
 
 .cart-item {
-  background-color: white; /* 배경색 초기화 */
-  color: black; /* 글자색 초기화 */
+  border-bottom: 1px solid #e1e1e1;
+  padding: 10 30px; /* 여백 추가 */
 }
 
-.cart-item:nth-child(odd) {
-  background-color: #f2f2f2; /* 각 항목을 구분하기 위해 홀수 항목에만 배경색 적용 */
+.image {
+  width: 100px;
+  height: 100px;
 }
-
-
 
 .cart-item-detail {
-  flex: 1;
   text-align: center;
+  padding: 0 10px; /* 가로 내부 여백 조정 */
 }
 
 .cart-item-detail input {
-  width: 50px;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
 }
 
-.cart-item-detail button {
-  padding: 5px 10px;
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #e1e1e1;
 }
 
-.cart-name p:first-child,
-.cart-item div:first-child {
-  flex: 0 0 120px; /* 이미지 칼럼의 너비를 약간 더 넓게 설정 */
+.cart-button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.cart-name p:nth-child(2),
-.cart-item div:nth-child(2) {
-  flex: 3; /* 이름 칼럼을 더 넓게 설정 */
-}
-
-.cart-name p:nth-child(3),
-.cart-item div:nth-child(3),
-.cart-name p:nth-child(4),
-.cart-item div:nth-child(4) {
-  flex: 1;
-}
-
- .cart-name p:last-child,
- .cart-item div:last-child {
-  flex: 0 0 50px; 
-}
-/* 총 가격 스타일 */
-.cart-summary p {
-  font-size: 1.5em; /* 글씨 크기를 더 크게 설정 */
-  font-weight: bold; /* 글씨를 두껍게 설정 */
-}
-
-/* 헤더 정렬 스타일 */
-.cart-name p {
-  flex: 1; /* 각 항목에 동일한 공간을 할당 */
-  text-align: center; /* 텍스트를 중앙 정렬 */
-}
-
-.cart-name p:first-child {
-  flex: 0 0 120px; /* 이미지 칼럼의 너비를 고정 */
-  text-align: left; /* 첫 번째 항목(이미지)은 왼쪽 정렬 */
-}
-
-.cart-name p:last-child {
-  flex: 0 0 50px; /* 삭제 버튼 칼럼의 너비를 고정 */
-  text-align: center; /* 삭제 텍스트도 중앙 정렬 */
-}
-
-/* 항목 정렬 스타일 */
-.cart-item div {
-  flex: 1; /* 각 항목에 동일한 공간을 할당 */
-  text-align: center; /* 텍스트를 중앙 정렬 */
-}
-
-.cart-item div:first-child {
-  flex: 0 0 120px; /* 이미지 칼럼의 너비를 고정 */
-  text-align: left; /* 첫 번째 항목(이미지)은 왼쪽 정렬 */
-}
-
-
-/* 이미지 크기 스타일 */
-.image {
-  width: 100px; /* 이미지의 너비 고정 */
-  height: 100px; /* 이미지의 높이를 자동으로 설정하여 비율 유지 */
+.cart-button:hover {
+  background-color: #45a049;
 }
