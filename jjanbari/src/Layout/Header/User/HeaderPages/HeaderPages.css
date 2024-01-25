@@ -9,6 +9,7 @@
   padding: 0 20px; /* 양옆 패딩으로 여백 추가 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 상단에 그림자 효과 */
   background-color: #f5f5f5; /* 배경색 설정 */
+  border: 2px solid lightgray;
 }
 
 .loginStatus {
@@ -40,9 +41,11 @@
   margin: 0 10px; /* 링크 좌우 마진 */
   font-size: 16px; /* 링크 폰트 크기 */
   transition: color 0.3s ease; /* 부드러운 색상 전환 효과 */
+  text-decoration: none;
 }
 
 .pages > a:hover {
+  font-weight: bold;
   color: #ffa500; /* 호버 시 색상 변경 */
   text-decoration: none; /* 호버 시 밑줄 제거 */
 }
