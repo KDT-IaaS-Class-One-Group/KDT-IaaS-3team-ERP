@@ -122,31 +122,54 @@ const PaymentPage = () => {
     }
   };
 
+  // PaymentPage 컴포넌트 내부
+
   return (
     <div id="container">
       <h1>결제 페이지</h1>
-      <div>
-        {cartItems.map((item, index) => (
-          <div key={index}>
-            <img src={productImages[item.product_id] || 'placeholder.jpg'} alt={item.name} style={{ width: '100px', height: '100px' }} />
-            <h3>{item.name}</h3>
-            <p>가격: {item.price}</p>
-            <p>수량: {item.quantity}</p>
+      <div className="cart-page">
+        <div className="cart-list">
+          <div className="cart-name">
+            <p> 상품 이미지 </p>
+            <p> 상품 이름 </p>
+            <p> 상품 가격 </p>
+            <p> 상품 수량</p>
+            <p>총 가격</p> {/* 결제 페이지에선 이 칸이 필요 없을 수 있음 */}
           </div>
-        ))}
+          {cartItems.map((item, index) => (
+            <div className="cart-item" key={index}>
+              <img src={productImages[item.product_id] || 'placeholder.jpg'} className="image" alt={item.name} />
+              <div className="cart-item-detail">
+                <h3>{item.name}</h3>
+              </div>
+              <div className="cart-item-detail">
+                <p>{item.price}</p>
+              </div>
+              <div className="cart-item-detail">
+                <p>{item.quantity}</p>
+              </div>
+              <div className="cart-item-detail">
+                <p>{item.price * item.quantity}</p> {/* 총 가격 계산 */}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="delivery-info">
+          <h2>배송 정보</h2>
+          <label>주소:</label>
+          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+          <label>상세주소:</label>
+          <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
+          <label>연락처:</label>
+          <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+        </div>
+        <div className="cart-summary">
+          <p>총 가격: {calculateTotalPrice()}</p>
+          <button className="cart-button" onClick={handleBuy}>
+            결제하기
+          </button>
+        </div>
       </div>
-      <div></div>
-      <h2>배송 정보</h2>
-      <label>주소: </label>
-      <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-      <br />
-      <label>상세주소: </label>
-      <input type="text" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
-      <br />
-      <label>연락처: </label>
-      <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-      <h2>총 가격: {calculateTotalPrice()}</h2>
-      <button onClick={handleBuy}>결제하기</button>
     </div>
   );
 };
