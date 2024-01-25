@@ -9,7 +9,7 @@ const LoginPage = () => {
   return (
     <div id="container">
       <div className="loginContainer">
-        <h1>로그인 페이지</h1>
+        <h1>Login</h1>
         <LoginForm />
       </div>
     </div>
