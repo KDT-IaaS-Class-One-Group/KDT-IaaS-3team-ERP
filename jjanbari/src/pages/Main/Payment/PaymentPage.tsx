@@ -135,10 +135,7 @@ const PaymentPage = () => {
           </div>
         ))}
       </div>
-      <div>
-        <h2>총 가격: {calculateTotalPrice()}</h2>
-        <button onClick={handleBuy}>결제하기</button>
-      </div>
+      <div></div>
       <h2>배송 정보</h2>
       <label>주소: </label>
       <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
@@ -148,6 +145,8 @@ const PaymentPage = () => {
       <br />
       <label>연락처: </label>
       <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+      <h2>총 가격: {calculateTotalPrice()}</h2>
+      <button onClick={handleBuy}>결제하기</button>
     </div>
   );
 };
