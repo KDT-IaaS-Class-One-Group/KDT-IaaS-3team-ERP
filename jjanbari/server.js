@@ -203,7 +203,7 @@ app.get('/admin/products', async (req, res) => {
 app.put('/products/purchase/:id', async (req, res) => {
   const { id } = req.params;
   const { quantity } = req.body; // 구매할 수량
-  const { userId } = req.body.userId; // 사용자 ID
+  // const { userId } = req.body.userId; // 사용자 ID
 
   try {
     // 상품 정보를 먼저 조회
@@ -213,27 +213,27 @@ app.put('/products/purchase/:id', async (req, res) => {
     }
 
     const currentQuantity = product[0].quantity;
-    const price = product[0].price;
+    // const price = product[0].price;
     if (quantity > currentQuantity) {
       return res.status(400).json({ success: false, error: '재고가 부족합니다.' });
     }
 
-    // 사용자의 현금을 먼저 조회
-    const user = await jjanbariQuery('SELECT user_cash FROM users WHERE user_id = ?', [userId]);
-    if (user.length === 0) {
-      return res.status(404).json({ success: false, error: '사용자를 찾을 수 없습니다.' });
-    }
+    // // 사용자의 현금을 먼저 조회
+    // const user = await jjanbariQuery('SELECT user_cash FROM users WHERE user_id = ?', ['root']);
+    // if (user.length === 0) {
+    //   return res.status(404).json({ success: false, error: '사용자를 찾을 수 없습니다.' });
+    // }
 
-    const currentCash = user[0].user_cash;
-    if (price * quantity > currentCash) {
-      return res.status(400).json({ success: false, error: '현금이 부족합니다.' });
-    }
+    // const currentCash = user[0].user_cash;
+    // if (price * quantity > currentCash) {
+    //   return res.status(400).json({ success: false, error: '현금이 부족합니다.' });
+    // }
     
     // 상품 수량 업데이트
     await jjanbariQuery('UPDATE products SET quantity = quantity - ? WHERE product_id = ?', [quantity, id]);
     
-    // 사용자의 cash 업데이트
-    await jjanbariQuery('UPDATE users SET user_cash = user_cash - ? WHERE user_id = ?', [price * quantity, userId])
+    // // 사용자의 cash 업데이트
+    // await jjanbariQuery('UPDATE users SET user_cash = user_cash - ? WHERE user_id = ?', [price * quantity, 'root'])
     
     res.json({ success: true, message: '구매가 완료되었습니다.' });
   } catch (error) {
