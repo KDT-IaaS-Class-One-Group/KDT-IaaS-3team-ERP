@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartItem } from '../../interface/interface';
+import { useAuth } from '../../../Auth/AuthContext'; // AuthContext import
 
 const CartPage = () => {
+  const { state: authState } = useAuth(); // 사용자 정보 가져오기
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = sessionStorage.getItem('user_id');
+    const userId = authState.user?.username; // 사용자 ID 가져오기
 
     if (userId) {
       fetch(`http://localhost:3001/cart/${userId}`)
@@ -33,7 +35,7 @@ const CartPage = () => {
           console.error('장바구니 데이터 로딩 중 오류 발생:', error);
         });
     }
-  }, []);
+  }, [authState.user]); // useEffect의 의존성 배열에 authState.user 추가
 
   const calculateTotalPrice = (items: CartItem[]) => {
     let sum = 0;
