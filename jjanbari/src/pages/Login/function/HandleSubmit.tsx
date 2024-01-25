@@ -1,8 +1,7 @@
 // src/pages/Login/function/HandleSubmit.tsx
-
 import { FormEvent } from 'react';
 
-const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<HTMLFormElement>) => {
+const handleSubmit = (loginFormData: any, navigate: any, login: any) => async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   // 필수 필드 확인
@@ -27,9 +26,8 @@ const handleSubmit = (loginFormData: any, navigate: any) => async (e: FormEvent<
       // 로그인 성공
       console.log('로그인 성공.');
 
-      // 세션 스토리지에 user_id와 isLoggedIn 저장
-      sessionStorage.setItem('user_id', loginFormData.user_id);
-      sessionStorage.setItem('isLoggedIn', 'true');
+      // AuthContext를 사용하여 전역 상태 업데이트
+      login({ username: loginFormData.user_id });
 
       // user_id가 'adroot'이면 /admin으로 이동, 그 외에는 /으로 이동
       navigate(loginFormData.user_id === 'adroot' ? '/admin' : '/');
