@@ -316,35 +316,52 @@ app.get('/cart/:userId', async (req, res) => {
 });
 
 app.post('/cart', async (req, res) => {
-  const { userId, productId, quantity, price } = req.body; // price 값을 가져옵니다
+  const { userId, productId, quantity, price } = req.body;
 
-  // undefined를 null로 변환
-  const cart_price = price !== undefined ? price : null;
-
-  const insertQuery = `
-    INSERT INTO cart (user_id, product_id, quantity, price)
-    VALUES (?, ?, ?, ?);
+  // 먼저 동일한 product_id를 가진 상품이 장바구니에 있는지 확인합니다.
+  const checkQuery = `
+    SELECT quantity FROM cart
+    WHERE user_id = ? AND product_id = ?;
   `;
   try {
-    await jjanbariQuery(insertQuery, [userId, productId, quantity, cart_price]);
-    res.json({ success: true, message: '장바구니에 상품이 추가되었습니다.' });
+    const existingProducts = await jjanbariQuery(checkQuery, [userId, productId]);
+    if (existingProducts.length > 0) {
+      // 이미 상품이 있을 경우 수량만 업데이트합니다.
+      const totalQuantity = existingProducts[0].quantity + quantity;
+      const updateQuery = `
+        UPDATE cart
+        SET quantity = ?
+        WHERE user_id = ? AND product_id = ?;
+      `;
+      await jjanbariQuery(updateQuery, [totalQuantity, userId, productId]);
+      res.json({ success: true, message: '장바구니 상품의 수량이 업데이트되었습니다.' });
+    } else {
+      // 장바구니에 상품이 없을 경우 새로운 항목을 추가합니다.
+      const insertQuery = `
+        INSERT INTO cart (user_id, product_id, quantity, price)
+        VALUES (?, ?, ?, ?);
+      `;
+      await jjanbariQuery(insertQuery, [userId, productId, quantity, price]);
+      res.json({ success: true, message: '장바구니에 상품이 추가되었습니다.' });
+    }
   } catch (error) {
-    console.error('장바구니에 상품 추가 실패:', error);
-    res.status(500).json({ success: false, error: '장바구니에 상품 추가에 실패했습니다.' });
+    console.error('장바구니 업데이트 실패:', error);
+    res.status(500).json({ success: false, error: '장바구니 업데이트에 실패했습니다.' });
   }
 });
 
+
 app.put('/cart/:userId/:productId', async (req, res) => {
-  const { userId } = req.params;
+  const { userId, productId } = req.params;
   const { quantity } = req.body;
 
   const updateQuery = `
     UPDATE cart
     SET quantity = ?
-    WHERE user_id = ?;
+    WHERE user_id = ? AND product_id = ?;
   `;
   try {
-    await jjanbariQuery(updateQuery, [quantity, userId]);
+    await jjanbariQuery(updateQuery, [quantity, userId, productId]);
     res.json({ success: true, message: '장바구니 상품 수량이 업데이트되었습니다.' });
   } catch (error) {
     console.error('장바구니 상품 수량 변경 실패:', error);
