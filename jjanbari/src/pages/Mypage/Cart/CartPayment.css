@@ -1,14 +1,12 @@
 /* Container for the entire page */
 #container {
-  max-width: 90vw; /* Adjust the max-width as needed */
   margin: 0 auto; /* Center the container */
   padding: 20px;
   overflow-y: auto; /* Add scroll for overflow */
 }
 
 /* Cart and payment page styling */
-.cart-page,
-.payment-page {
+.cart-page {
   border: 1px solid #f2f2f2; /* Soft border color */
   border-radius: 8px; /* Rounded corners */
   padding: 20px;
@@ -17,8 +15,7 @@
 }
 
 /* Style for the headers in the cart and payment page */
-.cart-name,
-.payment-header {
+.cart-name {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
@@ -28,8 +25,7 @@
 }
 
 /* Style for each item in the cart */
-.cart-item,
-.payment-item {
+.cart-item {
   display: flex;
   justify-content: space-between;
   padding: 15px 0;
@@ -43,18 +39,15 @@
 }
 
 /* Detail styling for text and inputs */
-.cart-item-detail,
-.payment-detail {
-  flex: 1;
+.cart-item-detail {
   text-align: center;
-  margin: 0 10px;
+  margin: 0 30px;
 }
 
 /* Input field styling */
-.cart-item-detail input,
-.payment-detail input {
+.cart-item-detail input {
   width: 60px; /* Width of input fields */
-  padding: 5px;
+  /* padding: 5px; */
   text-align: center;
   margin-right: 10px; /* Spacing to the right */
 }
@@ -78,8 +71,7 @@ button:hover {
 }
 
 /* Summary and total price styling */
-.cart-summary,
-.payment-summary {
+.cart-summary {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
@@ -110,35 +102,10 @@ button:hover {
 h1 {
   font-size: 24px;
   margin-bottom: 20px;
-  color: #ffa500; /* Orange text for headers */
 }
 
 /* Make sure your total price and button in cart-summary have larger font */
 .cart-summary .total-price,
 .cart-summary button {
   font-size: 20px;
-}
-
-/* Ensure consistency in the payment page */
-.payment-page .total-price,
-.payment-page button {
-  font-size: 20px;
-}
-
-/* Optional: Add responsiveness to your page for better mobile viewing */
-@media (max-width: 768px) {
-  #container {
-    max-width: 95vw;
-  }
-
-  .cart-item-detail,
-  .payment-detail {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .cart-item-detail input,
-  .payment-detail input {
-    margin: 10px 0;
-  }
 }
