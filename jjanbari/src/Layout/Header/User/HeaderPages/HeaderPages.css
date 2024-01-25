@@ -9,7 +9,8 @@
 }
 
 
-.pages{
+.pages,
+.loginStatus{
   display: flex;
   align-items: center;
 }
