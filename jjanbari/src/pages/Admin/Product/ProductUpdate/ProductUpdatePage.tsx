@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Product } from '../../../interface/interface';
+import './ProductUpdatePage.css'
 
 const ProductUpdatePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -86,9 +87,9 @@ const ProductUpdatePage = () => {
   return (
     <div id="container">
       <h1>상품 수정</h1>
-      <table>
+      <table className="table-container">
         <thead>
-          <tr>
+          <tr className="table-header">
             <th>ID</th>
             <th>상품명</th>
             <th>가격</th>
@@ -99,11 +100,12 @@ const ProductUpdatePage = () => {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.product_id}>
+            <tr key={product.product_id} className="table-row">
               <td>{product.product_id}</td>
               <td>
                 {editingProductId === product.product_id ? (
                   <input
+                    className="input-field"
                     value={updatedProduct?.name || ''}
                     onChange={(e) => setUpdatedProduct((prev) => {
                       if (prev) {
@@ -120,6 +122,7 @@ const ProductUpdatePage = () => {
               <td>
                 {editingProductId === product.product_id ? (
                   <input
+                    className="input-field"
                     value={updatedProduct?.price?.toString() || ''}
                     onChange={(e) => setUpdatedProduct((prev) => {
                       if (prev) {
@@ -136,6 +139,7 @@ const ProductUpdatePage = () => {
               <td>
                 {editingProductId === product.product_id ? (
                   <input
+                    className="input-field"
                     value={updatedProduct?.quantity?.toString() || ''}
                     onChange={(e) => setUpdatedProduct((prev) => {
                       if (prev) {
@@ -151,13 +155,13 @@ const ProductUpdatePage = () => {
               </td>
               <td>
                 {editingProductId === product.product_id ? (
-                  <button onClick={handleUpdateSubmit}>확인</button>
+                  <button className="action-button" onClick={handleUpdateSubmit}>확인</button>
                 ) : (
-                  <button onClick={() => handleUpdate(product.product_id)}>수정</button>
+                  <button className="action-button" onClick={() => handleUpdate(product.product_id)}>수정</button>
                 )}
               </td>
               <td>
-                <button onClick={() => handleDelete(product.product_id)}>삭제</button>
+                <button className="action-button" onClick={() => handleDelete(product.product_id)}>삭제</button>
               </td>
             </tr>
           ))}
