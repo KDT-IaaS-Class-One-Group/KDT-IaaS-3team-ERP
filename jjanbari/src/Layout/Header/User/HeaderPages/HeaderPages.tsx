@@ -1,22 +1,17 @@
 // src/Layout/Header/User/HeaderPages/HeaderPages.tsx
-
 import "./HeaderPages.css";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../Auth/AuthContext";
 
 const HeaderPages = () => {
   const navigate = useNavigate();
-
-  // 세션 스토리지에서 isLoggedIn 및 user_id 값 가져오기
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-  const userId = sessionStorage.getItem('user_id');
-  console.log('HeaderPages 내 isLoggedIn:', isLoggedIn);
+  const { state, logout } = useAuth();
 
   const handleLogout = () => {
-    // 로그아웃 시 세션 스토리지에서 값 제거
-    sessionStorage.removeItem('isLoggedIn');
-    sessionStorage.removeItem('user_id');
-    
+    // AuthContext에서 로그아웃 처리
+    logout();
+
     // 로그아웃 후 로그인 페이지로 이동
     navigate("/login");
   };
@@ -24,10 +19,10 @@ const HeaderPages = () => {
   return (
     <div className="headerPages">
       <div className="loginStatus">
-        {isLoggedIn ? (
+        {state.isAuthenticated ? (
           // 로그인 상태인 경우
           <>
-            <span>{`${userId}님`}</span>
+            <span>{`${state.user?.username}님`}</span>
             <button onClick={handleLogout}>로그아웃</button>
           </>
         ) : (
@@ -37,33 +32,9 @@ const HeaderPages = () => {
       </div>
 
       <div className="pages">
-        <Link
-          to={isLoggedIn ? "/cart" : "/login"}
-          onClick={(event) => {
-            event.preventDefault();
-            navigate(isLoggedIn ? "/cart" : "/login");
-          }}
-        >
-          장바구니
-        </Link>
-        <Link
-          to={isLoggedIn ? "/like" : "/login"}
-          onClick={(event) => {
-            event.preventDefault();
-            navigate(isLoggedIn ? "/like" : "/login");
-          }}
-        >
-          좋아요
-        </Link>
-        <Link
-          to={isLoggedIn ? "/mypage" : "/login"}
-          onClick={(event) => {
-            event.preventDefault();
-            navigate(isLoggedIn ? "/mypage" : "/login");
-          }}
-        >
-          마이페이지
-        </Link>{" "}
+        <Link to={state.isAuthenticated ? "/cart" : "/login"}>장바구니</Link>
+        <Link to={state.isAuthenticated ? "/like" : "/login"}>좋아요</Link>
+        <Link to={state.isAuthenticated ? "/mypage" : "/login"}>마이페이지</Link>
       </div>
     </div>
   );
