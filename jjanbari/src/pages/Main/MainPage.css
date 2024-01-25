@@ -64,14 +64,13 @@
 }
 
 .product-price {
-  font-size: 1rem; /* 가격 폰트 크기 /
-color: #007bff; / 가격 색상 */
+  font-size: 1rem; /* 가격 폰트 크기 */
+  color: #007bff; /* 가격 색상 */
   margin: 0.3rem 0;
 }
 
 .product-quantity {
-  font-size: 0.9rem; /* 수량 폰트 크기 /
-color: #28a745; / 수량 색상 */
+  font-size: 0.9rem; /* 수량 폰트 크기 */
   margin: 0.3rem 0;
 }
 
@@ -97,4 +96,17 @@ h2,
 h3,
 p {
   margin-bottom: 0.5rem; /* 텍스트 간격 설정 */
+}
+
+.quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 수량 텍스트와 인풋 사이의 간격 */
+  margin-bottom: 20px; /* 여백 추가 */
+}
+
+.quantity-input {
+  width: 50px; /* 너비 조정 */
+  padding: 5px; /* 패딩 조정 */
+  text-align: center;
 }
