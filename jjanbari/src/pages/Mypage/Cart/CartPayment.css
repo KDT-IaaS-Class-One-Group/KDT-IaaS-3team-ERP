@@ -1,0 +1,144 @@
+/* Container for the entire page */
+#container {
+  max-width: 90vw; /* Adjust the max-width as needed */
+  margin: 0 auto; /* Center the container */
+  padding: 20px;
+  overflow-y: auto; /* Add scroll for overflow */
+}
+
+/* Cart and payment page styling */
+.cart-page,
+.payment-page {
+  border: 1px solid #f2f2f2; /* Soft border color */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px;
+  background-color: #fff; /* White background for the content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Style for the headers in the cart and payment page */
+.cart-name,
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 2px solid #ffa500; /* Orange border for headers */
+  font-weight: bold;
+  background-color: #fff7e6; /* Light orange background */
+}
+
+/* Style for each item in the cart */
+.cart-item,
+.payment-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #f2f2f2; /* Light border for separation */
+}
+
+/* Image styling within the cart and payment page */
+.image {
+  width: 120px; /* Adjust width as needed */
+  height: auto; /* Keep the aspect ratio */
+}
+
+/* Detail styling for text and inputs */
+.cart-item-detail,
+.payment-detail {
+  flex: 1;
+  text-align: center;
+  margin: 0 10px;
+}
+
+/* Input field styling */
+.cart-item-detail input,
+.payment-detail input {
+  width: 60px; /* Width of input fields */
+  padding: 5px;
+  text-align: center;
+  margin-right: 10px; /* Spacing to the right */
+}
+
+/* Button styling for the cart and payment page */
+button {
+  background-color: #ffa500; /* Orange background */
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e69500; /* Darker orange on hover */
+}
+
+/* Summary and total price styling */
+.cart-summary,
+.payment-summary {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px; /* Larger font size for total price */
+}
+
+/* Adjust the total price font size as needed */
+.total-price {
+  font-weight: bold;
+  color: #ffa500; /* Orange text for total price */
+}
+
+/* Styles for the delivery address section */
+.delivery-info {
+  margin-top: 30px; /* Space from the summary section */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels and inputs for delivery info */
+.delivery-info label,
+.delivery-info input {
+  margin-bottom: 10px;
+}
+
+/* Larger font size for headers like 'Payment Page' and 'Cart' */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #ffa500; /* Orange text for headers */
+}
+
+/* Make sure your total price and button in cart-summary have larger font */
+.cart-summary .total-price,
+.cart-summary button {
+  font-size: 20px;
+}
+
+/* Ensure consistency in the payment page */
+.payment-page .total-price,
+.payment-page button {
+  font-size: 20px;
+}
+
+/* Optional: Add responsiveness to your page for better mobile viewing */
+@media (max-width: 768px) {
+  #container {
+    max-width: 95vw;
+  }
+
+  .cart-item-detail,
+  .payment-detail {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cart-item-detail input,
+  .payment-detail input {
+    margin: 10px 0;
+  }
+}
