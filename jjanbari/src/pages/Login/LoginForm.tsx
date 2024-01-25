@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
     user_pw: '',
   });
   const navigate = useNavigate();
-  const { state, logout, login } = useAuth(); 
+  const { state, logout, login } = useAuth();
 
   const handleLogout = () => {
     // 로그아웃 로직 처리
@@ -35,32 +35,20 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmitCallback} className="LoginForm">
           <label>
             아이디:
-            <input
-              type="text"
-              name="user_id"
-              value={loginFormData.user_id}
-              onChange={handleInputChange(loginFormData, setLoginFormData)}
-              required
-            />
+            <input type="text" name="user_id" value={loginFormData.user_id} onChange={handleInputChange(loginFormData, setLoginFormData)} required />
           </label>
           <br />
           <label>
             비밀번호:
-            <input
-              type="password"
-              name="user_pw"
-              value={loginFormData.user_pw}
-              onChange={handleInputChange(loginFormData, setLoginFormData)}
-              required
-            />
+            <input type="password" name="user_pw" value={loginFormData.user_pw} onChange={handleInputChange(loginFormData, setLoginFormData)} required />
           </label>
           <br />
           <div>
-            <div className="signup">
-              <Link to="/signup" className='sign'>
+            <button className="sign">
+              <Link to="/signup" className="sign">
                 회원가입
               </Link>
-            </div>
+            </button>
             <button type="submit">로그인</button>
           </div>
         </form>
