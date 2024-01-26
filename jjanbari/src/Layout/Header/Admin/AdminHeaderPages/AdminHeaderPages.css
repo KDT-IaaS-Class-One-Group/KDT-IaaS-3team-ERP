@@ -48,15 +48,3 @@
   position: absolute;
   right: 1rem;
 }
-
-/* .adminHeaderPages:hover + .adminSideHeaderPages { 
-  display: flex;
-  height: 5vh;
-  transition: 0.5s ease;
-} */
-
-/* .adminSideHeaderPages:hover{
-  display: flex;
-  height: 5vh;
-  transition: 0.5s ease;
-} */

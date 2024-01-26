@@ -1,18 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import './Mypage.css'
+
 const Mypage = () => {
   return (
     <div id="container">
-      <Link to="/order">
-        <h1>주문목록</h1>
-      </Link>
-      <Link to="/delivery">
-        <h1>배송조회</h1>
-      </Link>
-      <Link to="/withdraw">
-        <h1>회원 탈퇴 페이지</h1>
-      </Link>
+      <div className='mypage-container'>
+        <Link to="/order" style={{ textDecoration: "none"}}>
+          <div className='mypage-item'>
+            <div className='orderImage'></div>
+            <p>주문목록</p>
+          </div>
+        </Link>
+        <Link to="/delivery" style={{ textDecoration: "none"}}>
+          <div className='mypage-item'>
+            <div className='deliveryImage'></div>
+            <p>배송조회</p>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };
