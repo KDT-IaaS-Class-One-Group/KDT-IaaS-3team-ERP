@@ -83,36 +83,39 @@ const PaymentPage = () => {
   const handleBuy = async () => {
     if (state) {
       try {
+        // 각 상품에 대한 비동기 작업을 순차적으로 처리
         for (const cartItem of cartItems) {
-          //함수를 사용하여 CartItem을 Product 객체로 변환
           const product = convertToProduct(cartItem);
-          //handlePurchase 함수를 호출하여 상품의 수량 감소 처리
           const purchaseSuccess = await handlePurchase(product, () => {});
+  
           if (!purchaseSuccess) {
             throw new Error(`상품 '${product.name}' 수량 감소 실패`);
           }
-
-          // 상품별 결제 정보 서버로 전송
+  
           const paymentResponse = await fetch('/payment', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productId: product.product_id }),
+            body: JSON.stringify({ 
+              productId: product.product_id,
+              payment_date: new Date().toISOString(), // 현재 날짜 및 시간
+            }),
           });
-
+  
           if (!paymentResponse.ok) {
+            // 서버 사이드에서 오류 응답일 경우의 에러 처리
             throw new Error(`상품 '${product.name}' 결제 처리 실패`);
           }
-
-          // 결제가 완료된 상품을 장바구니에서 삭제
+  
+          // 상품 결제 후 장바구니에서 삭제
           const userId = sessionStorage.getItem('user_id');
           await fetch(`/cart/${userId}/${product.product_id}`, {
             method: 'DELETE',
           });
         }
-
-        // 모든 상품 결제 처리가 성공한 경우
+  
+        // 모든 상품 결제 처리가 성공한 경우에만 페이지 이동
         navigate('/');
       } catch (error) {
         console.error('Error during payment:', error);
@@ -121,6 +124,7 @@ const PaymentPage = () => {
       navigate('/login');
     }
   };
+  
 
   // PaymentPage 컴포넌트 내부
 

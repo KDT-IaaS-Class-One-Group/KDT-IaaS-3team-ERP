@@ -18,7 +18,7 @@ let pool = mysql.createPool({
   host: 'forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com',
   user: 'root',
   password: 'qwer1234',
-  database: 'TEST',
+  database: 'jjanbariERP',
 });
 
 // 테이블 생성 및 초기화 함수
@@ -103,15 +103,15 @@ async function initializeTables() {
 
     //payment 테이블 생성 쿼리
     await pool.query(`
-    CREATE TABLE payment (
-      payment_id INT AUTO_INCREMENT PRIMARY KEY, -- 구매 번호
-      payment_date TIMESTAMP NOT NULL, -- 구매 일시
-      sold INT NOT NULL, -- 상품 고유 번호
+    CREATE TABLE IF NOT EXISTS payment (
+      payment_id INT AUTO_INCREMENT PRIMARY KEY, -- 주문 번호
+      payment_date DATETIME DEFAULT CURRENT_TIMESTAMP, -- 구매 일시(현재 시간)
+      product_id INT NOT NULL, -- 상품 고유 번호
       payment_quantity INT NOT NULL, -- 구매 수량
       payment_price INT NOT NULL, -- 구매 가격
       user_num INT NOT NULL, -- 사용자 고유 번호
       FOREIGN KEY (user_num) REFERENCES users(user_num),
-      FOREIGN KEY (sold) REFERENCES products(product_id)
+      FOREIGN KEY (product_id) REFERENCES products(product_id)
   );
   `);
 
@@ -141,20 +141,26 @@ initializeTables();
 
 // productQuery 함수 정의
 async function jjanbariQuery(sql, params) {
-  // 쿼리 실행 전에 연결 상태 체크
-  if (pool._closed) {
-    console.error('Pool is closed. Reconnecting...');
-    // 연결이 닫혔다면 새로운 연결 생성
-    pool = mysql.createPool({
-      host: 'forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com',
-      user: 'root',
-      password: 'qwer1234',
-      database: databaseName,
-    });
-  }
+  try {
+    // 쿼리 실행 전에 연결 상태 체크
+    if (pool._closed) {
+      console.error('Pool is closed. Reconnecting...');
+      // 연결이 닫혔다면 새로운 연결 생성
+      pool = mysql.createPool({
+        host: 'forteam3.c9kusawuiwxh.ap-northeast-2.rds.amazonaws.com',
+        user: 'root',
+        password: 'qwer1234',
+        database: databaseName,
+      });
+    }
 
-  const [rows] = await pool.execute(sql, params);
-  return rows;
+    const [rows] = await pool.execute(sql, params);
+    return rows;
+  } catch (error) {
+    // 연결이 닫혔을 때 예외 처리
+    console.error('Error during database query:', error);
+    throw new Error('Database query failed');
+  }
 }
 
 // query 함수 내보내기
