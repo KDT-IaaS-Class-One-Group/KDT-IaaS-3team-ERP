@@ -16,7 +16,7 @@ const AdminHeaderPages = () => {
           <Link to="/userManagement">유저 관리</Link>
         </li>
         <li>
-          <Link to="/statistics">통계 처리</Link>
+          <Link to="/admin">통계 처리</Link>
         </li>
       </ul>
       <Link to="/" className="main">
