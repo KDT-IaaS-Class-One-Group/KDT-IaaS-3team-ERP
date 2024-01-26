@@ -8,7 +8,7 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const userId = authState.user?.username; // 사용자 ID 가져오기
 
@@ -46,7 +46,7 @@ const CartPage = () => {
   };
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, productId: number) => {
     const newQuantity = Number(e.target.value);
-    const userId = sessionStorage.getItem('user_id');
+    const userId = authState.user?.username; // 수정된 부분
 
     if (userId) {
       fetch(`http://localhost:3001/cart/${userId}/${productId}`, {
@@ -64,7 +64,7 @@ const CartPage = () => {
   };
 
   const handleDeleteClick = (productId: number) => {
-    const userId = sessionStorage.getItem('user_id');
+    const userId = authState.user?.username; // 수정된 부분
     if (userId) {
       fetch(`http://localhost:3001/cart/${userId}/${productId}`, {
         method: 'DELETE',
