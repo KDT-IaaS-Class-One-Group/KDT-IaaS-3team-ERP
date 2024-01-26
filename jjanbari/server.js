@@ -289,10 +289,7 @@ app.post('/payment', async (req, res) => {
   try {
     // payment 테이블에 기록
     await jjanbariQuery('INSERT INTO payment (sold) VALUES (?)', [productId]);
-
-    // 결제가 완료되면서 date 컬럼에 현재 시간 업데이트
-    await jjanbariQuery('UPDATE payment SET date = NOW() WHERE product_id = ?', [productId]);
-
+    
     res.json({ success: true, message: '결제가 완료되었습니다.' });
   } catch (error) {
     console.error('Error during payment processing:', error.message);
