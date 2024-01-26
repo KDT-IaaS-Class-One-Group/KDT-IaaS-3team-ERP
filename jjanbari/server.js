@@ -289,9 +289,7 @@ app.post('/payment', async (req, res) => {
   try {
     await jjanbariQuery('START TRANSACTION');
     await jjanbariQuery('INSERT INTO payment (sold) VALUES (?)', [productId]);
-    await jjanbariQuery('UPDATE payment SET date = NOW() WHERE product_id = ?', [productId]);
-    await jjanbariQuery('COMMIT');
-
+    
     res.json({ success: true, message: '결제가 완료되었습니다.' });
   } catch (error) {
     console.error('Error during payment processing:', error.message);
