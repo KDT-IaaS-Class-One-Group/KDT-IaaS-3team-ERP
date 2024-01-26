@@ -68,9 +68,9 @@ async function initializeDatabase() {
         animal_id INT,
         age_id INT,
         functional_id INT,
-        FOREIGN KEY (animal_id) REFERENCES animal_categories(animal_id),
-        FOREIGN KEY (age_id) REFERENCES age_categories(age_id),
-        FOREIGN KEY (functional_id) REFERENCES functional_categories(functional_id)   
+        FOREIGN KEY (animal_id) REFERENCES animal_categories(animal_id) ON DELETE CASCADE,
+        FOREIGN KEY (age_id) REFERENCES age_categories(age_id) ON DELETE CASCADE,
+        FOREIGN KEY (functional_id) REFERENCES functional_categories(functional_id) ON DELETE CASCADE  
       );
     `);
 

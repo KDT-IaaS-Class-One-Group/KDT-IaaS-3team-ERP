@@ -260,6 +260,9 @@ app.delete('/admin/products/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
+    await jjanbariQuery('DELETE FROM age_products WHERE product_id = ?', [id]);
+    await jjanbariQuery('DELETE FROM animal_products WHERE product_id = ?', [id]);
+    await jjanbariQuery('DELETE FROM functional_products WHERE product_id = ?', [id]);
     await jjanbariQuery('DELETE FROM products WHERE product_id = ?', [id]);
     res.json({ success: true });
   } catch (error) {
