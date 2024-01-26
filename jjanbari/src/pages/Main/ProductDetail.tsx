@@ -21,7 +21,8 @@ const ProductDetail = () => {
   const handleAddToCart = async (product: Product, navigate: NavigateFunction) => {
     const quantityInput = document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement;
     const selectedQuantity = quantityInput ? Number(quantityInput.value) : 0;
-    const userId = sessionStorage.getItem('user_id') || 'anonymous'; // 로그인하지 않은 경우 'anonymous'
+    const userId = state.user?.username; // 사용자 ID 가져오기
+    // 로그인하지 않은 경우 'anonymous'
   
     if (!state || !state.isAuthenticated) {
       // 로그인되어 있지 않을 경우, 로그인 페이지로 이동
