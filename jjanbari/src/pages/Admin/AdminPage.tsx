@@ -35,17 +35,19 @@ const AdminPage = () => {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>아이디</th>
                 <th>회원이름</th>
+                <th>이메일</th>
+                <th>전화번호</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
                 <tr key={user.user_num}>
-                  <td>{user.user_num}</td>
                   <td>{user.user_id}</td>
                   <td>{user.user_name}</td>
+                  <td>user@example.com</td>
+                  <td>010-0000-0000</td>
                 </tr>
               ))}
             </tbody>
