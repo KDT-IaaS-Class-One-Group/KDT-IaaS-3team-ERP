@@ -32,8 +32,8 @@ const UserProfilesPage = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>UserID</th>
-            <th>UserName</th>
+            <th>아이디</th>
+            <th>회원이름</th>
           </tr>
         </thead>
         <tbody>
