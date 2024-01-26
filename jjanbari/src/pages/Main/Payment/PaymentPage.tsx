@@ -7,7 +7,9 @@ import { User, Product } from '../../interface/interface';
 import { useAuth } from '../../../Auth/AuthContext';
 import { CartItem } from '../../interface/interface';
 
+// PaymentPage 컴포넌트 정의
 const PaymentPage = () => {
+  // 상태(State) 변수들 정의
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [phone, setPhone] = useState('');
@@ -16,25 +18,26 @@ const PaymentPage = () => {
   const [productImages, setProductImages] = useState<{ [key: number]: string }>({});
   const { state } = useAuth();
 
+  // React Router의 navigate 함수와 현재 페이지 정보 가져오기
   const navigate = useNavigate();
   const location = useLocation();
 
+  // 컴포넌트가 처음 로드될 때와 location.state가 변경될 때에 데이터를 가져오는 useEffect 정의
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 로그인한 사용자의 정보를 가져옵니다.
+        // 로그인한 사용자의 정보 가져오기
         const userDataResponse = await fetch('/users');
         const userData = await userDataResponse.json();
         setUser(userData);
 
-        // location.state에서 장바구니 상품 목록을 가져옵니다.
+        // location.state에서 장바구니 상품 목록 가져오기
         const itemsFromState = location.state?.cartItems as CartItem[] | undefined;
         if (itemsFromState) {
           setCartItems(itemsFromState);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
-        // 에러 처리
       }
     };
 
@@ -52,8 +55,8 @@ const PaymentPage = () => {
     }
   }, [location.state]);
 
+  // 상품 이미지 URL을 가져오는 로직을 정의
   useEffect(() => {
-    // 상품 이미지 URL을 가져오는 로직
     cartItems.forEach((item) => {
       fetch(`/products/${item.product_id}`)
         .then((response) => response.json())
@@ -64,12 +67,15 @@ const PaymentPage = () => {
     });
   }, [cartItems]);
 
-  //cartItems 배열을 순회하면서 각 항목의 cart_price와 cart_quantity를 곱하여 총 가격을 계산합니다.
+  //cartItems 배열을 순회하면서 각 항목의 cart_price와 cart_quantity를 곱하여 총 가격을 계산
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  //CartItem 타입의 객체를 Product 타입으로 변환합니다. 이 과정에선 해당 상품의 이미지 URL을 가져옵니다.
+  /** 
+   * CartItem을 Product로 변환하는 함수 정의 
+   * 여기서는 해당 상품의 이미지 URL을 가져옴
+  */
   const convertToProduct = (cartItem: CartItem): Product => {
     return {
       product_id: cartItem.product_id,
@@ -80,6 +86,7 @@ const PaymentPage = () => {
     };
   };
 
+  // 결제 버튼을 클릭하면 실행되는 함수 정의
   const handleBuy = async () => {
     if (state) {
       try {
@@ -97,9 +104,11 @@ const PaymentPage = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
               productId: product.product_id,
               payment_date: new Date().toISOString(), // 현재 날짜 및 시간
+              payment_quantity: cartItem.quantity,
+              payment_price: cartItem.price * cartItem.quantity,
             }),
           });
   
@@ -125,9 +134,9 @@ const PaymentPage = () => {
     }
   };
   
+  
 
   // PaymentPage 컴포넌트 내부
-
   return (
     <div id="container">
       <h1>결제 페이지</h1>

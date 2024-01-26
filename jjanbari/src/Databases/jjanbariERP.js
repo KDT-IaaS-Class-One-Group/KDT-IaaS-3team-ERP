@@ -112,7 +112,7 @@ async function initializeTables() {
       user_num INT NOT NULL, -- 사용자 고유 번호
       FOREIGN KEY (user_num) REFERENCES users(user_num),
       FOREIGN KEY (product_id) REFERENCES products(product_id)
-  );
+    );
   `);
 
     //cart 테이블 생성 쿼리

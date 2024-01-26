@@ -284,13 +284,16 @@ app.get('/users', async (req, res) => {
 
 //결제 버튼 클릭시 post 요청으로 구매한 날짜 구매한 상품 보내기
 app.post('/payment', async (req, res) => {
-  const { productId, payment_date } = req.body;
+  const { productId, payment_date, payment_quantity, payment_price } = req.body;
 
   try {
     await jjanbariQuery('INSERT INTO payment (product_id, payment_date, payment_quantity, payment_price) VALUES (?, ?, ?, ?)', [
       productId,
-      payment_date
+      new Date().toISOString(),  // 현재 날짜 및 시간을 문자열로 변환
+      payment_quantity,
+      payment_price,
     ]);
+    
 
     res.json({ success: true, message: '결제가 완료되었습니다.' });
   } catch (error) {
