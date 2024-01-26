@@ -74,6 +74,10 @@
   margin: 0.3rem 0;
 }
 
+.product-remained {
+  font-size: 12px;
+}
+
 @media (max-width: 768px) {
   .product-container {
     justify-content: center; /* 화면이 작아질 때는 중앙 정렬 */

@@ -103,8 +103,10 @@ const ProductDetail = () => {
         <div className="product-details">
           <h3>{product.name}</h3>
           <p>가격: {product.price}</p>
-          <p>수량: {product.quantity}</p>
-          <input type="number" id={`quantity-${product.product_id}`} min="1" max={product.quantity} />
+          <p>
+            수량: <input type="number" id={`quantity-${product.product_id}`} min="1" max={product.quantity} />
+            <span className="product-remained">재고 수량: {product.quantity}</span>
+          </p>
           <button onClick={() => handleAddToCart(product, navigate)}>장바구니</button>
           <button>좋아요</button>
           <button onClick={() => handleBuy(product)}>구매</button>
