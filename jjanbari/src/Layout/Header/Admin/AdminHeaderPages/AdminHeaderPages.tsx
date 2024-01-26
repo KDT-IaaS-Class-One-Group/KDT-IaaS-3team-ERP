@@ -7,9 +7,9 @@ const AdminHeaderPages = () => {
     <div className="adminHeaderPages">
       <ul>
         <li>
-          <Link to="/productManagement" className="productManagement">
+          <div className="productManagement">
             상품 관리
-          </Link>
+          </div>
           <AdminSideHeaderPages />
         </li>
         <li>

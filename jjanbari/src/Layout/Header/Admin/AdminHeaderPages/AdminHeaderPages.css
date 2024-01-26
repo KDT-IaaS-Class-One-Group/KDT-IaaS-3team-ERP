@@ -23,6 +23,16 @@
   font-weight: bold;
 }
 
+.adminHeaderPages div {
+  text-decoration: none;
+  color: white;
+  margin-left: 1rem;
+}
+
+.adminHeaderPages li:hover > div {
+  font-weight: bold;
+}
+
 .adminHeaderPages li:hover > ul,
 .adminHeaderPages li > ul:hover {
   display: flex;
@@ -48,15 +58,3 @@
   position: absolute;
   right: 1rem;
 }
-
-/* .adminHeaderPages:hover + .adminSideHeaderPages { 
-  display: flex;
-  height: 5vh;
-  transition: 0.5s ease;
-} */
-
-/* .adminSideHeaderPages:hover{
-  display: flex;
-  height: 5vh;
-  transition: 0.5s ease;
-} */
