@@ -52,24 +52,6 @@
   margin-right: 10px; /* Spacing to the right */
 }
 
-/* Button styling for the cart and payment page */
-button {
-  background-color: #ffa500; /* Orange background */
-  border: none;
-  color: white;
-  padding: 10px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #e69500; /* Darker orange on hover */
-}
-
 /* Summary and total price styling */
 .cart-summary {
   margin-top: 20px;
