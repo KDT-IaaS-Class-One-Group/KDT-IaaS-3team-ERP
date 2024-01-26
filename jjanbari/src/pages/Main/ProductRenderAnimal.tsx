@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product, Category } from '../interface/interface';
+import './ProductCategories.css'
 
 const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -65,50 +66,52 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
 
   return (
     <div className="product-container">
-      <div>
-        <label>나이:</label>
-        {ageCategories.map((age) => (
-          <div key={age.age_id}>
-            <input
-              type="checkbox"
-              id={`age-${age.age_id}`}
-              checked={selectedAges.includes(age.age_id)}
-              onChange={() => handleAgeCheckboxChange(age.age_id)}
-            />
-            <label htmlFor={`age-${age.age_id}`}>{age.age_name}</label>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <label>기능:</label>
-        {functionalCategories.map((functional) => (
-          <div key={functional.functional_id}>
-            <input
-              type="checkbox"
-              id={`functional-${functional.functional_id}`}
-              checked={selectedFunctionals.includes(functional.functional_id)}
-              onChange={() => handleFunctionalCheckboxChange(functional.functional_id)}
-            />
-            <label htmlFor={`functional-${functional.functional_id}`}>{functional.functional_name}</label>
-          </div>
-        ))}
-      </div>
-      {products.length > 0 &&
-        products.map((product) => (
-          <div className="product-item" key={product.product_id}>
-            <img
-              src={product.img}
-              alt={product.name}
-              onClick={() => handleImageClick(product.product_id)} // 이미지 클릭 시 처리
-            />
-            <div className="product-details">
-              <h3>{product.name}</h3>
-              <br></br>
-              <p>가격: {product.price}</p>
+      <div className="category-container">
+        <div className='category'>
+          <br />
+          <label>나이:</label>
+          {ageCategories.map((age) => (
+            <div key={age.age_id}>
+              <input
+                type="checkbox"
+                id={`age-${age.age_id}`}
+                checked={selectedAges.includes(age.age_id)}
+                onChange={() => handleAgeCheckboxChange(age.age_id)}
+              />
+              <label htmlFor={`age-${age.age_id}`}>{age.age_name}</label>
             </div>
-          </div>
-        ))}
+          ))}
+          <br />
+          <br />
+          <label>기능:</label>
+          {functionalCategories.map((functional) => (
+            <div key={functional.functional_id}>
+              <input
+                type="checkbox"
+                id={`functional-${functional.functional_id}`}
+                checked={selectedFunctionals.includes(functional.functional_id)}
+                onChange={() => handleFunctionalCheckboxChange(functional.functional_id)}
+              />
+              <label htmlFor={`functional-${functional.functional_id}`}>{functional.functional_name}</label>
+            </div>
+          ))}
+        </div>
+        {products.length > 0 &&
+          products.map((product) => (
+            <div className="product-item" key={product.product_id}>
+              <img
+                src={product.img}
+                alt={product.name}
+                onClick={() => handleImageClick(product.product_id)} // 이미지 클릭 시 처리
+              />
+              <div className="product-details">
+                <h3>{product.name}</h3>
+                <br></br>
+                <p>가격: {product.price}</p>
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

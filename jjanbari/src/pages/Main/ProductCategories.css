@@ -1,0 +1,31 @@
+.category-container {
+  display: flex;
+}
+
+.category-container {
+  margin-right: 20px;
+}
+
+.category-container > div {
+  margin-bottom: 10px;
+}
+
+.category-container input[type='checkbox'] {
+  margin-right: 5px;
+}
+
+.product-item {
+  margin-top: 20px; /* 각 상품 아이템 간 간격 조정 */
+}
+
+.product-details {
+  margin-top: 10px;
+}
+
+.category {
+  /* width: 10vw; */
+  font-size: 20px;
+  margin-left: 100px;
+  position: absolute;
+  left: 0;
+}
