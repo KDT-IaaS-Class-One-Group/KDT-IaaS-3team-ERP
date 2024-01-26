@@ -2,75 +2,111 @@
 
 .product-container {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* 왼쪽부터 아이템을 나열 */
   flex-wrap: wrap;
+  gap: 1rem; /* 아이템 사이의 간격을 설정 */
   width: 80vw;
+  max-width: 1200px; /* 최대 너비 설정 */
   background-color: #f5f5f5;
+  margin: 2rem auto; /* 좌우 마진 자동으로 설정하여 중앙 정렬 */
+  padding: 1rem;
   border-radius: 8px;
-  margin: 1rem;
-  padding: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.product-list {
-  list-style: none;
-  padding: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
 }
 
 .product-item {
+  flex: 1 1 300px; /* 기본 너비를 300px로 설정하되 유연하게 조정 */
+  max-width: 300px; /* 최대 너비를 300px로 제한 */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  width: 300px;
-  height: 500px;
-  margin-bottom: 16px;
-  padding: 16px;
-  margin: 1rem;
+  padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* 더 부드러운 그림자 효과 */
+  transition: transform 0.3s ease-in-out; /* 호버 시 효과 */
 }
 
 .product-item > img {
   width: 250px;
+  height: 250px;
+  transition: opacity 0.3s ease; /* 호버 시 투명도 변화 */
+}
+
+.product-item:hover {
+  transform: translateY(-5px); /* 호버 시 아이템이 살짝 위로 올라가는 효과 */
 }
 
 .product-item > img:hover {
-  cursor: pointer;
+  opacity: 0.9; /* 이미지 호버 시 투명도 감소 */
 }
 
-
-.product-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width : 250px;
-  height: 200px;
-  margin: 1rem;
-  border-top: 1px solid lightgray;
+.product-details > button {
+  background-color: #ffa726; /* 주황색 버튼 배경 */
+  color: white; /* 텍스트 색상 */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px; /*버튼 모서리 둥글게 처리 */
+  cursor: pointer; /* 클릭 가능한 요소 표시 */
+  transition: background-color 0.3s; /* 호버 시 배경색 변화 효과 */
 }
 
-.product-details > input,
-.product-details > button{
-  width: 100px;
+.product-details > button:hover {
+  background-color: #ffcc80; /* 버튼 호버 색상 */
 }
 
 .product-name {
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: bold;
-  margin-bottom: 8px;
+  color: #333;
+  margin: 0.5rem 0;
 }
 
 .product-price {
-  color: #007bff;
-  font-size: 16px;
-  margin-bottom: 8px;
+  font-size: 1rem; /* 가격 폰트 크기 */
+  color: #007bff; /* 가격 색상 */
+  margin: 0.3rem 0;
 }
 
 .product-quantity {
-  font-size: 14px;
-  color: #28a745;
+  font-size: 0.9rem; /* 수량 폰트 크기 */
+  margin: 0.3rem 0;
 }
 
+@media (max-width: 768px) {
+  .product-container {
+    justify-content: center; /* 화면이 작아질 때는 중앙 정렬 */
+  }
+}
+
+body {
+  font-family: 'Arial', sans-serif; /* 기본 폰트 설정 */
+  background-color: #eceff1; /* 부드러운 회색 계열 배경색 */
+  color: #333; /* 기본 텍스트 색상 */
+}
+
+#container {
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-bottom: 0.5rem; /* 텍스트 간격 설정 */
+}
+
+.quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 수량 텍스트와 인풋 사이의 간격 */
+  margin-bottom: 20px; /* 여백 추가 */
+}
+
+.quantity-input {
+  width: 50px; /* 너비 조정 */
+  padding: 5px; /* 패딩 조정 */
+  text-align: center;
+}

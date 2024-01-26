@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
     user_pw: '',
   });
   const navigate = useNavigate();
-  const { state, logout, login } = useAuth(); 
+  const { state, logout, login } = useAuth();
 
   const handleLogout = () => {
     // 로그아웃 로직 처리
