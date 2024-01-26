@@ -15,11 +15,8 @@
 
 .adminHeaderPages a {
   text-decoration: none;
-  margin: 1rem;
-}
-
-.adminHeaderPages > ul > li > a {
   color: white;
+  margin-left: 1rem;
 }
 
 .adminHeaderPages li:hover > a {
@@ -36,7 +33,7 @@
 .adminHeaderPages > ul > li {
   display: flex;
   height: 5vh;
-  justify-content: center;
+  align-items: center;
   float: left;
   position: relative;
 }
