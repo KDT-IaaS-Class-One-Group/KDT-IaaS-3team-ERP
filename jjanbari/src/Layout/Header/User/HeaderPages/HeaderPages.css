@@ -25,7 +25,7 @@
 
 .loginStatus > button {
   padding: 8px 16px; /* 버튼 패딩 */
-  border: 1px solid #ffcc80; /* 버튼 테두리 색상 */
+  border: 1px solid #f5f5f5; /* 버튼 테두리 색상 */
   cursor: pointer;
   transition: all 0.3s ease; /* 부드러운 전환 효과 */
   border-radius: 4px; /* 둥근 모서리 */
