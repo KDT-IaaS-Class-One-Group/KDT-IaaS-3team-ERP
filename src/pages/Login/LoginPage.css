@@ -1,0 +1,47 @@
+/* src/pages/Login/LoginPage.css */
+.loginContainer {
+  height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;  
+}
+
+.loginContainer > h1 {
+  font-family: Outfit;
+  margin-bottom: 2rem;
+}
+
+.loginForm> input {
+  width: 350px;
+  height: 50px;
+  border: none;
+  border-bottom: 0.6px solid #ddd;
+  margin-bottom: 2rem;
+  padding: 10px;
+  transition: 0.5s ease; 
+}
+
+.loginForm> input:focus {
+  border-bottom:0.6px solid #353535;
+  transition: 0.5s ease; 
+  outline:none;
+}
+
+.loginForm> button {
+  width: 350px;
+  height: 50px;
+  background-color: #ffa500 ;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sign {
+  color: white;
+  text-decoration: none;
+  color: #636363;
+  float: right;
+}

@@ -1,0 +1,24 @@
+.headerCategory {
+  width: 100vw;
+  height: 5vh;
+  background-color: #f5f5f5; /* 배경색 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 세로 중앙 정렬 */
+  border: solid 2px lightgrey;
+  border-bottom: 2px solid lightgray;
+}
+
+.headerCategory > a {
+  color: black; /* 링크 기본 색상 */
+  text-decoration: none; /* 밑줄 제거 */
+  padding: 10px 20px; /* 상하 좌우 패딩 */
+  margin: 0 10px; /* 좌우 마진 */
+  cursor: pointer; /* 마우스 오버시 커서 변경 */
+  transition: color 0.3s ease; /* 색상 변경에 부드러운 전환 효과 */
+}
+
+.headerCategory > a:hover {
+  color: #ffa726; /* 호버 시 주황색으로 변경 */
+  font-weight: bold; /* 호버 시 글씨 굵게 */
+}
