@@ -91,6 +91,11 @@ app.post('/upload', upload.single('file'), (req, res) => {
   });
 });
 
+// GET 요청 처리
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/uploads/uploads.html');
+});
+
 // 서버 시작
 app.listen(port, () => {
   console.log(`서버 ON: http://localhost:${port}`);
