@@ -10,6 +10,21 @@ dotenv.config();
 const app = express();
 const port = 3002;
 
+//* S3 업로드를 위해 다음과 같은 순서를 따라주세요.
+/**
+ * .env 파일을 루트 디렉토리에 생성하고, 
+ * 아래의 코드블록을 추가한 뒤에, 공란인 = 뒷부분에 자신의 IAM 계정 액세스 Key ID와 시크릿 액세스 Key를 입력하세요.
+ * ! (보안에 주의)
+
+# .env
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=ap-northeast-2
+S3_BUCKET_NAME=forteam3
+
+*/
+
 // AWS SDK 설정
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
