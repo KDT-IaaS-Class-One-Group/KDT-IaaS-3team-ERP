@@ -1,0 +1,18 @@
+<!-- uploads/uploads.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S3 이미지 업로드 폼</title>
+</head>
+<body>
+  <form id="s3Upload" enctype="multipart/form-data">
+    <label for="fileInput">파일 선택: </label>
+    <input type="file" id="fileInput" name="file" accept="image/*">
+    <button type="button" onclick="uploadFile()">업로드</button>
+  </form>
+  <script src="s3Uploads.js"></script>
+</body>
+</html>
