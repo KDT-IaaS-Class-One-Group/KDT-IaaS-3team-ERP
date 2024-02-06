@@ -100,7 +100,7 @@ const ProductDetail = () => {
   return (
     <div className="product-container">
       <div className="product-item" key={product.name}>
-        <img src={product.img} alt={product.name} />
+        <img src={`/${product.img}`} alt={product.name} />
         <div className="product-details">
           <h3>{product.name}</h3>
           <p>가격: {product.price}</p>
