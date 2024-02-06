@@ -96,6 +96,14 @@ app.post('/addProductWithImage', async (req, res) => {
     if (existingProducts.length > 0) {
       const existingProduct = existingProducts[0];
       await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.product_id]);
+
+      // 이미 존재하는 상품의 productId를 가져옵니다.
+      const productId = existingProduct.product_id;
+
+      // 각각의 연결 테이블에도 데이터 추가
+      await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
+      await jjanbariQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
+      await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
     } else {
       // img 필드를 명시적으로 null로 설정
       const insertProductResult = await jjanbariQuery('INSERT INTO products (name, price, quantity, animal_id, age_id, functional_id, img) VALUES (?, ?, ?, ?, ?, ?, NULL)', [
@@ -106,26 +114,19 @@ app.post('/addProductWithImage', async (req, res) => {
         ageCategory,
         functionalCategory,
       ]);
-    // 각각의 연결 테이블에도 데이터 추가
-    await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
-    await jjanbariQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
-    await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
-  }
+
+      // 새로 추가된 상품의 productId를 가져옵니다.
+      const productId = insertProductResult.insertId;
+
+      // 각각의 연결 테이블에도 데이터 추가
+      await jjanbariQuery('INSERT INTO animal_products (product_id, animal_id) VALUES (?, ?)', [productId, animalCategory]);
+      await jjanbariQuery('INSERT INTO age_products (product_id, age_id) VALUES (?, ?)', [productId, ageCategory]);
+      await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
+    }
 
     res.json({ success: true, message: '제품 등록 완료' });
   } catch (error) {
     console.error('Error during product registration:', error.message);
-    res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
-  }
-});
-
-
-app.get('/products', async (req, res) => {
-  try {
-    const products = await jjanbariQuery('SELECT product_id, name, price, quantity, img FROM products');
-    res.json(products);
-  } catch (error) {
-    console.error('Error during fetching products:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
@@ -199,6 +200,7 @@ app.get('/categories', async (req, res) => {
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
   }
 });
+
 
 // 관리자 페이지 상품 관리
 app.get('/admin/products', async (req, res) => {
