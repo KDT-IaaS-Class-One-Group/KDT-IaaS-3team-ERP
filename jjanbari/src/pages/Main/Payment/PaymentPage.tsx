@@ -91,7 +91,7 @@ const PaymentPage = () => {
           if (!purchaseSuccess) {
             throw new Error(`상품 '${product.name}' 수량 감소 실패`);
           }
-
+          
           // 상품별 결제 정보 서버로 전송
           const paymentResponse = await fetch('/payment', {
             method: 'POST',
@@ -106,7 +106,7 @@ const PaymentPage = () => {
           }
 
           // 결제가 완료된 상품을 장바구니에서 삭제
-          const userId = sessionStorage.getItem('user_id');
+          const userId = state.user?.username;
           await fetch(`/cart/${userId}/${product.product_id}`, {
             method: 'DELETE',
           });
