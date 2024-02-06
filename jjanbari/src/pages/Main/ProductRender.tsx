@@ -16,13 +16,11 @@ const ProductRender = () => {
       .then((data) => setProducts(data));
   }, [state]);
 
-  
-    // console.log('Current login states:', state);
+  // console.log('Current login states:', state);
 
-    const handleImageClick = (productId: number) => {
-      navigate(`/product/${productId}`);
-    };
-  
+  const handleImageClick = (productId: number) => {
+    navigate(`/product/${productId}`);
+  };
 
   return (
     <div className="product-container">
@@ -36,7 +34,7 @@ const ProductRender = () => {
             />
             <div className="product-details">
               <h3>{product.name}</h3>
-              <p>가격: {product.price}</p>    
+              <p>가격: {product.price}</p>
             </div>
           </div>
         ))}
