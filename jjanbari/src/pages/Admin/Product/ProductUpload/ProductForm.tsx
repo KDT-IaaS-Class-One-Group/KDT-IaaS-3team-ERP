@@ -6,7 +6,6 @@ const ProductForm = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState<number>(0); // 가격을 숫자로만 관리
   const [quantity, setQuantity] = useState<number>(0);
-  const [image, setImage] = useState<File | null>(null);
 
   const [animalCategories, setAnimalCategories] = useState<AnimalCategory[]>([]);
   const [ageCategories, setAgeCategories] = useState<AgeCategory[]>([]);
@@ -44,23 +43,22 @@ const ProductForm = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('price', price.toString());
-    formData.append('quantity', quantity.toString());
-    formData.append('animalCategory', selectedAnimalCategory);
-    formData.append('ageCategory', selectedAgeCategory);
-    formData.append('functionalCategory', selectedFunctionalCategory);
-
-    // 이미지가 있는 경우에만 formData에 추가
-    if (image) {
-      formData.append('image', image);
-    }
+    const productData = {
+      name,
+      price,
+      quantity,
+      animalCategory: selectedAnimalCategory,
+      ageCategory: selectedAgeCategory,
+      functionalCategory: selectedFunctionalCategory,
+    };
 
     try {
-      const response = await fetch('/addProductWithImage', {
+      const response = await fetch('http://localhost:3001/addProductWithImage', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
       });
 
       if (response.ok) {
@@ -87,31 +85,12 @@ const ProductForm = () => {
       <br />
       <label htmlFor="quantity">수량:</label>
       <br />
-      <input
-        type="number"
-        id="quantity"
-        name="quantity"
-        value={quantity}
-        onChange={(e) => setQuantity(Number(e.target.value))}
-      />
-      <br />
-      <label htmlFor="image">이미지 (선택 사항):</label> {/* 선택 사항임을 명시 */}
-      <br />
-      <input
-        type="file"
-        id="image"
-        name="image"
-        onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
-      />
+      <input type="number" id="quantity" name="quantity" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+
       <br />
       <label htmlFor="animalCategory">동물 카테고리:</label>
       <br />
-      <select
-        id="animalCategory"
-        name="animalCategory"
-        value={selectedAnimalCategory}
-        onChange={(e) => setSelectedAnimalCategory(e.target.value)}
-      >
+      <select id="animalCategory" name="animalCategory" value={selectedAnimalCategory} onChange={(e) => setSelectedAnimalCategory(e.target.value)}>
         <option value="">선택하세요</option>
         {animalCategories.map((category) => (
           <option key={category.animal_id} value={category.animal_id}>
@@ -122,12 +101,7 @@ const ProductForm = () => {
       <br />
       <label htmlFor="ageCategory">나이대 카테고리:</label>
       <br />
-      <select
-        id="ageCategory"
-        name="ageCategory"
-        value={selectedAgeCategory}
-        onChange={(e) => setSelectedAgeCategory(e.target.value)}
-      >
+      <select id="ageCategory" name="ageCategory" value={selectedAgeCategory} onChange={(e) => setSelectedAgeCategory(e.target.value)}>
         <option value="">선택하세요</option>
         {ageCategories.map((category) => (
           <option key={category.age_id} value={category.age_id}>
@@ -138,12 +112,7 @@ const ProductForm = () => {
       <br />
       <label htmlFor="functionalCategory">기능성 카테고리:</label>
       <br />
-      <select
-        id="functionalCategory"
-        name="functionalCategory"
-        value={selectedFunctionalCategory}
-        onChange={(e) => setSelectedFunctionalCategory(e.target.value)}
-      >
+      <select id="functionalCategory" name="functionalCategory" value={selectedFunctionalCategory} onChange={(e) => setSelectedFunctionalCategory(e.target.value)}>
         <option value="">선택하세요</option>
         {functionalCategories.map((category) => (
           <option key={category.functional_id} value={category.functional_id}>
