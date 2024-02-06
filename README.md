@@ -2,9 +2,9 @@
 ## 팀명: jjanbari
 ### 주제: 애완동물을 위한 사료 쇼핑몰
 ### 링크
-- [Repository](https://github.com/KDT-IaaS-Class-One-Group/KDT-IaaS-3team-ERP)
-- [Notion](https://www.notion.so/kongukjae/c77062a98430405a9ff04eecb7938847)
-- [FigJam](https://www.figma.com/file/KFJTXPLlKytj6g7gXrDQmt/%5BFigJam%5D-ERP-Team-3?type=whiteboard&node-id=0%3A1&t=RuFsPXmEOCWZqtff-1)
+- [설계서](https://www.notion.so/kongukjae/3-IA-773b670f5c764181899584cdd5661abb?pvs=4)
+- [노션](https://www.notion.so/kongukjae/c77062a98430405a9ff04eecb7938847)
+- [피그잼](https://www.figma.com/file/KFJTXPLlKytj6g7gXrDQmt/%5BFigJam%5D-ERP-Team-3?type=whiteboard&node-id=0%3A1&t=RuFsPXmEOCWZqtff-1)
 ### 작업 기간: 23-12-11 (월) ~ 24-01-26 (금)
 ### 기술 스택: React.js, TypeScript, MariaDB, HTML, CSS, JavaScript, AWS S3, AWS RDS
 ## 버전별 작업 내용 및 기간
@@ -43,14 +43,14 @@ jjanbari
 |-- /src               
 |   |-- Auth/          - useContext를 이용한 로그인 전역 상태 관리
 |   |-- Databases/     - RDS 연결 로직 및 쿼리문
-|   |-- Layout/        - Header, Router, Footer 구성
+|   |-- Layout/        - Header, Container, Footer 구성
 |   |-- pages/         - 페이지별 모음
 |   |-- App.tsx        - 렌더링할 App 컴포넌트
-|   |-- App.css
+|   |-- App.css        - 스타일시트
 |   |-- index.tsx      - CRA 프로젝트의 진입점
-|   |-- index.css
+|   |-- index.css      - 스타일시트
 |-- /uploads           - 이미지 업로드용 폴더(개발자용)
-|-- .gitignore         
+|-- .gitignore         - 커밋 방지
 |-- image.js           - 이미지 호스팅용 서버(개발자용)
 |-- package-lock.json  - NPM 패키지
 |-- package.json       - NPM 패키지
