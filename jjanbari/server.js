@@ -88,9 +88,8 @@ app.get('/categories', async (req, res) => {
 });
 
 //이미지 저장
-app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
+app.post('/addProductWithImage', async (req, res) => {
   const { name, price, quantity, animalCategory, ageCategory, functionalCategory } = req.body;
-  const img = req.file ? req.file.path : null;
 
   try {
     // 동일한 name과 price를 가진 상품이 있는지 확인
@@ -99,14 +98,13 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
     if (existingProducts.length > 0) {
       // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트
       const existingProduct = existingProducts[0];
-      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.id]);
+      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.product_id]);
     } else {
       // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가
-      const insertProductResult = await jjanbariQuery('INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+      const insertProductResult = await jjanbariQuery('INSERT INTO products (name, price, quantity, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?)', [
         name,
         price,
         quantity,
-        img,
         animalCategory,
         ageCategory,
         functionalCategory,
@@ -352,7 +350,6 @@ app.post('/cart', async (req, res) => {
     res.status(500).json({ success: false, error: '장바구니 업데이트에 실패했습니다.' });
   }
 });
-
 
 app.put('/cart/:userId/:productId', async (req, res) => {
   const { userId, productId } = req.params;
