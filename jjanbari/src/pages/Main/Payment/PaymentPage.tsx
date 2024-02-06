@@ -138,7 +138,7 @@ const PaymentPage = () => {
           </div>
           {cartItems.map((item, index) => (
             <div className="cart-item" key={index}>
-              <img src={productImages[item.product_id] || 'placeholder.jpg'} className="image" alt={item.name} />
+              <img src={`/${item.img}`} className="image" alt={item.name} />
               <div className="cart-item-detail">
                 <h3>{item.name}</h3>
               </div>
