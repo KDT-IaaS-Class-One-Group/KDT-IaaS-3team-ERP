@@ -35,16 +35,14 @@ const ProductForm = () => {
     fetchCategories();
   }, []);
 
-  
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     if (!name || price <= 0 || quantity <= 0) {
       alert('상품명, 가격 및 수량을 채워주세요.');
       return;
     }
-  
+
     const productData = {
       name,
       price,
@@ -53,7 +51,7 @@ const ProductForm = () => {
       ageCategory: selectedAgeCategory,
       functionalCategory: selectedFunctionalCategory,
     };
-  
+
     try {
       const response = await fetch('http://localhost:3001/addProductWithImage', {
         method: 'POST',
@@ -62,7 +60,7 @@ const ProductForm = () => {
         },
         body: JSON.stringify(productData),
       });
-  
+
       if (response.ok) {
         alert('상품이 성공적으로 등록되었습니다.');
         navigate('/');
