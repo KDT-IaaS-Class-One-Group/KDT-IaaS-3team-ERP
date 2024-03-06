@@ -8,7 +8,7 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const userId = authState.user?.username; // 사용자 ID 가져오기
 
@@ -90,7 +90,7 @@ const CartPage = () => {
           {cartItems.length > 0 ? (
             cartItems.map((item) => (
               <div className="cart-item" key={item.product_id}>
-                <img src={item.img || 'placeholder.jpg'} alt={item.name || '이미지 없음'} />
+                <img className="image" src={item.img || 'placeholder.jpg'} alt={item.name || '이미지 없음'} />
                 <div className="cart-item-details">
                   <h3>{item.name}</h3>
                   <p>가격: {item.price}</p>
