@@ -1,9 +1,14 @@
 // server.js
+require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { jjanbariQuery } = require('./src/Databases/jjanbariERP');
+
+const aws = require('aws-sdk');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 //이미지 업로드를 위해 multer를 추가함
 const multer = require('multer');
@@ -87,26 +92,60 @@ app.get('/categories', async (req, res) => {
   }
 });
 
-//이미지 저장
-app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
+//? 이미지 저장을 위해 s3 설정
+
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+//? s3를 사용해 이미지 객체를 반환 받아 img에 url 설정
+app.post('/addProductWithImage', upload.single('img'), async (req, res) => {
   const { name, price, quantity, animalCategory, ageCategory, functionalCategory } = req.body;
-  const img = req.file ? req.file.path : null;
+
+  let imageUrl = null; // S3 이미지 URL 초기화
+
+  if (req.file) {
+    // S3 이미지 업로드 로직
+    const img = req.file;
+    const fileContent = fs.readFileSync(img.path);
+    const filename = `${uuidv4()}-${img.originalname}`;
+
+    try {
+      const s3Response = await s3
+        .upload({
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: `image/${filename}`,
+          Body: fileContent,
+          ACL: 'public-read',
+        })
+        .promise();
+
+      imageUrl = s3Response.Location; // S3에서 반환된 이미지 URL
+
+      console.log(s3Response); // 전체 응답 객체 확인
+      console.log(imageUrl); // 이미지 URL 확인
+    } catch (error) {
+      console.error('Error uploading image to S3:', error);
+      res.status(500).json({ success: false, error: 'Failed to upload image to S3' });
+      return; // S3 업로드 실패 시, 다음 로직으로 넘어가지 않도록 함수를 종료합니다.
+    }
+  }
 
   try {
-    // 동일한 name과 price를 가진 상품이 있는지 확인
+    // 제품 등록 로직 (이미지 URL 포함하여 상품 정보 저장)
     const existingProducts = await jjanbariQuery('SELECT * FROM products WHERE name = ? AND price = ?', [name, price]);
 
     if (existingProducts.length > 0) {
-      // 동일한 name과 price를 가진 상품이 이미 있으면, 해당 상품의 quantity를 업데이트
       const existingProduct = existingProducts[0];
-      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.id]);
+      await jjanbariQuery('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', [quantity, existingProduct.product_id]);
     } else {
-      // 동일한 name과 price를 가진 상품이 없으면, 새로운 상품을 추가
       const insertProductResult = await jjanbariQuery('INSERT INTO products (name, price, quantity, img, animal_id, age_id, functional_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [
         name,
         price,
         quantity,
-        img,
+        imageUrl, // S3에서 반환된 이미지 URL을 사용
         animalCategory,
         ageCategory,
         functionalCategory,
@@ -120,7 +159,7 @@ app.post('/addProductWithImage', upload.single('image'), async (req, res) => {
       await jjanbariQuery('INSERT INTO functional_products (product_id, functional_id) VALUES (?, ?)', [productId, functionalCategory]);
     }
 
-    res.json({ success: true, message: '제품 등록 완료' });
+    res.json({ success: true, message: '제품등록 완료', imageUrl });
   } catch (error) {
     console.error('Error during product registration:', error.message);
     res.status(500).json({ success: false, error: '서버 오류가 발생했습니다.' });
@@ -352,7 +391,6 @@ app.post('/cart', async (req, res) => {
     res.status(500).json({ success: false, error: '장바구니 업데이트에 실패했습니다.' });
   }
 });
-
 
 app.put('/cart/:userId/:productId', async (req, res) => {
   const { userId, productId } = req.params;
