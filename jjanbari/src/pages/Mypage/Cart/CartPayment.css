@@ -35,7 +35,7 @@
 /* Image styling within the cart and payment page */
 .image {
   width: 120px; /* Adjust width as needed */
-  height: auto; /* Keep the aspect ratio */
+  height: 120px; /* Keep the aspect ratio */
 }
 
 /* Detail styling for text and inputs */
