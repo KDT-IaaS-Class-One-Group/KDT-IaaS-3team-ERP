@@ -123,9 +123,6 @@ app.post('/addProductWithImage', upload.single('img'), async (req, res) => {
         .promise();
 
       imageUrl = s3Response.Location; // S3에서 반환된 이미지 URL
-
-      console.log(s3Response); // 전체 응답 객체 확인
-      console.log(imageUrl); // 이미지 URL 확인
     } catch (error) {
       console.error('Error uploading image to S3:', error);
       res.status(500).json({ success: false, error: 'Failed to upload image to S3' });
