@@ -23,21 +23,21 @@ const ProductDetail = () => {
     const selectedQuantity = quantityInput ? Number(quantityInput.value) : 0;
     const userId = state.user?.username; // 사용자 ID 가져오기
     // 로그인하지 않은 경우 'anonymous'
-  
+
     if (!state || !state.isAuthenticated) {
       // 로그인되어 있지 않을 경우, 로그인 페이지로 이동
       navigate('/login');
       return;
     }
-  
+
     if (selectedQuantity > 0) {
       try {
         const cartResponse = await fetch(`http://localhost:3001/cart/${userId}`);
         const cartData: CartItem[] = await cartResponse.json();
-  
+
         // 동일한 product_id를 가진 상품이 있는지 확인합니다.
         const existingItem = cartData.find((item) => item.product_id === product.product_id);
-  
+
         if (existingItem) {
           // 이미 장바구니에 상품이 있을 경우, 수량만 업데이트합니다.
           const updatedQuantity = existingItem.quantity + selectedQuantity;
@@ -59,7 +59,7 @@ const ProductDetail = () => {
             }),
           });
         }
-  
+
         alert('장바구니에 추가 되었습니다.');
         navigate('/cart');
       } catch (error) {
@@ -70,7 +70,6 @@ const ProductDetail = () => {
       alert('수량을 선택해주세요.');
     }
   };
-  
 
   const handleBuy = async (product: Product) => {
     const selectedQuantityElement = document.getElementById(`quantity-${product.product_id}`) as HTMLInputElement;
@@ -79,7 +78,7 @@ const ProductDetail = () => {
       const selectedProduct = { ...product, quantity: selectedQuantity };
 
       // console.log('Current login state:', state);
-  
+
       // 로그인 상태를 state.state로 확인합니다.
       if (state.isAuthenticated) {
         navigate('/payment', { state: { selectedProduct } });
@@ -100,7 +99,7 @@ const ProductDetail = () => {
   return (
     <div className="product-container">
       <div className="product-item" key={product.name}>
-        <img src={`/${product.img}`} alt={product.name} />
+        <img src={product.img} alt={product.name} />
         <div className="product-details">
           <h3>{product.name}</h3>
           <p>가격: {product.price}</p>
