@@ -66,7 +66,6 @@ const ProductForm = () => {
 
       if (response.ok) {
         alert('상품이 성공적으로 등록되었습니다.');
-        navigate('/');
       } else {
         throw new Error('상품 등록 실패');
       }
