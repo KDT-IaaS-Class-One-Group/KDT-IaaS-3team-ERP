@@ -15,7 +15,8 @@ const handleSubmit = (name: string, price: string, quantity: number, img: File |
     formData.append('quantity', quantity.toString());
     formData.append('img', img as Blob);
 
-    const response = await fetch('/addProducts', {
+    const API_URL = process.env.REACT_APP_API_URL;
+    const response = await fetch(`${API_URL}/addProducts`, {
       method: 'POST',
       body: formData,
     });
