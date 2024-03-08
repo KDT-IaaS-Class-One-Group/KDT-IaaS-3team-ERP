@@ -21,8 +21,9 @@ const ProductForm = () => {
   useEffect(() => {
     // 페이지가 로드될 때 카테고리 목록을 불러오는 API 호출
     const fetchCategories = async () => {
+      const API_URL = process.env.REACT_APP_API_URL;
       try {
-        const response = await fetch('/categories');
+        const response = await fetch(`${API_URL}/categories`);
         const data = await response.json();
 
         setAnimalCategories(data.animalCategories);
@@ -58,8 +59,9 @@ const ProductForm = () => {
     }
 
     try {
+      const API_URL = process.env.REACT_APP_API_URL;
       // 수정된 엔드포인트로 요청을 보냅니다.
-      const response = await fetch('/addProductWithImage', {
+      const response = await fetch(`${API_URL}/addProductWithImage`, {
         method: 'POST',
         body: formData,
       });
