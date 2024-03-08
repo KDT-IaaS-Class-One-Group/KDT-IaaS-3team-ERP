@@ -12,8 +12,9 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const API_URL = process.env.REACT_APP_API_URL;
     // 나이와 기능 카테고리 정보를 서버에서 가져오도록 업데이트
-    fetch('/categories')
+    fetch(`${API_URL}/categories`)
       .then((response) => response.json())
       .then((data) => {
         const filteredAges = category === 'dog' ? data.ageCategories.slice(0, 2) : data.ageCategories.slice(2);
@@ -23,6 +24,8 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
   }, [category]);
 
   useEffect(() => {
+    const API_URL = process.env.REACT_APP_API_URL;
+
     // selectedAges와 selectedFunctionals를 쿼리 파라미터로 추가하여 서버에 전송합니다.
     const queryParams = new URLSearchParams();
     if (selectedAges.length > 0) queryParams.append('age', selectedAges.join(','));
@@ -30,7 +33,7 @@ const ProductRenderAnimal = ({ category }: { category: 'dog' | 'cat' }) => {
 
     console.log('Query parameters:', queryParams.toString());
 
-    fetch(`/products/${category}?${queryParams.toString()}`)
+    fetch(`${API_URL}/products?category=${category}&${queryParams.toString()}`)
       .then((response) => response.json())
       .then((data) => {
         console.log('Filtered products:', data);

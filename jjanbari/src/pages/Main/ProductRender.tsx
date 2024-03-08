@@ -10,8 +10,9 @@ const ProductRender = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('AuthContext state:', state);
-    fetch('/products')
+    // console.log('AuthContext state:', state);
+    const API_URL = process.env.REACT_APP_API_URL;
+    fetch(`${API_URL}/products`)
       .then((response) => response.json())
       .then((data) => setProducts(data));
   }, [state]);
