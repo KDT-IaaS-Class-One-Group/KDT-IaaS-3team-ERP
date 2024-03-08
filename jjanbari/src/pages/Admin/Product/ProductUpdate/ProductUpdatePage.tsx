@@ -38,8 +38,9 @@ const ProductUpdatePage = () => {
         return;
       }
 
+      const API_URL = process.env.REACT_APP_API_URL;
       // Send a PUT request to the server to update the product
-      const response = await fetch(`http://localhost:3001/admin/products/${updatedProduct.product_id}`, {
+      const response = await fetch(`${API_URL}/admin/products/${updatedProduct.product_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -65,8 +66,9 @@ const ProductUpdatePage = () => {
 
   const handleDelete = async (id: number) => {
     try {
+      const API_URL = process.env.REACT_APP_API_URL;
       // Send a DELETE request to the server to delete the product
-      const response = await fetch(`http://localhost:3001/admin/products/${id}`, {
+      const response = await fetch(`${API_URL}/admin/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

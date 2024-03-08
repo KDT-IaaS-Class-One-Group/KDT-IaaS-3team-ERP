@@ -8,7 +8,8 @@ const UserProfilesPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3001/users');
+        const API_URL = process.env.REACT_APP_API_URL;
+        const response = await fetch(`${API_URL}/users`);
         const data = await response.json();
         // data가 배열인지 확인 후 상태 업데이트
         if (Array.isArray(data)) {
