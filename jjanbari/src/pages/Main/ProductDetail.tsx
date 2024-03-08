@@ -12,7 +12,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('AuthContext state:', state);
+    // console.log('AuthContext state:', state);
     fetch(`/product/${productId}`)
       .then((response) => response.json())
       .then((data) => setProduct(data));
@@ -32,7 +32,8 @@ const ProductDetail = () => {
 
     if (selectedQuantity > 0) {
       try {
-        const cartResponse = await fetch(`http://localhost:3001/cart/${userId}`);
+        const API_URL = process.env.REACT_APP_API_URL;
+        const cartResponse = await fetch(`${API_URL}/cart/${userId}`);
         const cartData: CartItem[] = await cartResponse.json();
 
         // 동일한 product_id를 가진 상품이 있는지 확인합니다.
@@ -41,14 +42,14 @@ const ProductDetail = () => {
         if (existingItem) {
           // 이미 장바구니에 상품이 있을 경우, 수량만 업데이트합니다.
           const updatedQuantity = existingItem.quantity + selectedQuantity;
-          await fetch(`http://localhost:3001/cart/${userId}/${product.product_id}`, {
+          await fetch(`${API_URL}/cart/${userId}/${product.product_id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ quantity: updatedQuantity }),
           });
         } else {
           // 장바구니에 상품이 없을 경우, 새로 추가합니다.
-          await fetch('http://localhost:3001/cart', {
+          await fetch(`${API_URL}/cart`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

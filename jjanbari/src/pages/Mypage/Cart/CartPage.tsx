@@ -13,7 +13,8 @@ const CartPage = () => {
     const userId = authState.user?.username; // 사용자 ID 가져오기
 
     if (userId) {
-      fetch(`http://localhost:3001/cart/${userId}`)
+      const API_URL = process.env.REACT_APP_API_URL;
+      fetch(`${API_URL}/cart/${userId}`)
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
@@ -49,7 +50,8 @@ const CartPage = () => {
     const userId = authState.user?.username; // 수정된 부분
 
     if (userId) {
-      fetch(`http://localhost:3001/cart/${userId}/${productId}`, {
+      const API_URL = process.env.REACT_APP_API_URL;
+      fetch(`${API_URL}/cart/${userId}/${productId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cart_quantity: newQuantity }),
@@ -66,7 +68,8 @@ const CartPage = () => {
   const handleDeleteClick = (productId: number) => {
     const userId = authState.user?.username; // 수정된 부분
     if (userId) {
-      fetch(`http://localhost:3001/cart/${userId}/${productId}`, {
+      const API_URL = process.env.REACT_APP_API_URL;
+      fetch(`${API_URL}/cart/${userId}/${productId}`, {
         method: 'DELETE',
       })
         .then((response) => response.json())
