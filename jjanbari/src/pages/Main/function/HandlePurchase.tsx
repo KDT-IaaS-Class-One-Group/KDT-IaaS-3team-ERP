@@ -8,7 +8,8 @@ const handlePurchase = async (selectedProduct: Product, setSelectedProduct: Reac
   }
 
   try {
-    const response = await fetch(`/products/purchase/${selectedProduct.product_id}`, {
+    const API_URL = process.env.REACT_APP_API_URL;
+    const response = await fetch(`${API_URL}/products/purchase/${selectedProduct.product_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
