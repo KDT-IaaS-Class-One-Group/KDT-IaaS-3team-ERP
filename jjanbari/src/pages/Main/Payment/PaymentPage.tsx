@@ -7,6 +7,7 @@ import { User, Product } from '../../interface/interface';
 import { useAuth } from '../../../Auth/AuthContext';
 import { CartItem } from '../../interface/interface';
 
+
 const PaymentPage = () => {
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
@@ -20,10 +21,11 @@ const PaymentPage = () => {
   const location = useLocation();
 
   useEffect(() => {
+  const API_URL = process.env.REACT_APP_API_URL;
     const fetchData = async () => {
       try {
         // 로그인한 사용자의 정보를 가져옵니다.
-        const userDataResponse = await fetch('/users');
+        const userDataResponse = await fetch(`${API_URL}/users`);
         const userData = await userDataResponse.json();
         setUser(userData);
 
@@ -53,9 +55,11 @@ const PaymentPage = () => {
   }, [location.state]);
 
   useEffect(() => {
+    const API_URL = process.env.REACT_APP_API_URL;
+
     // 상품 이미지 URL을 가져오는 로직
     cartItems.forEach((item) => {
-      fetch(`/products/${item.product_id}`)
+      fetch(`${API_URL}/products/${item.product_id}`)
         .then((response) => response.json())
         .then((data) => {
           setProductImages((prev) => ({ ...prev, [item.product_id]: data.img }));
@@ -81,6 +85,8 @@ const PaymentPage = () => {
   };
 
   const handleBuy = async () => {
+    const API_URL = process.env.REACT_APP_API_URL;
+
     if (state) {
       try {
         for (const cartItem of cartItems) {
@@ -93,7 +99,7 @@ const PaymentPage = () => {
           }
 
           // 상품별 결제 정보 서버로 전송
-          const paymentResponse = await fetch('/payment', {
+          const paymentResponse = await fetch(`${API_URL}/payment`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -107,7 +113,7 @@ const PaymentPage = () => {
 
           // 결제가 완료된 상품을 장바구니에서 삭제
           const userId = state.user?.username;
-          await fetch(`/cart/${userId}/${product.product_id}`, {
+          await fetch(`${API_URL}/cart/${userId}/${product.product_id}`, {
             method: 'DELETE',
           });
         }
