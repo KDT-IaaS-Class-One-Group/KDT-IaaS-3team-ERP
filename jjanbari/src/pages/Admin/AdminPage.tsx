@@ -8,8 +8,9 @@ const AdminPage = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      const API_URL = process.env.REACT_APP_API_URL;
       try {
-        const response = await fetch('http://localhost:3001/users');
+        const response = await fetch(`${API_URL}:3001/users`);
         const data = await response.json();
         // data가 배열인지 확인 후 상태 업데이트
         if (Array.isArray(data)) {
