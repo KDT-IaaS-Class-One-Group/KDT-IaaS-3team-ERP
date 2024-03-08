@@ -7,8 +7,9 @@ const handleSubmit = (User: any, navigate: any) => async (event: React.FormEvent
     return;
   }
   try {
+    const API_URL = process.env.REACT_APP_API_URL;
     // 서버로 회원 가입 정보 전송
-    const response = await fetch('/signup', {
+    const response = await fetch(`${API_URL}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
