@@ -14,6 +14,7 @@
     "browser-image-compression": "^2.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
+    "env-cmd": "^10.1.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.5",
     "react": "^18.2.0",
@@ -25,6 +26,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:dev": "env-cmd -f .env.development.local react-scripts start",
+    "start:prod": "env-cmd -f .env.production.local react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
