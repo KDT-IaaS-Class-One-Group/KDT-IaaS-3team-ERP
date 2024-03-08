@@ -10,10 +10,11 @@ const CartPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const API_URL = process.env.REACT_APP_API_URL;
     const userId = authState.user?.username; // 사용자 ID 가져오기
 
     if (userId) {
-      fetch(`http://localhost:3001/cart/${userId}`)
+      fetch(`${API_URL}/cart/${userId}`)
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
@@ -45,11 +46,12 @@ const CartPage = () => {
     setTotalPrice(sum);
   };
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, productId: number) => {
+    const API_URL = process.env.REACT_APP_API_URL;
     const newQuantity = Number(e.target.value);
     const userId = authState.user?.username; // 수정된 부분
 
     if (userId) {
-      fetch(`http://localhost:3001/cart/${userId}/${productId}`, {
+      fetch(`${API_URL}/cart/${userId}/${productId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cart_quantity: newQuantity }),
@@ -64,9 +66,10 @@ const CartPage = () => {
   };
 
   const handleDeleteClick = (productId: number) => {
+    const API_URL = process.env.REACT_APP_API_URL;
     const userId = authState.user?.username; // 수정된 부분
     if (userId) {
-      fetch(`http://localhost:3001/cart/${userId}/${productId}`, {
+      fetch(`${API_URL}/cart/${userId}/${productId}`, {
         method: 'DELETE',
       })
         .then((response) => response.json())
