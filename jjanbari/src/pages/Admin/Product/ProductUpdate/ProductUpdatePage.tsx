@@ -9,8 +9,9 @@ const ProductUpdatePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const API_URL = process.env.REACT_APP_API_URL;
       try {
-        const response = await fetch('/admin/products');
+        const response = await fetch(`${API_URL}/admin/products`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -33,13 +34,14 @@ const ProductUpdatePage = () => {
   };
 
   const handleUpdateSubmit = async () => {
+    const API_URL = process.env.REACT_APP_API_URL;
     try {
       if (!updatedProduct) {
         return;
       }
 
       // Send a PUT request to the server to update the product
-      const response = await fetch(`http://localhost:3001/admin/products/${updatedProduct.product_id}`, {
+      const response = await fetch(`${API_URL}/admin/products/${updatedProduct.product_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -64,9 +66,10 @@ const ProductUpdatePage = () => {
   };
 
   const handleDelete = async (id: number) => {
+    const API_URL = process.env.REACT_APP_API_URL;
     try {
       // Send a DELETE request to the server to delete the product
-      const response = await fetch(`http://localhost:3001/admin/products/${id}`, {
+      const response = await fetch(`${API_URL}/admin/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
