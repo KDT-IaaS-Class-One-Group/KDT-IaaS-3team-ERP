@@ -37,20 +37,23 @@ async function initializeDatabase() {
       );
     `);
 
+    // animal_categories 테이블 생성 쿼리
     await pool.query(`
       CREATE TABLE IF NOT EXISTS ${tableAnimalCategories} (
         animal_id INT PRIMARY KEY AUTO_INCREMENT,
         animal_name VARCHAR(255) NOT NULL
       );
     `);
-
+    
+    // age_categories 테이블 생성 쿼리
     await pool.query(`
       CREATE TABLE IF NOT EXISTS ${tableAgeCategories} (
         age_id INT PRIMARY KEY AUTO_INCREMENT,
         age_name VARCHAR(255) NOT NULL
       );
     `);
-
+    
+    // functional_categories 테이블 생성 쿼리
     await pool.query(`
       CREATE TABLE IF NOT EXISTS ${tableFunctionalCategories} (
         functional_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -127,6 +130,22 @@ async function initializeDatabase() {
       FOREIGN KEY (product_id) REFERENCES products(product_id)
     );
   `);
+
+    // 기본 카테고리 추가
+    // 동물 카테고리에 항목 추가
+    await pool.query(`
+    INSERT INTO ${tableAnimalCategories} (animal_name) VALUES ('강아지'), ('고양이')
+    `);
+
+    // 나이대 카테고리에 항목 추가
+    await pool.query(`
+    INSERT INTO ${tableAgeCategories} (age_name) VALUES ('성견'), ('성묘'), ('유아견'), ('유아묘')
+    `);
+
+    // 기능성 카테고리에 항목 추가
+    await pool.query(`
+    INSERT INTO ${tableFunctionalCategories} (functional_name) VALUES ('일반'), ('칼슘'), ('단백질')
+    `);
 
     console.log(
       `초기화 완료!\n - DB명: ${databaseName}\n - TABLE명: ${tableUser}, ${tableproducts}, ${tableAnimalCategories}, ${tableAgeCategories}, ${tableFunctionalCategories}, ${tableAnimalProducts}, ${tableAgeProducts}, ${tableFunctionalProducts},${tableCart}`
